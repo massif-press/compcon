@@ -39,6 +39,9 @@
 <script setup lang="ts">
   import { computed } from 'vue'
   import type { BrowserOptions } from '../browserContext'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'browser-view-toggle' })
 
@@ -79,19 +82,19 @@
   function viewTooltip(i: string) {
     switch (i) {
       case 'single':
-        return 'Single View'
+        return t('ui.compendiumBrowser.view.single')
       case 'list':
-        return 'List View'
+        return t('ui.compendiumBrowser.view.list')
       case 'table':
-        return 'Table View'
+        return t('ui.compendiumBrowser.view.table')
       case 'cards':
-        return 'Card View'
+        return t('ui.compendiumBrowser.view.cards')
       case 'scatter':
-        return 'Scatter View'
+        return t('ui.compendiumBrowser.view.scatter')
       case 'bar':
-        return 'Chart View'
+        return t('ui.compendiumBrowser.view.bar')
       case 'compare':
-        return 'Comparison View'
+        return t('ui.compendiumBrowser.view.compare')
       default:
         return ''
     }

@@ -3,6 +3,9 @@ import { ICounterData } from './Counter'
 import { ICounterContainer } from './ICounterContainer'
 import { CombatController } from '../CombatController'
 import { assertController } from '../../../utility/assertController'
+import { StatKey } from '../stats/Stats'
+
+const FERROREACTIVE_ARMOR = 'ctr_ferroreactive_armor'
 
 interface ICounterCollection {
   counter_data: ICounterSaveData[]
@@ -38,6 +41,10 @@ class CounterController {
     } else {
       this._counterSaveData[index] = inputData
       this._counterSaveData = [...this._counterSaveData]
+    }
+    if (inputData.id === FERROREACTIVE_ARMOR && from !== inputData.val) {
+      const stats = this.Parent.StatController
+      stats.setCurrentStat(StatKey.ARMOR, (stats.getMax(StatKey.ARMOR) ?? 0) + inputData.val)
     }
     if (from !== inputData.val) {
       const counter = this.CounterData.find(c => c.id === inputData.id)
@@ -86,7 +93,10 @@ class CounterController {
     const map = new Map<string, ICounterData>()
     for (const c of all) {
       const key = c.id || c.name
-      map.set(key, c)
+      map.set(
+        key,
+        c.id === FERROREACTIVE_ARMOR && this.Parent.CoreActive ? { ...c, max: (c.max ?? 6) * 2 } : c
+      )
     }
     return Array.from(map.values())
   }

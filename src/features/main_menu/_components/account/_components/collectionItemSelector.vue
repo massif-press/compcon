@@ -125,12 +125,12 @@
   const search = ref('')
   const selectedType = ref('pilots' as any)
   const itemTypes = ref([
-    { title: t('mainMenu.titles.pilots'), value: 'pilots' },
+    { title: t('common.pilots'), value: 'pilots' },
     { title: t('common.npcs'), value: 'npcs' },
     { title: t('common.encounters'), value: 'encounters' },
-    { title: t('mainMenu.titles.narrativeElements'), value: 'narrative' },
-    // { title: t('mainMenu.titles.campaigns'), value: 'campaigns' },
-    // { title: t('mainMenu.titles.lcps'), value: 'lcps' },
+    { title: t('nav.nav.narrativeElements'), value: 'narrative' },
+    // { title: t('mainMenu.account.campaigns'), value: 'campaigns' },
+    // { title: t('mainMenu.account.lcps'), value: 'lcps' },
   ])
 
   const filteredItems = computed(() => {
@@ -171,7 +171,7 @@
   })
   const headers = computed(() => {
     let base = [
-      { title: 'Name', value: 'Name' },
+      { title: t('common.name'), value: 'Name' },
       { title: t('common.type'), value: 'ItemType' },
     ] as any
     switch (selectedType.value) {
@@ -180,36 +180,36 @@
           ...base,
           { title: t('common.player'), value: 'Player' },
           { title: t('common.callsign'), value: 'Callsign' },
-          { title: t('mainMenu.titles.licenseLevel'), value: 'Level', align: 'center' },
+          { title: t('common.licenseLevel'), value: 'Level', align: 'center' },
           { title: t('common.status'), value: 'Status' },
-          { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
+          { title: t('common.lastUpdate'), key: 'updated' },
         ]
         break
       case 'npcs':
         base = [
           ...base,
-          { title: t('mainMenu.titles.role'), value: 'Role' },
-          { title: t('mainMenu.titles.lastUpdate'), key: 'updated' },
+          { title: t('common.role'), value: 'Role' },
+          { title: t('common.lastUpdate'), key: 'updated' },
         ]
         break
       case 'encounters':
-        base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }]
+        base = [...base, { title: t('common.lastUpdate'), key: 'updated' }]
         break
       case 'narrative':
-        base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }]
+        base = [...base, { title: t('common.lastUpdate'), key: 'updated' }]
         break
       case 'campaigns':
-        base = [...base, { title: t('mainMenu.titles.lastUpdate'), key: 'updated' }]
+        base = [...base, { title: t('common.lastUpdate'), key: 'updated' }]
         break
       case 'lcps':
         base = [
           ...base,
-          { title: t('mainMenu.titles.author'), value: 'Author' },
+          { title: t('common.author'), value: 'Author' },
           { title: t('common.version'), value: 'Version' },
         ]
         break
     }
-    base.push({ title: t('mainMenu.titles.addItem'), value: 'actions', align: 'center' })
+    base.push({ title: t('mainMenu.collection.addItem'), value: 'actions', align: 'center' })
     return base
   })
 

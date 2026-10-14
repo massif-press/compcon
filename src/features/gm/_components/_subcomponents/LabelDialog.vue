@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     ref="dialog"
-    :title="$t('gm.titles.setGmLabel')"
+    :title="$t('gm.shared.setGmLabel')"
     :close-on-click="false"
     max-width="500px"
   >
@@ -10,7 +10,7 @@
       grow
       density="compact"
     >
-      <v-tab value="set">{{ $t('common.set') }}</v-tab>
+      <v-tab value="set">{{ $t('common.setAction') }}</v-tab>
       <v-tab value="delete">{{ $t('common.delete') }}</v-tab>
     </v-tabs>
     <v-card-text>
@@ -33,7 +33,7 @@
                 :items="allLabels"
                 item-title="title"
                 item-value="key"
-                :label="$t('gm.labels.label')"
+                :label="$t('common.label')"
                 hide-details
                 :menu-props="{ retainFocus: false }"
               />
@@ -41,7 +41,7 @@
             <v-col>
               <v-text-field
                 v-model="kvpValue"
-                :label="$t('gm.fields.value')"
+                :label="$t('common.value')"
                 hide-details
               />
             </v-col>
@@ -65,7 +65,7 @@
                 :items="selectedLabels"
                 item-title="title"
                 item-value="key"
-                :label="$t('gm.labels.label')"
+                :label="$t('common.label')"
                 hide-details
               />
             </v-col>

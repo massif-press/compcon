@@ -3,7 +3,7 @@
     <section-header :title="$t('common.talents')">
       <cc-dialog
         v-if="!pilot.IsRemote"
-        :title="$t('pm.titles.setPilotTalents')"
+        :title="$t('pm.pilotSheet.setPilotTalents')"
         fullscreen
         icon="cc:trait"
         :close-on-click="false"
@@ -17,7 +17,12 @@
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
-            :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotTalentsPoints', {
+                current: pilot.TalentsController.CurrentTalentPoints,
+                max: pilot.TalentsController.MaxTalentPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

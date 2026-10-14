@@ -24,12 +24,13 @@ interface IEndRoundState {
   silent?: boolean
 }
 
+const BRACE_COOLDOWN = 'Brace Cooldown'
 const BRACE_COOLDOWN_DETAIL_KEY = 'active.statusCond.braceCooldownDetail'
 
 const burnCheck: IFlowStep<IEndTurnState> = {
   Name: 'burn-check',
   Run: (s, input) => {
-    if (s.burnResolved) return 'continue'
+    if (s.burnResolved || !s.cc.Automated) return 'continue'
     if (!s.cc.StatController.getCurrent(StatKey.BURN)) return 'continue'
     const answer = input as { success?: boolean; skip?: boolean; rolled?: number } | undefined
     if (!answer) return 'await'
@@ -47,7 +48,7 @@ const burnCheck: IFlowStep<IEndTurnState> = {
 
 const pendingChecks: IFlowStep<IEndTurnState> = {
   Name: 'pending-checks',
-  Run: s => (s.cc.PendingChecks.length ? 'await' : 'continue'),
+  Run: s => (s.cc.Automated && s.cc.PendingChecks.length ? 'await' : 'continue'),
   Request: s => ({
     kind: 'check',
     label: 'structureOrStressCheck',
@@ -105,6 +106,7 @@ export const EndTurnFlow = new Flow<IEndTurnState>(
 const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   s.cc.Turn = 1
   s.cc.ClearBoost()
+  s.cc.RemoveCustomStatus(BRACE_COOLDOWN)
   if (!s.cc.Braced) {
     s.cc.StatController.setCurrentStat(StatKey.SPEED, s.cc.StatController.getMax(StatKey.SPEED))
     s.cc.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
@@ -113,7 +115,7 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
   s.cc.Braced = false
   s.cc.CustomStatuses.push({
     status: new EffectSpecial({
-      attribute: 'Brace Cooldown',
+      attribute: BRACE_COOLDOWN,
       detail: '',
       detailKey: BRACE_COOLDOWN_DETAIL_KEY,
     }),
@@ -122,6 +124,7 @@ const braceTeardown = step<IEndRoundState>('brace-teardown', s => {
     ),
   })
   s.cc.ClearBraceResistance()
+  s.cc.StatController.setCurrentStat(StatKey.SPEED, 0, { silent: true })
   s.cc.CombatActions = {
     ...DEFAULT_COMBAT_ACTIONS,
     Protocol: false,
@@ -166,8 +169,8 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        nameKey: 'active.timedEffect.statusExpiredName',
-        detailKey: 'active.timedEffect.statusExpiredDetail',
+        nameKey: 'combat.timedEffect.statusExpiredName',
+        detailKey: 'combat.timedEffect.statusExpiredDetail',
         detailParams: { name: x.status.Name },
         round: s.cc.Round,
         remove: { status: [x.status.ID] },
@@ -179,8 +182,8 @@ const expireStatuses = step<IEndRoundState>('expire-statuses', s => {
     s.cc.Record('status.lose', { status: statusRef(x.status), reason: 'expired' })
     newEffects.push(
       new TimedEffect({
-        nameKey: 'active.timedEffect.specialExpiredName',
-        detailKey: 'active.timedEffect.specialExpiredDetail',
+        nameKey: 'combat.timedEffect.specialExpiredName',
+        detailKey: 'combat.timedEffect.specialExpiredDetail',
         detailParams: { attribute: x.status.Attribute },
         round: s.cc.Round,
         remove: { special: [{ attribute: x.status.Attribute, detail: x.status.Detail }] },

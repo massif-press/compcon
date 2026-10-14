@@ -4,6 +4,7 @@
     :build-stream="() => sheet.Stream"
     :focus-actor-id="sheet.PilotID"
     :confirm-message="$t('active.pcEndEncounter.confirm')"
+    :skip-report="sheet.PlayMode === 'simple'"
     @end="end"
   />
 </template>

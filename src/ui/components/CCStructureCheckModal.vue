@@ -1,20 +1,20 @@
 <template>
   <cc-dialog
     v-model="open"
-    :title="table?.Title"
+    :title="shownTable?.Title"
     :close-on-click="false"
     @update:model-value="onToggle"
   >
     <p
-      v-if="table?.Description"
-      v-html-safe="table.Description"
+      v-if="shownTable?.Description"
+      v-html-safe="shownTable.Description"
       class="body-text text-text mb-3 pa-2"
     />
 
     <div v-if="!result">
       <div class="text-cc-overline mb-2">
         {{
-          $t('active.structureCheck.rollPrompt', {
+          $t('combat.structureCheck.rollPrompt', {
             n: marked,
             die: table?.Die,
           })
@@ -26,7 +26,7 @@
         prepend-icon="mdi-dice-d6"
         @click="roll"
       >
-        {{ $t('active.structureCheck.rollLabel', { n: marked, die: table?.Die }) }}
+        {{ $t('combat.structureCheck.rollLabel', { n: marked, die: table?.Die }) }}
       </cc-button>
     </div>
 
@@ -35,7 +35,7 @@
         class="d-flex flex-wrap align-center my-1"
         style="gap: 6px"
       >
-        <span class="text-cc-overline mr-1">{{ $t('active.structureCheck.rolled') }}:</span>
+        <span class="text-cc-overline mr-1">{{ $t('combat.structureCheck.rolled') }}:</span>
         <v-chip
           v-for="(d, i) in result.dice"
           :key="i"
@@ -60,20 +60,20 @@
           prepend-icon="mdi-dice-multiple"
           @click="roll"
         >
-          {{ $t('active.structureCheck.reroll') }}
+          {{ $t('combat.structureCheck.reroll') }}
         </cc-button>
       </div>
 
       <v-divider class="my-2" />
-      <div class="heading h2 text-accent">{{ result.row?.title }}</div>
+      <div class="heading h2 text-accent">{{ shownRow?.title }}</div>
       <p
-        v-html-safe="result.row?.result"
+        v-html-safe="shownRow?.result"
         class="body-text text-text mt-1"
       />
 
       <div v-if="resolution.steps.length">
         <v-divider class="my-2" />
-        <div class="text-cc-overline mb-1">{{ $t('active.structureCheck.resolution') }}</div>
+        <div class="text-cc-overline mb-1">{{ $t('common.resolutionOutcome') }}</div>
 
         <div
           v-for="step in resolution.steps"
@@ -127,7 +127,7 @@
               {{ step.rolled }}
             </v-chip>
             <span class="body-text">
-              {{ step.label }} ({{ $t('active.structureCheck.applyManual') }})
+              {{ step.label }} ({{ $t('combat.structureCheck.applyManual') }})
             </span>
           </div>
 
@@ -148,8 +148,8 @@
               {{
                 $t(
                   step.mode === 'save'
-                    ? 'active.structureCheck.saveSave'
-                    : 'active.structureCheck.saveCheck',
+                    ? 'combat.structureCheck.saveSave'
+                    : 'combat.structureCheck.saveCheck',
                   { check: step.label }
                 )
               }}
@@ -167,7 +167,7 @@
                 prepend-icon="mdi-dice-d20"
                 @click="rollSave(step.path)"
               >
-                {{ $t('active.structureCheck.rollCheck', { check: step.label }) }}
+                {{ $t('combat.structureCheck.rollCheck', { check: step.label }) }}
               </cc-button>
               <span
                 v-if="saveRolls[step.path]"
@@ -187,14 +187,14 @@
                   size="small"
                   color="success"
                 >
-                  {{ $t('active.structureCheck.success') }}
+                  {{ $t('common.success') }}
                 </v-btn>
                 <v-btn
                   value="fail"
                   size="small"
                   color="error"
                 >
-                  {{ $t('active.structureCheck.fail') }}
+                  {{ $t('combat.structureCheck.fail') }}
                 </v-btn>
               </v-btn-toggle>
             </div>
@@ -221,8 +221,8 @@
         >
           {{
             hasActions
-              ? $t('active.structureCheck.applyResolve')
-              : $t('active.structureCheck.markResolved')
+              ? $t('combat.structureCheck.applyResolve')
+              : $t('combat.structureCheck.markResolved')
           }}
         </cc-button>
       </v-card-actions>
@@ -235,6 +235,7 @@
   import { DiceRoller } from '@/classes/dice/DiceRoller'
   import AccuracyDifficultyRow from '@/ui/components/chips/_activeeffect/_shared/AccuracyDifficultyRow.vue'
   import type { CombatController } from '@/classes/components/combat/CombatController'
+  import { CHECK_STAT } from '@/classes/components/combat/stats/Stats'
   import type {
     ICheckRollResult,
     IPendingCheck,
@@ -252,6 +253,7 @@
     requestFor,
   } from '@/classes/components/combat/StructureCheck'
   import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
+  import { localizeTable, localizeTableRow } from '@/i18n/localize'
 
   const props = defineProps<{
     modelValue: boolean
@@ -268,6 +270,10 @@
 
   const table = computed(() => getCheckTable(props.pending.kind, props.cc))
   const marked = computed(() => markedPoints(props.cc, props.pending.kind))
+  const shownTable = computed(() => table.value && localizeTable(table.value))
+  const shownRow = computed(() =>
+    table.value && result.value?.row ? localizeTableRow(table.value.ID, result.value.row) : null
+  )
 
   const result = ref<ICheckRollResult | null>(null)
   const effects = ref<Effect[]>([])
@@ -294,13 +300,6 @@
 
   const hasActions = computed(() => resolution.value.actions.length > 0)
 
-  const CHECK_STAT: Record<string, 'Hull' | 'Agi' | 'Sys' | 'Eng'> = {
-    hull: 'Hull',
-    agi: 'Agi',
-    sys: 'Sys',
-    eng: 'Eng',
-  }
-
   function clearChoices() {
     ;[saveChoices, equipChoices, saveRolls, saveBonus, saveAcc].forEach(rec =>
       Object.keys(rec).forEach(k => delete rec[k])
@@ -313,7 +312,7 @@
       r.steps.forEach(s => {
         if (s.kind === 'save' && saveBonus[s.path] === undefined) {
           saveBonus[s.path] = props.cc.getCheckBonus(CHECK_STAT[s.check || ''] || 'Hull')
-          saveAcc[s.path] = 0
+          saveAcc[s.path] = props.cc.HaseAccuracy(s.check || 'hull', 'check')
         }
       })
     },

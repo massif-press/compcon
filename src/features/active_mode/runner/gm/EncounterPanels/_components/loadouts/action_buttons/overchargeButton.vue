@@ -81,7 +81,7 @@
               append-inner-icon="cc:heat"
             />
           </v-col>
-          <v-col cols="auto">{{ $t('pm.sheet.heat') }}</v-col>
+          <v-col cols="auto">{{ $t('enums.damageType.heat') }}</v-col>
         </v-row>
       </v-card>
       <menu-input

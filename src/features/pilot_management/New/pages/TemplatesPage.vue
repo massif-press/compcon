@@ -9,9 +9,9 @@
   >
     <cc-title offset>{{ $t('pm.new.newPilotRegistration') }}</cc-title>
     <div class="heading h2">
-      {{ $t('pm.new.uadIDENTService') }}
+      {{ $t('pm.new.identServiceName') }}
       <cc-slashes />
-      &nbsp;{{ $t('pm.new.prmALTQUICKACCESSSELECTION') }}
+      &nbsp;{{ $t('pm.new.quickAccessSelection') }}
     </div>
     <v-row
       density="compact"
@@ -22,7 +22,7 @@
           class="flavor-text"
           style="font-size: 14px"
         >
-          {{ $t('pm.new.perThe5017PRMALTAct') }}
+          {{ $t('pm.new.quickAccessIntro') }}
         </p>
         <v-alert
           color="accent"
@@ -42,7 +42,7 @@
         cols="12"
         md="4"
       >
-        <b class="heading h3 text-accent">{{ $t('pm.new.mechARTCOURTESYOF') }}</b>
+        <b class="heading h3 text-accent">{{ $t('pm.new.mechArtCredit') }}</b>
         <v-img
           target="_blank"
           href="https://www.retrogrademinis.com/"

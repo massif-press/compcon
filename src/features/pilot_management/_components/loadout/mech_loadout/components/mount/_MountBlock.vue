@@ -12,13 +12,13 @@
         v-if="impArm"
         class="text-cc-overline"
       >
-        {{ $t('pm.loadout.improvedARMAMENT') }}
+        {{ $t('pm.loadout.improvedArmamentNote') }}
       </span>
       <span
         v-if="superheavy"
         class="text-cc-overline"
       >
-        {{ $t('pm.loadout.superheavyMOUNTING') }}
+        {{ $t('pm.loadout.superheavyMountingNote') }}
       </span>
     </legend>
 
@@ -92,7 +92,7 @@
   const mountName = computed(() => {
     if (props.mount.Name !== `${props.mount.Type} Mount`) return props.mount.Name
     const key = mountTypeKey[props.mount.Type] ?? props.mount.Type.toLowerCase()
-    return `${t(`enums.mountType.${key}`)} ${t('common.mount')}`
+    return `${t(`enums.mountType.${key}`)} ${t('common.weaponMount')}`
   })
 </script>
 

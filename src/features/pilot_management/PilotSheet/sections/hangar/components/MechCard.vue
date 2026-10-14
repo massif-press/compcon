@@ -93,7 +93,7 @@
                         />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            {{ $t('pm.sheet.heat') }}
+                            {{ $t('enums.damageType.heat') }}
                             <b>{{ mech.HeatCapacity }}</b>
                           </span>
                         </v-col>
@@ -103,7 +103,7 @@
                         />
                         <v-col cols="auto">
                           <span class="text-overline">
-                            {{ $t('pm.sheet.repcap') }}
+                            {{ $t('stats.repCap') }}
                             <b>{{ mech.RepairCapacity }}</b>
                           </span>
                         </v-col>
@@ -114,7 +114,7 @@
                       <v-spacer />
                       <v-tooltip
                         location="top"
-                        :text="$t('pm.titles.deleteMech')"
+                        :text="$t('pm.pilotSheet.deleteMech')"
                       >
                         <template #activator="{ props }">
                           <v-btn
@@ -131,7 +131,7 @@
                       </v-tooltip>
                       <v-tooltip
                         location="top"
-                        :text="$t('pm.titles.duplicateMech')"
+                        :text="$t('pm.pilotSheet.duplicateMech')"
                       >
                         <template #activator="{ props }">
                           <v-btn
@@ -147,7 +147,7 @@
                       </v-tooltip>
                       <v-tooltip
                         location="top"
-                        :text="$t('pm.tooltips.printMechSheet')"
+                        :text="$t('pm.pilotSheet.printMechSheet')"
                       >
                         <template #activator="{ props }">
                           <v-btn
@@ -206,7 +206,7 @@
     <cc-dialog
       ref="delete"
       :close-on-click="false"
-      :title="$t('pm.titles.deleteMech')"
+      :title="$t('pm.pilotSheet.deleteMech')"
       color="error"
       icon="mdi-delete"
     >
@@ -223,7 +223,7 @@
     <cc-dialog
       ref="copy"
       :close-on-click="false"
-      :title="$t('pm.titles.duplicateMech')"
+      :title="$t('pm.pilotSheet.duplicateMech')"
       icon="mdi-content-copy"
     >
       <cc-confirmation

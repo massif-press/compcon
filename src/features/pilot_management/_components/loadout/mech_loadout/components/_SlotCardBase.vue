@@ -75,8 +75,7 @@
             class="heading h2 text-disabled my-auto py-5"
             style="width: 100%"
           >
-            // {{ mobile ? $t('ui.widget.tap') : $t('ui.widget.click') }}
-            {{ $t('pm.loadout.toAddSlashes') }}
+            // {{ mobile ? $t('pm.loadout.tapToAdd') : $t('pm.loadout.clickToAdd') }} //
           </div>
         </v-row>
       </div>
@@ -100,7 +99,7 @@
 
   <cc-dialog
     v-model="selectorDialog"
-    :title="$t('pm.titles.selectEquipment')"
+    :title="$t('pm.loadout.selectEquipment')"
     clip
     :close-on-click="false"
     major

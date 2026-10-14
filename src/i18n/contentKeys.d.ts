@@ -16,3 +16,20 @@ export function markupFault(str: unknown): string | null
 export const keyPrefixes: WeakMap<object, string>
 
 export function stampContentKeys(data: unknown): void
+
+export const LCP_FIELDS: Record<string, string[]>
+
+export function eidolonTraitId(name: unknown): string
+
+export function bondPowerPrefix(origin: unknown, name: unknown): string
+
+export function bondPowerEntries(power: any, origin?: string): Array<[string, string]>
+
+export function bondEntries(bond: any): Array<[string, string]>
+
+export function tableRowPrefix(
+  tableId: string,
+  row: { title?: string; min: number; max: number }
+): string
+
+export function tableRowEntries(table: any): Array<[string, string]>

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section-header :title="$t('pm.level.coreBonuses')">
+    <section-header :title="$t('common.coreBonuses')">
       <cc-dialog
-        :title="$t('pm.titles.setPilotCoreBonuses')"
+        :title="$t('pm.pilotSheet.setPilotCoreBonuses')"
         icon="cc:corebonus"
         fullscreen
         :close-on-click="false"
@@ -16,7 +16,12 @@
             :highlight="!pilot.CoreBonusController.HasCBs"
             :current="pilot.CoreBonusController.CurrentCBPoints"
             :max="pilot.CoreBonusController.MaxCBPoints"
-            :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotCoreBonusesPoints', {
+                current: pilot.CoreBonusController.CurrentCBPoints,
+                max: pilot.CoreBonusController.MaxCBPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

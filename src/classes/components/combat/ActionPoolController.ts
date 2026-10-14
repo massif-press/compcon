@@ -69,21 +69,42 @@ class ActionPoolController {
     return this.CombatActions.Reaction && !this.ReactionsUsed.includes(id.toLowerCase())
   }
 
+  public ExtraActionsUsed: Record<string, number> = {}
+
+  public get ExtraActions(): Record<string, number> {
+    const granted: Record<string, number> = {}
+    if (this._parent.IsPilot) return granted
+    this._parent.Bonuses.filter(b => b.ID === 'extra_action').forEach(b => {
+      const kind = String(b.Value).toLowerCase()
+      granted[kind] = (granted[kind] || 0) + 1
+    })
+    return granted
+  }
+
+  public ExtraActionsLeft(kind: string): number {
+    return (this.ExtraActions[kind] || 0) - (this.ExtraActionsUsed[kind] || 0)
+  }
+
   public UseReaction(id: string): void {
     if (!this.CanUseReaction(id)) return
     this.ReactionsUsed.push(id.toLowerCase())
-    this._parent.SetCombatAction('reaction', false)
+    if (this.ExtraActionsLeft('reaction') > 0)
+      this.ExtraActionsUsed.reaction = (this.ExtraActionsUsed.reaction || 0) + 1
+    else this._parent.SetCombatAction('reaction', false)
   }
 
   public RestoreReaction(id: string): void {
     const key = id.toLowerCase()
     if (!this.ReactionsUsed.includes(key)) return
     this.ReactionsUsed = this.ReactionsUsed.filter(r => r !== key)
-    this._parent.SetCombatAction('reaction', true)
+    if (this.CombatActions.Reaction && this.ExtraActionsUsed.reaction)
+      this.ExtraActionsUsed.reaction--
+    else this._parent.SetCombatAction('reaction', true)
   }
 
   public RefreshReactions(): void {
     this.CombatActions.Reaction = true
+    this.ExtraActionsUsed = {}
   }
 
   public ClearReactionUses(): void {
@@ -103,6 +124,11 @@ class ActionPoolController {
 
   public set InOvercharge(value: boolean) {
     this.CombatActions.InOvercharge = value
+  }
+
+  private get _speed(): number {
+    if (!this._parent.TracksMovement) return Infinity
+    return this._parent.StatController.getCurrent(StatKey.SPEED)
   }
 
   public get HasRemainingActions(): boolean {
@@ -132,14 +158,14 @@ class ActionPoolController {
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
+          this._speed >= this._parent.BoostedSpeed
         )
       case 'ordnance':
         return (
           this.CombatActions.Quick1 &&
           this.CombatActions.Quick2 &&
           this.CombatActions.Full &&
-          this._parent.StatController.getCurrent(StatKey.SPEED) >= this._parent.BoostedSpeed
+          this._speed >= this._parent.BoostedSpeed
         )
       case 'full':
       case 'fulltech':
@@ -158,10 +184,10 @@ class ActionPoolController {
       case 'reaction':
         return this.CombatActions.Reaction
       case 'move':
-        return this._parent.StatController.getCurrent(StatKey.SPEED) > 0
+        return this._speed > 0
       case 'boost':
         return (
-          this._parent.StatController.getCurrent(StatKey.SPEED) > 0 &&
+          this._speed > 0 &&
           (this.OverchargeApplies || this.CombatActions.Quick1 || this.CombatActions.Quick2)
         )
       case 'fight':
@@ -192,6 +218,7 @@ class ActionPoolController {
 
   public ResetCombatActions(): void {
     this.CombatActions = { ...DEFAULT_COMBAT_ACTIONS }
+    this.ExtraActionsUsed = {}
   }
 
   public toggleCombatAction(action: string): void {
@@ -395,8 +422,8 @@ class ActionPoolController {
     this._parent.TimedEffects.push(
       markRaw(
         new TimedEffect({
-          nameKey: 'active.timedEffect.selfDestructName',
-          detailKey: 'active.timedEffect.selfDestructDetail',
+          nameKey: 'combat.timedEffect.selfDestructName',
+          detailKey: 'combat.timedEffect.selfDestructDetail',
           round: fireOnRound ?? this._parent.SelfDestructWindow[0],
           apply: { other: 'self_destruct' },
         })
@@ -434,6 +461,7 @@ class ActionPoolController {
     this._combatActions = { ...DEFAULT_COMBAT_ACTIONS }
     this._actionUses = {}
     this.ReactionsUsed = []
+    this.ExtraActionsUsed = {}
     this.IsInSelfDestruct = false
     this.ReactorDestroyed = false
     this.IsDead = false
@@ -444,6 +472,7 @@ class ActionPoolController {
     target.reactorDestroyed = this.ReactorDestroyed
     target.isDead = this.IsDead
     target.reactionsUsed = [...this.ReactionsUsed]
+    target.extraActionsUsed = { ...this.ExtraActionsUsed }
     target.combatActions = { ...this.CombatActions }
     target.actionUses = { ...this.ActionUses }
     target.usedActions = Object.keys(this.ActionUses)
@@ -454,6 +483,7 @@ class ActionPoolController {
     this.ReactorDestroyed = data?.reactorDestroyed || false
     this.IsDead = data?.isDead || false
     this.ReactionsUsed = data?.reactionsUsed ? [...data.reactionsUsed] : []
+    this.ExtraActionsUsed = { ...data?.extraActionsUsed }
     if (data?.combatActions) this.CombatActions = data.combatActions
     this.ActionUses =
       data?.actionUses ??

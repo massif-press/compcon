@@ -135,7 +135,7 @@
           :disabled="mode === 'replace' && replaceIndex < 0"
           @click="apply()"
         >
-          {{ $t('common.import') }}
+          {{ $t('common.importAction') }}
         </cc-button>
       </v-col>
     </v-row>

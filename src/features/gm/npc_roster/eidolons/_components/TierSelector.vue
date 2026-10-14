@@ -18,11 +18,19 @@
       </v-btn>
     </v-col>
   </v-row>
+
+  <tier-change-dialog
+    v-model="showConfirmation"
+    :tier="stagedTier"
+    @keep="changeTier"
+  />
 </template>
 
 <script setup lang="ts">
   import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
+  import type { TierEdits } from '@/classes/npc/tierChange'
   import { ref } from 'vue'
+  import TierChangeDialog from '@/features/gm/npc_roster/npcs/_components/TierChangeDialog.vue'
 
   defineOptions({ name: 'LayerTierSelector' })
 
@@ -30,31 +38,17 @@
     item: Eidolon
   }>()
 
-  const emit = defineEmits<{
-    update: []
-  }>()
-
   const showConfirmation = ref(false)
-  const changed = ref([] as string[])
   const stagedTier = ref(0)
 
-  function confirm() {
-    showConfirmation.value = false
-    emit('update')
-  }
-  function cancel() {
-    changed.value = []
-    stagedTier.value = 0
-    showConfirmation.value = false
-  }
   function updateTier(tier: number) {
-    props.item.Tier = tier
-    props.item.SaveController.save()
+    if (tier === props.item.Tier) return
+    stagedTier.value = tier
+    if (props.item.HasEditedStats) showConfirmation.value = true
+    else changeTier('reset')
   }
-  function overwrite() {
-    props.item.Tier = stagedTier.value
-    stagedTier.value = 0
-    changed.value = []
-    confirm()
+  function changeTier(keep: TierEdits) {
+    props.item.ChangeTier(stagedTier.value, keep)
+    showConfirmation.value = false
   }
 </script>

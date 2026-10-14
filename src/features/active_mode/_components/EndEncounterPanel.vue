@@ -21,7 +21,8 @@
             class="mt-n1 ml-2"
             start />
           {{ $t('active.encMgr.afterActionReport') }}
-          <span class="text-caption ml-2">
+          <span v-if="!skipReport"
+            class="text-caption ml-2">
             {{ $t('active.aar.step', { n: step + 1, total: 2 }) }}
           </span>
         </div>
@@ -41,9 +42,10 @@
               :result="result" />
           </v-window-item>
           <v-window-item :value="1">
-            <div class="text-cc-overline text-disabled"><cc-slashes /> {{
-              $t('active.aar.outcomeTitle')
-              }}</div>
+            <div class="text-cc-overline text-disabled">
+              <cc-slashes />
+              {{ $t('active.aar.outcomeTitle') }}
+            </div>
             <cc-panel color="background"
               class="mt-1 mb-4">
               <v-row v-for="c in combatants"
@@ -93,7 +95,9 @@
               </v-row>
             </cc-panel>
 
-            <div class="text-cc-overline text-disabled"><cc-slashes /> {{ $t('common.result') }}
+            <div class="text-cc-overline text-disabled">
+              <cc-slashes />
+              {{ $t('common.result') }}
             </div>
             <v-combobox v-model="result"
               :items="ENCOUNTER_RESULTS"
@@ -116,11 +120,11 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <cc-button v-if="step === 1"
+        <cc-button v-if="step === 1 && !skipReport"
           size="small"
           variant="text"
           @click="back">
-          {{ $t('common.back') }}
+          {{ $t('common.backAction') }}
         </cc-button>
         <v-spacer />
         <cc-button v-if="step === 0"
@@ -166,6 +170,7 @@ const props = defineProps<{
   buildStream: () => ILogStream
   confirmMessage: string
   focusActorId?: string
+  skipReport?: boolean
 }>()
 
 defineEmits<{
@@ -187,7 +192,7 @@ const mechStatusTypes = Object.values(MechStatus)
 
 watch(open, isOpen => {
   if (!isOpen) return
-  step.value = 0
+  step.value = props.skipReport ? 1 : 0
   confirm.value = false
   stream.value = props.buildStream()
   seedOutcomes(props.combatants, outcomes, edited)

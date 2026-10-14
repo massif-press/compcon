@@ -145,7 +145,7 @@
         <div
           v-if="c.Resolution"
           class="font-weight-bold text-caption"
-          v-text="$t('ui.fields.resolution')"
+          v-text="$t('common.resolutionOutcome')"
         />
         <div
           v-html-safe="c.Resolution"

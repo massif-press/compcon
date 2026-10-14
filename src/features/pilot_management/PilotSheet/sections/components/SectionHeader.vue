@@ -7,7 +7,7 @@
   >
     <section-edit-icon
       v-if="editable"
-      :label="tooltip"
+      :label="tooltip ?? $t('common.editAction')"
       @open-selector="$emit('edit')"
     />
     <slot />
@@ -29,7 +29,7 @@
       title: string
     }>(),
     {
-      tooltip: 'Edit',
+      tooltip: undefined,
     }
   )
 

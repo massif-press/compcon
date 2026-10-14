@@ -26,20 +26,20 @@ const routes = [
         name: 'gm-toolkit-home',
         component: Home,
         searchData: {
-          title: 'gm.titles.gmToolkit',
+          title: 'common.gmToolkit',
           icon: 'cc:encounter',
         },
-        meta: { title: 'gm.titles.gmToolkit' },
+        meta: { title: 'common.gmToolkit' },
       },
       {
         path: 'campaigns',
         name: 'gm-campaigns',
         component: Campaigns,
         searchData: {
-          title: 'gm.titles.campaignEditor',
+          title: 'gm.routes.campaignEditor',
           icon: 'cc:encounter',
         },
-        meta: { title: 'gm.titles.campaignEditor' },
+        meta: { title: 'gm.routes.campaignEditor' },
       },
       {
         path: 'campaigns/edit/:id',
@@ -53,10 +53,10 @@ const routes = [
         props: true,
         component: NpcRoster,
         searchData: {
-          title: 'gm.titles.npcRoster',
+          title: 'common.npcRoster',
           icon: 'cc:encounter',
         },
-        meta: { title: 'gm.titles.npcRoster' },
+        meta: { title: 'common.npcRoster' },
       },
       {
         path: 'encounters/:id?',
@@ -64,10 +64,10 @@ const routes = [
         component: Encounters,
         props: true,
         searchData: {
-          title: 'gm.titles.encounterEditor',
+          title: 'gm.shared.encounterEditor',
           icon: 'cc:encounter',
         },
-        meta: { title: 'gm.titles.encounterEditor' },
+        meta: { title: 'gm.shared.encounterEditor' },
       },
       {
         path: 'narrative/:type?/:id?',
@@ -75,10 +75,10 @@ const routes = [
         props: true,
         component: NarrativeIndex,
         searchData: {
-          title: 'gm.titles.narrativeItemManager',
+          title: 'gm.routes.narrativeItemManager',
           icon: 'cc:encounter',
         },
-        meta: { title: 'gm.titles.narrativeItemManager' },
+        meta: { title: 'gm.routes.narrativeItemManager' },
       },
       {
         path: 'narrative/graph',

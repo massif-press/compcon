@@ -28,7 +28,7 @@
           </v-avatar>
         </v-col>
         <v-col class="text-cc-overline">
-          {{ $t('active.structureCheck.pending', { type: typeLabel }) }}
+          {{ $t('combat.structureCheck.pending', { type: typeLabel }) }}
         </v-col>
         <v-col cols="auto">
           <v-btn
@@ -36,7 +36,7 @@
             flat
             size="small"
             prepend-icon="mdi-dice-d6"
-            :text="$t('common.roll_verb')"
+            :text="$t('common.rollVerb')"
             @click="dialog = true"
           />
           &nbsp;
@@ -71,8 +71,8 @@
   const pending = computed(() => props.cc.PendingChecks.find(p => p.kind === props.kind))
   const typeLabel = computed(() =>
     props.kind === 'stress'
-      ? t('active.structureCheck.stress')
-      : t('active.structureCheck.structure')
+      ? t('combat.structureCheck.stress')
+      : t('combat.structureCheck.structure')
   )
 
   function dismiss() {

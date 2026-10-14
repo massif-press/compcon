@@ -4,26 +4,26 @@
     class="bg-panel"
     align="center"
   >
-    <v-col v-if="canDealDamage && item.ItemType === 'PilotWeapon'">
+    <v-col v-if="canAttack && item.ItemType === 'PilotWeapon'">
       <pilot-fight-button
         :action="fightAction"
         :preset-weapon="asPilotWeapon"
       />
     </v-col>
-    <v-col v-if="canDealDamage && isFeature && !isSuperheavy">
+    <v-col v-if="canAttack && isFeature && !isSuperheavy">
       <npc-skirmish-button
         :action="skirmishAction"
         :preset-weapon="asNpcWeapon"
       />
     </v-col>
-    <v-col v-if="canDealDamage && isFeature">
+    <v-col v-if="canAttack && isFeature">
       <npc-barrage-button
         :action="barrageAction"
         :preset-weapon="asNpcWeapon"
       />
     </v-col>
     <v-col
-      v-if="!isFeature && canDealDamage && canSkirmish"
+      v-if="!isFeature && canAttack && canSkirmish"
       cols="auto"
     >
       <mech-skirmish-button
@@ -33,7 +33,7 @@
       />
     </v-col>
     <v-col
-      v-if="!isFeature && canDealDamage && canBarrage"
+      v-if="!isFeature && canAttack && canBarrage"
       cols="auto"
       class="ml-1"
     >
@@ -44,30 +44,30 @@
       />
     </v-col>
     <v-col
-      v-if="isAI"
+      v-if="isAI && !simple"
       cols="auto"
     >
       <ai-control-button
         v-if="!controller.AIControl"
         :controller="controller"
         :size="mobile ? 'x-small' : 'small'"
-        :label="$t('active.fields.cedeControl')"
-        tooltip-text="Cede control of your mech to the NHP as a Protocol Action."
+        :label="$t('active.equipCommandPanel.cedeControl')"
+        :tooltip-text="$t('active.equipCommandPanel.cedeControlTooltip')"
         @action="enableAI"
       />
 
       <ai-control-button
         v-if="controller.AIControl"
         :controller="controller"
-        :label="$t('active.fields.reclaimControl')"
-        tooltip-text="Reclaim control of your mech from the NHP as a Protocol Action."
+        :label="$t('active.equipCommandPanel.reclaimControl')"
+        :tooltip-text="$t('active.equipCommandPanel.reclaimControlTooltip')"
         @action="disableAI"
       />
 
       <v-tooltip
         location="top"
         max-width="300"
-        :text="$t('active.tooltips.markYourMechAsInCascade')"
+        :text="$t('active.equipCommandPanel.markYourMechAsInCascade')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -135,7 +135,7 @@
               scope="global"
             >
               <template #used>
-                <b>{{ $t('ui.fields.used') }}</b>
+                <b>{{ $t('common.used') }}</b>
               </template>
             </i18n-t>
             <i18n-t
@@ -178,7 +178,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.resetUses')"
+        :text="$t('active.equipCommandPanel.resetUses')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -205,7 +205,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.tooltips.toggleDestroyed')"
+        :text="$t('active.equipCommandPanel.toggleDestroyed')"
       >
         <template #activator="{ props }">
           <v-btn
@@ -234,7 +234,7 @@
     >
       <v-tooltip
         location="top"
-        :text="`Force Recharge (Recharges on: ${recharge}+)`"
+        :text="$t('active.equipCommandPanel.forceRecharge', { recharge })"
       >
         <template #activator="{ props }">
           <v-btn
@@ -252,6 +252,32 @@
           </v-btn>
         </template>
       </v-tooltip>
+    </v-col>
+
+    <v-col
+      cols="auto"
+      class="ml-1"
+    >
+      <cc-dialog
+        :title="item.Name"
+        :close-on-click="false"
+        major
+        max-width="90vw"
+      >
+        <template #activator="{ open }">
+          <v-btn
+            icon
+            size="x-small"
+            tile
+            height="26"
+            variant="text"
+            @click="open"
+          >
+            <v-icon icon="mdi-information-outline" />
+          </v-btn>
+        </template>
+        <cc-item-card :item="item" />
+      </cc-dialog>
     </v-col>
   </v-row>
 </template>
@@ -283,7 +309,7 @@
 
   const _display = useDisplay()
 
-  const { owner, encounterInstance } = useEncounterContext()
+  const { owner, encounterInstance, simple } = useEncounterContext()
 
   const props = defineProps<{
     item: MechWeapon | MechSystem | PilotWeapon | NpcFeature
@@ -316,9 +342,7 @@
     if (props.item.ItemType === 'NpcFeature') return false
     return true
   })
-  const canDealDamage = computed(() => {
-    return 'Damage' in props.item && !!props.item.Damage
-  })
+  const canAttack = computed(() => !simple.value && 'Damage' in props.item && !!props.item.Damage)
   const skirmishAction = computed(() => {
     return CompendiumStore().Actions.find(x => x.ID === 'act_skirmish')!
   })
@@ -356,7 +380,9 @@
   }
   function toggleDestroyed() {
     snapshotItemEdit()
-    props.item.Destroyed = !props.item.Destroyed
+    props.controller.RefreshMaxStats(() => {
+      props.item.Destroyed = !props.item.Destroyed
+    })
     recordEquipment(props.item.Destroyed ? 'destroyed' : 'repaired')
   }
   function toggleUsed() {

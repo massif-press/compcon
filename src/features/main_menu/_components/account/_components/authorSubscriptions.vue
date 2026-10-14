@@ -17,16 +17,7 @@
               ? $t('mainMenu.subscriptions.authorContentShort')
               : $t('mainMenu.subscriptions.authorContentHeader')
           "
-          tooltip=" You can subscribe to COMP/CON data content authors to receive updates when they
-              publish new content. This can include pilots, GM data like NPCs and Narrative
-              Elements, and limited or reserved collection content, such as table-specific homebrew.
-              You can add new subscriptions by adding the author's Content collection ID (CSID) to
-              the list below. <br /> <br />
-              <strong>
-                Neither Massif Press nor the COMP/CON developer take any responsibility for any
-                content published to any author's content collection. Subscribe to authors at your
-                own discretion.
-              </strong>"
+          :tooltip="$t('mainMenu.subscriptions.authorContentTooltip')"
         />
       </v-toolbar-title>
       <v-tooltip
@@ -67,7 +58,7 @@
     <v-divider />
     <cc-select
       v-model="cloudUser.CollectionSubscriptionSettings.updateOn"
-      :label="$t('mainMenu.fields.updates')"
+      :label="$t('mainMenu.authorSubscriptions.updates')"
       color="primary"
       :items="update_on"
       :loading="loading"
@@ -244,18 +235,18 @@
   const expanded = ref([])
   const collectionHeaders = ref([
     { title: '', key: 'data-table-expand', width: '0' },
-    { title: t('mainMenu.titles.contentCollection'), key: 'name' },
-    { title: t('mainMenu.titles.author'), key: 'author' },
+    { title: t('mainMenu.authorSubscriptions.contentCollection'), key: 'name' },
+    { title: t('common.author'), key: 'author' },
     { title: t('common.version'), key: 'vers', align: 'center' },
     { title: '', key: 'actions' },
   ])
   const update_on = ref([
     {
-      title: t('mainMenu.titles.onStartup'),
+      title: t('mainMenu.authorSubscriptions.onStartup'),
       value: 'startup',
     },
     {
-      title: t('mainMenu.titles.manualOnly'),
+      title: t('mainMenu.account.manualOnly'),
       value: 'manual',
     },
   ])

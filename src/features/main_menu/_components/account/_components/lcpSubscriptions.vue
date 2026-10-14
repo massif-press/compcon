@@ -12,8 +12,8 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="mobile ? $t('mainMenu.titles.lcps') : $t('mainMenu.subscriptions.lcpHeader')"
-          :tooltip="$t('mainMenu.tooltips.paidLcpContentRequiresA')"
+          :text="mobile ? $t('mainMenu.account.lcps') : $t('mainMenu.subscriptions.lcpHeader')"
+          :tooltip="$t('mainMenu.account.paidLcpItchRequirement')"
         />
       </v-toolbar-title>
       <v-spacer />

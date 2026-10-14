@@ -426,6 +426,45 @@ describe('action economy defects', () => {
     expect(cc().GetResistance('energy')).toBe('none')
   })
 
+  it('T-ACTION-brace-01: the turn after bracing allows one quick action only', () => {
+    cc().Brace()
+    cc().EndRound(undefined)
+
+    expect(cc().CanActivate('quick')).toBe(true)
+    expect(cc().CanActivate('Quick Tech')).toBe(true)
+    expect(cc().CanActivate('grapple')).toBe(true)
+    expect(cc().CanActivate('full')).toBe(false)
+    expect(cc().CanActivate('overcharge')).toBe(false)
+    expect(cc().CanActivate('protocol')).toBe(false)
+    expect(cc().CanActivate('free')).toBe(false)
+    expect(cc().CanActivate('move')).toBe(false)
+    expect(cc().CanActivate('reaction')).toBe(false)
+
+    expect(cc().Activate('Free', { actionId: 'test_free_action' })).toBe(false)
+    expect(cc().Activate('Quick', { actionId: 'test_quick_action' })).toBe(true)
+    expect(cc().CanActivate('quick')).toBe(false)
+  })
+
+  it('T-ACTION-brace-01: a boost on the brace turn still grants movement', () => {
+    cc().Brace()
+    cc().EndRound(undefined)
+
+    expect(cc().RunAction('act_boost')).toBe(true)
+    expect(cc().CanActivate('move')).toBe(true)
+  })
+
+  it('T-ACTION-brace-01: the brace limits end with that turn', () => {
+    cc().Brace()
+    cc().EndRound(undefined)
+    cc().EndRound(undefined)
+
+    expect(cc().HasCustomStatus('Brace Cooldown')).toBe(false)
+    expect(cc().CanActivate('full')).toBe(true)
+    expect(cc().CanActivate('free')).toBe(true)
+    expect(cc().CanActivate('move')).toBe(true)
+    expect(cc().CanActivate('reaction')).toBe(true)
+  })
+
   it('T-ACTION-overwatch-01: overwatch skirmishes with the triggering weapon and spends the reaction', () => {
     const rifle = { Tags: [{ ID: 'tg_ap' }] }
     const ordnance = { Tags: [{ ID: 'tg_ordnance' }] }

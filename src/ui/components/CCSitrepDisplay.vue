@@ -46,7 +46,7 @@
       class="mt-1"
     >
       <div class="text-caption">
-        <b class="text-accent">{{ $t('gm.fields.extraction') }}</b>
+        <b class="text-accent">{{ $t('common.extraction') }}</b>
       </div>
       <v-divider style="width: 150px" />
       {{ sitrep.Extraction }}

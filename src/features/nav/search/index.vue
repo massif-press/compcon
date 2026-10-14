@@ -38,7 +38,7 @@
     >
       <v-text-field
         v-model="search"
-        :label="$t('nav.search.search')"
+        :label="$t('common.search')"
         prepend-inner-icon="mdi-magnify"
         outlined
         hide-details

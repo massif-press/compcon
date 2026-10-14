@@ -21,7 +21,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  const headers = ref([{ title: 'Name', key: 'Name' }])
+  const headers = ref([{ title: t('common.name'), key: 'Name' }])
 
   const options = ref({
     views: ['list', 'table'],

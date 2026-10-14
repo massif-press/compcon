@@ -166,6 +166,7 @@ class StatusController {
 
   public SetResistance(type: string, condition?: string, thisActor = false): void {
     condition = condition?.toLowerCase() || 'off'
+    if (condition === 'vulnerability') condition = 'vulnerable'
     const target = thisActor ? this : this._active.StatusController
 
     const existingIndex = target.Resistances.findIndex(s => s.type === type)

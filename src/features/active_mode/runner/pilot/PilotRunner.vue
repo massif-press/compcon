@@ -16,6 +16,18 @@
     class="cc-fill cc-fill-root"
   >
     <div
+      v-if="!mobile"
+      class="bg-surface border-s-sm no-print"
+      :style="`width: ${showRight ? 256 : 56}px`"
+      style="
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: var(--cc-app-offset, 41px);
+        transition: width 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      "
+    />
+    <div
       class="cc-fill"
       style="overflow: hidden"
     >
@@ -24,6 +36,9 @@
           tabindex="0"
           style="overflow-y: auto"
         >
+          <runner-undo-bar>
+            {{ pilot.Callsign }}
+          </runner-undo-bar>
           <v-container fluid>
             <div>
               <div v-if="panel && sheet">
@@ -43,13 +58,19 @@
                 dense
                 justify="end"
               >
-                <v-col cols="auto">
+                <v-col
+                  v-if="sheet.PlayMode !== 'simple'"
+                  cols="auto"
+                >
                   <actor-telemetry
                     :actor="pilot"
                     :encounter-instance="encounterInstance"
                   />
                 </v-col>
-                <v-col cols="auto">
+                <v-col
+                  v-if="sheet.PlayMode !== 'simple'"
+                  cols="auto"
+                >
                   <actor-logs
                     :actor="pilot"
                     :encounter-instance="encounterInstance"
@@ -86,6 +107,7 @@
             :selected="panel"
             :combatant="combatant"
             @select-panel="selectPanel"
+            @open-turn-wizard="wizardDialog = true"
             @open-dice-roller="diceDialog = true"
             @open-table-index="tableDialog = true"
           />
@@ -103,6 +125,7 @@
             :selected="panel"
             :combatant="combatant"
             @select-panel="selectPanel"
+            @open-turn-wizard="wizardDialog = true"
             @open-dice-roller="diceDialog = true"
             @open-table-index="tableDialog = true"
           />
@@ -119,7 +142,10 @@
             no-gutters
           >
             <v-col>
-              <pc-end-round :sheet="sheet" />
+              <pc-end-round
+                v-model="endRoundDialog"
+                :sheet="sheet"
+              />
             </v-col>
             <v-col>
               <pc-end-encounter :sheet="sheet" />
@@ -137,6 +163,7 @@
     >
       <gm-dice-roller
         :encounter-instance="encounterInstance"
+        :check="pendingCheck"
         :selected="combatant"
         @close="diceDialog = false"
       />
@@ -154,6 +181,13 @@
       />
     </v-dialog>
 
+    <turn-wizard
+      v-model="wizardDialog"
+      pc
+      :encounter-instance="encounterInstance"
+      @complete-turn="endRoundDialog = true"
+    />
+
     <runner-leave-dialog
       v-model="leaveDialog"
       @save="handleLeave('save')"
@@ -164,7 +198,7 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { ref, computed, provide, watch, watchEffect } from 'vue'
   import { useDisplay } from 'vuetify'
   import { useRoute, onBeforeRouteLeave } from 'vue-router'
   import { PilotSheetStore } from '@/stores'
@@ -176,6 +210,7 @@
   import RollableTableIndex from '../gm/_components/RollableTableIndex.vue'
   import GmDiceRoller from '../gm/_components/GmDiceRoller.vue'
   import { Pilot } from '@/classes/pilot/Pilot'
+  import { CloudTransferController } from '@/classes/components/cloud/CloudTransferController'
   import GmToolPalette from '../gm/_components/GmToolPalette.vue'
   import PcPanel from '../gm/EncounterPanels/PcPanel.vue'
   import NotesPanel from './_components/PcNotesPanel.vue'
@@ -185,7 +220,17 @@
   import PcEndEncounter from './_components/PcEndEncounter.vue'
   import RunnerLeaveDialog from '../_shared/_RunnerLeaveDialog.vue'
   import { consumeLeaveGuardBypass } from '../_shared/useRunnerOptions'
+  import { provideRollCheck } from '../gm/EncounterPanels/encounterContext'
+  import { useRunnerUndo } from '../_shared/useRunnerUndo'
+  import RunnerUndoBar from '../_shared/_RunnerUndoBar.vue'
+  import TurnWizard from '../_shared/TurnWizard.vue'
+  import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import CcPanelToggle from '@/ui/components/buttons/CCPanelToggle.vue'
+  import {
+    LayoutModeKey,
+    LayoutTargetKey,
+    seedActiveSettings,
+  } from '@/features/active_mode/layoutOptions'
 
   const panelMap: Record<string, any> = {
     pc: PcPanel,
@@ -204,6 +249,9 @@
   const showRight = ref(false)
   const panel = ref('pc')
   const diceDialog = ref(false)
+  const pendingCheck = provideRollCheck(diceDialog)
+  const wizardDialog = ref(false)
+  const endRoundDialog = ref(false)
   const tableDialog = ref(false)
   const leaveDialog = ref(false)
   let resolveLeaveDialog: ((value: string) => void) | null = null
@@ -214,6 +262,29 @@
     )
   )
   const sheetID = computed(() => (sheet.value ? sheet.value.ID : 0))
+  watchEffect(onCleanup => {
+    const id = sheet.value?.ID
+    if (!id) return
+    CloudTransferController.OpenItems.add(id)
+    onCleanup(() => CloudTransferController.OpenItems.delete(id))
+  })
+  provide(
+    LayoutModeKey,
+    computed(() => sheet.value?.PlayMode ?? 'full')
+  )
+  provide(LayoutTargetKey, sheet)
+  const { recacheUndoBaseline } = useRunnerUndo(sheet, data =>
+    PilotSheetStore().ReplaceSheet(PilotSheet.Deserialize(data))
+  )
+  watch(
+    sheetID,
+    id => {
+      if (!id) return
+      seedActiveSettings(sheet.value!)
+      recacheUndoBaseline()
+    },
+    { immediate: true }
+  )
   const combatant = computed(() => sheet.value!.Combatant)
   const pilot = computed(() => sheet.value!.Combatant.actor as Pilot)
   const encounterInstance = computed(() => sheet.value!.EncounterInstance)

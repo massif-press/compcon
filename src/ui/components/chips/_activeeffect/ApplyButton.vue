@@ -74,7 +74,7 @@
               <v-list-item
                 class="bg-action--free"
                 :disabled="mandatoryRemaining"
-                :title="$t('ui.titles.activateFreeAction')"
+                :title="$t('common.activateFreeAction')"
                 @click="stage(true)"
               >
                 <template
@@ -92,7 +92,7 @@
               </v-list-item>
               <v-divider class="my-2" />
               <v-list-item
-                :title="$t('ui.titles.resetAllInputs')"
+                :title="$t('ui.chips.resetAllInputs')"
                 @click="$emit('reset', false)"
               >
                 <template #prepend>
@@ -160,7 +160,7 @@
               tile
             >
               <v-list-item
-                :title="$t('ui.titles.resetAllInputs')"
+                :title="$t('ui.chips.resetAllInputs')"
                 @click="$emit('reset', false)"
               >
                 <template #prepend>
@@ -184,7 +184,7 @@
             v-if="confirmedKills"
             style="max-width: 220px"
           >
-            {{ $t('ui.combat.confirmKillHint', { n: confirmedKills }) }}
+            {{ $t('ui.combat.confirmKillHint', { n: confirmedKills }, confirmedKills) }}
           </div>
           <div v-if="isApplied">{{ $t('ui.combat.alreadyActivated') }}</div>
           <div v-if="noAction">{{ $t('ui.combat.insufficientActionsShort') }}</div>

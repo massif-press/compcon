@@ -3,7 +3,7 @@
     <section-header :title="$t('common.licenses')">
       <cc-dialog
         ref="licenseSelector"
-        :title="$t('pm.titles.setPilotLicenses')"
+        :title="$t('pm.pilotSheet.setPilotLicenses')"
         icon="cc:frame"
         fullscreen
         :close-on-click="false"
@@ -17,7 +17,12 @@
             :highlight="!pilot.LicenseController.HasLicenses"
             :current="pilot.LicenseController.CurrentLicensePoints"
             :max="pilot.LicenseController.MaxLicensePoints"
-            :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotLicensesPoints', {
+                current: pilot.LicenseController.CurrentLicensePoints,
+                max: pilot.LicenseController.MaxLicensePoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

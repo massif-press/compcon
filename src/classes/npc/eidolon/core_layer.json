@@ -1,6 +1,7 @@
 {
   "id": "el_core",
   "name": "Core",
+  "stats": { "hp": 1, "size": 0.5 },
   "rules": "The Eidolon’s core has no shards. Any shards on the field when this layer is revealed are immediately vaporized, destroyed in the blink of an eye. Once the core is destroyed, the Eidolon is defeated.",
   "features": [
     {
@@ -8,19 +9,7 @@
       "name": "Pulsing Core",
       "origin": "el_core",
       "type": "Trait",
-      "effect": "This layer is Size 1/2 and has 1 HP.",
-      "bonuses": [
-        {
-          "id": "size",
-          "val": 0.5,
-          "overwrite": true
-        },
-        {
-          "id": "hp",
-          "val": 1,
-          "overwrite": true
-        }
-      ]
+      "effect": "This layer is Size 1/2 and has 1 HP."
     },
     {
       "id": "el_core_anticausal_thought",
@@ -31,6 +20,11 @@
       "weapon_type": "Superheavy Memetic",
       "attack_bonus": [2, 4, 6],
       "accuracy": 2,
+      "tags": [
+        {
+          "id": "tg_ap"
+        }
+      ],
       "damage": [
         {
           "type": "Energy",

@@ -3,7 +3,7 @@
     ref="importer"
     import-type="pilot"
     block-btn
-    :title="$t('active.titles.addFromShareCode')"
+    :title="$t('ui.shared.addFromShareCode')"
     :user-id="userId"
     :remote-items="remoteItems"
     @set-query-result="queryResult = $event"
@@ -17,7 +17,7 @@
         class="mb-1 mt-4 text-left"
         block
         :loading="dlLoading"
-        :tooltip="$t('active.tooltips.thisWillAddACopy')"
+        :tooltip="$t('active.gm.addPilotCopyNotice')"
         @click="addToEncounter"
       >
         {{ $t('active.roster.addToEncounter') }}

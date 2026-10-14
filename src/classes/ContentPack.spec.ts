@@ -76,6 +76,13 @@ describe('ContentPack contents', () => {
     expect(p.Statuses.map(s => s.Name)).toEqual(['Wired'])
   })
 
+  it('drops a core layer stored by an older import', async () => {
+    const layer = (id: string) => ({ id, name: 'Test Layer', features: [] })
+    const p = await pack({ 'eidolon_layers.json': [layer('el_test'), layer('el_core')] })
+
+    expect(p.EidolonLayers.map(l => l.ID)).toEqual(['el_test'])
+  })
+
   it('leaves every other collection empty', async () => {
     const p = await pack()
 

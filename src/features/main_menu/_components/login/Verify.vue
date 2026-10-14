@@ -75,7 +75,7 @@
           >
             <v-text-field
               v-model="verify"
-              :label="$t('mainMenu.fields.verificationCode')"
+              :label="$t('mainMenu.shared.verificationCode')"
               density="compact"
               variant="outlined"
               class="my-1"
@@ -114,7 +114,7 @@
         prominent
         icon="mdi-alert"
         closeable
-        title="error"
+        :title="$t('common.error')"
       >
         <div v-html-safe="error" />
       </cc-alert>

@@ -7,7 +7,7 @@
   >
     <cc-title offset>{{ $t('pm.new.newPilotRegistration') }}</cc-title>
     <div class="heading h2">
-      {{ $t('pm.new.uadIDENTService') }}
+      {{ $t('pm.new.identServiceName') }}
       <cc-slashes />
       {{ $t('pm.new.rm4PersonnelPilotC') }}
     </div>
@@ -15,7 +15,7 @@
       class="flavor-text"
       style="font-size: 14px"
     >
-      {{ $t('pm.new.welcomeToTheUnionAdministrativeDepartment') }}
+      {{ $t('pm.new.identWelcome') }}
     </p>
     <v-alert
       color="accent"
@@ -35,7 +35,7 @@
         {{ $t('pm.new.glyphMustBePopulated') }}
       </div>
       <p class="text-cc-overline">
-        {{ $t('pm.new.bySubmittingThisFormYouAttest') }}
+        {{ $t('pm.new.attestation') }}
       </p>
     </v-alert>
 
@@ -50,13 +50,13 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm401FULLNAMEOR') }}
+            {{ $t('pm.new.formFieldName') }}
           </div>
           <div
             v-else
             class="text-caption"
           >
-            {{ $t('pm.new.pilotNAME') }}
+            {{ $t('pm.new.pilotName') }}
           </div>
           <cc-text-field
             v-model="pilot.Name"
@@ -71,7 +71,7 @@
                 icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
-                :tooltip="$t('pm.tooltips.generateRandomName')"
+                :tooltip="$t('pm.shared.generateRandomName')"
                 @click="randomName()"
               />
             </template>
@@ -83,7 +83,7 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm402APPROVEDCALLSIGNOR') }}
+            {{ $t('pm.new.formFieldCallsign') }}
           </div>
           <div
             v-else
@@ -104,7 +104,7 @@
                 icon="mdi-dice-multiple"
                 variant="outlined"
                 size="small"
-                :tooltip="$t('pm.tooltips.generateRandomCallsign')"
+                :tooltip="$t('pm.identificationPage.generateRandomCallsign')"
                 @click="randomCallsign()"
               />
             </template>
@@ -116,7 +116,7 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm403PRIOROCCUPATIONOR') }}
+            {{ $t('pm.new.formFieldBackground') }}
           </div>
           <div
             v-else
@@ -133,7 +133,7 @@
             class="my-1 d-inline"
           >
             <template #extra>
-              <v-tooltip :text="$t('pm.tooltips.selectPredefinedBackground')">
+              <v-tooltip :text="$t('pm.identificationPage.selectPredefinedBackground')">
                 <template #activator="{ props }">
                   <span v-bind="props">
                     <background-selector
@@ -151,7 +151,7 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm404ATTACHEDBIOGRAPHICALDOSSIER') }}
+            {{ $t('pm.new.formFieldBiography') }}
           </div>
           <div
             v-else
@@ -205,7 +205,7 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm405ATTACHEDOHMHEALTH') }}
+            {{ $t('pm.new.formFieldHealthResults') }}
           </div>
           <div
             v-else
@@ -225,10 +225,10 @@
                 @click="appearanceDialog = true"
               >
                 <div v-if="!pilot.TextAppearance">{{ $t('pm.new.addPilotDescription') }}</div>
-                <div v-else>{{ $t('pm.titles.editPilotDescription') }}</div>
+                <div v-else>{{ $t('pm.identificationPage.editPilotDescription') }}</div>
                 <CCTextEditorDialog
                   v-model="appearanceDialog"
-                  :title="$t('pm.titles.editPilotDescription')"
+                  :title="$t('pm.identificationPage.editPilotDescription')"
                   :original="pilot.TextAppearance"
                   @save="$emit('set', { attr: 'TextAppearance', val: $event })"
                 />
@@ -259,7 +259,7 @@
             v-if="!mobile"
             class="text-caption"
           >
-            {{ $t('pm.new.rm4EXTERNALLICENSEDATATRANSFER') }}
+            {{ $t('pm.new.formFieldLicenseTransfer') }}
           </div>
           <div
             v-else
@@ -270,11 +270,11 @@
           <cc-number-field
             v-model.number="pilot.Level"
             type="number"
-            :label="$t('pm.fields.startingLicenseLevel')"
+            :label="$t('pm.identificationPage.startingLicenseLevel')"
             :max="12"
             :min="0"
             :color="pilot.Level ? 'warning' : 'success'"
-            :tooltip="$t('pm.tooltips.startThisPilotAtA')"
+            :tooltip="$t('pm.identificationPage.startAtLevelHint')"
             tooltip-icon="mdi-alert"
             class="my-1 d-inline"
           />
@@ -290,8 +290,8 @@
           v-if="!mobile"
           class="text-caption"
         >
-          {{ $t('pm.new.rm406ATTACHEDOHMIMAGING') }}
-          <div class="mt-n1 text-disabled">{{ $t('pm.new.mustINCLUDERETINALDATA') }}</div>
+          {{ $t('pm.new.formFieldPortrait') }}
+          <div class="mt-n1 text-disabled">{{ $t('pm.new.portraitRetinalNote') }}</div>
         </div>
         <div
           class="border mr-8 ml-auto mr-auto"

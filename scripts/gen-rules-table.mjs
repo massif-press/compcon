@@ -25,6 +25,7 @@ const CATEGORIES = [
   ['ACTOR', 'Actors'],
   ['NPC', 'NPCs'],
   ['MOVE', 'Movement and cover'],
+  ['EIDOLON', 'Eidolons'],
 ]
 
 const ENGINE = [

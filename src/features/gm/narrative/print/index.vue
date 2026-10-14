@@ -17,7 +17,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        :label="$t('gm.fields.items')"
+        :label="$t('common.items')"
         class="mx-3"
         clearable
       >

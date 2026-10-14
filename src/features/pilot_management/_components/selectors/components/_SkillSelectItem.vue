@@ -16,7 +16,7 @@
       <span class="px-2">
         <v-tooltip
           location="top"
-          :text="$t('pm.tooltips.increaseSkillBonus')"
+          :text="$t('pm.selectors.increaseSkillBonus')"
         >
           <template #activator="{ props }">
             <cc-button
@@ -38,7 +38,7 @@
       <span class="px-2">
         <v-tooltip
           location="top"
-          :text="$t('pm.tooltips.decreaseSkillBonus')"
+          :text="$t('pm.selectors.decreaseSkillBonus')"
         >
           <template #activator="{ props }">
             <cc-button

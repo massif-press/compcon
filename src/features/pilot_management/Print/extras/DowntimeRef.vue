@@ -4,7 +4,7 @@
       class="text-overline text-primary"
       style="line-height: 15px"
     >
-      {{ $t('pm.print.downtimeREFERENCE') }}
+      {{ $t('pm.print.downtimeReference') }}
     </div>
 
     <v-row dense>

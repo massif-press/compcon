@@ -28,7 +28,7 @@
             density="compact"
           >
             <v-tab>{{ $t('gm.encounterContent.map') }}</v-tab>
-            <v-tab>{{ $t('gm.titles.image') }}</v-tab>
+            <v-tab>{{ $t('gm.campaigns.image') }}</v-tab>
           </v-tabs>
           <v-window v-model="mapTab">
             <v-window-item>

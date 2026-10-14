@@ -60,7 +60,7 @@
               {{
                 b.Status === 'MISSING'
                   ? $t('ui.missing.installedActivated')
-                  : $t('ui.missing.activated')
+                  : $t('common.activated')
               }}
             </template>
           </i18n-t>

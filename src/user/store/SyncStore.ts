@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { CloudController, DbItemMetadata } from '@/classes/components/cloud/CloudController'
+import { forEachPooled } from '@/classes/components/cloud/CloudSyncOrchestrator'
 import type { ICloudSyncable } from '@/classes/components/cloud/ICloudSyncable'
 import { normalizeItemType } from '@/classes/components/cloud/ItemTypeMap'
 import { setSyncTimer as setSyncTimerService } from './SyncService'
@@ -15,6 +16,7 @@ import { EncounterStore } from '@/features/gm/store/encounter_store'
 import { CampaignStore } from '@/features/gm/store/campaign_store'
 import type { SyncableItem } from './CloudDataStore'
 import logger from '../logger'
+import { i18n } from '@/i18n'
 
 export type { SyncableItem }
 
@@ -75,7 +77,7 @@ export const SyncStore = defineStore('sync', {
     SyncItemTypes(): string[] {
       return CloudDataStore().SyncItemTypes
     },
-    AllItemsToSync(): SyncableItem[] {
+    SyncEligibleItems(): SyncableItem[] {
       const cdStore = CloudDataStore()
       const umStore = UserMetadataStore()
       return this.AllSyncableItems.filter(x => {
@@ -89,7 +91,10 @@ export const SyncStore = defineStore('sync', {
           return !!x.CloudController.Metadata?.Updated
         }
         return cdStore.SyncItemTypes.includes(t)
-      }).filter(x => !x.CloudController.isSynced)
+      })
+    },
+    AllItemsToSync(): SyncableItem[] {
+      return this.SyncEligibleItems.filter(x => !x.CloudController.isSynced)
     },
     AllRemoteItemsToSync(): SyncableItem[] {
       const cdStore = CloudDataStore()
@@ -153,65 +158,51 @@ export const SyncStore = defineStore('sync', {
         await umStore.setUserMetadata()
       }
 
-      const items = this.AllItemsToSync
+      const items =
+        overrideTo === 'upload'
+          ? this.SyncEligibleItems.filter(x => !x.IsCloudOnly)
+          : this.AllItemsToSync
       const failures: any[] = []
 
-      if (overrideTo === 'download') {
-        for (const item of items) {
-          try {
-            if (item.IsCloudOnly) {
-              await CloudController.ForceDownload(item)
-            } else {
-              await item.CloudController.syncFromCloud()
-            }
-          } catch (e) {
-            logger.error('AutoSync force-download error:', e)
-            failures.push({ item, error: e })
-          }
+      const pull = async (item: SyncableItem) => {
+        try {
+          if (item.IsCloudOnly) await CloudController.ForceDownload(item)
+          else await item.CloudController.syncFromCloud()
+        } catch (e) {
+          logger.error('AutoSync pull error:', e)
+          failures.push({ item, error: e })
         }
+      }
+      const pullAll = async (list: SyncableItem[]) => {
+        const isGroup = (x: SyncableItem) => normalizeItemType(x.ItemType) === 'pilotgroup'
+        for (const item of list.filter(isGroup)) await pull(item)
+        await forEachPooled(
+          list.filter(x => !isGroup(x)),
+          pull
+        )
+      }
+
+      if (overrideTo === 'download') {
+        await pullAll(items)
       } else if (overrideTo === 'upload') {
-        const localItems = items.filter(x => !x.IsCloudOnly)
         try {
           const batchFailures = await CloudController.BatchUpdateCloud(
-            localItems as unknown as ICloudSyncable[]
+            items as unknown as ICloudSyncable[],
+            true
           )
           failures.push(...batchFailures)
         } catch (e) {
           logger.error('AutoSync force-upload batch error:', e)
-          localItems.forEach(item => failures.push({ item, error: e }))
+          items.forEach(item => failures.push({ item, error: e }))
         }
       } else {
-        const cloudOnly = items.filter(x => x.IsCloudOnly)
+        await pullAll(items.filter(x => x.IsCloudOnly))
+
         const localItems = items.filter(x => !x.IsCloudOnly)
+        const toMerge = localItems.filter(x => x.CloudController.serverVersionChanged)
+        const toUpload = localItems.filter(x => !x.CloudController.serverVersionChanged)
 
-        for (const item of cloudOnly) {
-          try {
-            await CloudController.ForceDownload(item)
-          } catch (e) {
-            logger.error('AutoSync cloud-only download error:', e)
-            failures.push({ item, error: e })
-          }
-        }
-
-        const toMerge: any[] = []
-        const toUpload: any[] = []
-
-        for (const item of localItems) {
-          if (item.CloudController.serverVersionChanged) {
-            toMerge.push(item)
-          } else {
-            toUpload.push(item)
-          }
-        }
-
-        for (const item of toMerge) {
-          try {
-            await item.CloudController.syncFromCloud()
-          } catch (e) {
-            logger.error('AutoSync merge error:', e)
-            failures.push({ item, error: e })
-          }
-        }
+        await pullAll(toMerge)
 
         if (toUpload.length > 0) {
           try {
@@ -227,16 +218,16 @@ export const SyncStore = defineStore('sync', {
       }
 
       const remoteStore = RemoteItemStore()
-      for (const item of this.AllRemoteItems) {
+      await forEachPooled([...this.AllRemoteItems], async item => {
         const code = (item as any).SaveController?.RemoteCode
-        if (code && remoteStore.BrokenRemoteCodes.includes(code)) continue
+        if (code && remoteStore.BrokenRemoteCodes.includes(code)) return
         try {
           await CloudController.UpdateRemote(item)
         } catch (e) {
           logger.error('AutoSync remote update error:', e)
           failures.push({ item, error: e })
         }
-      }
+      })
 
       await CloudDataStore().setMetadataFromDynamo()
 
@@ -246,11 +237,15 @@ export const SyncStore = defineStore('sync', {
       if (items.length > 0) {
         if (failures.length === 0) {
           notifStore.addCloudNotification(
-            `Synced ${items.length} item${items.length !== 1 ? 's' : ''} successfully.`
+            i18n.global.t('notify.account.syncedItems', { n: items.length }, items.length)
           )
         } else if (succeeded > 0) {
           notifStore.addCloudNotification(
-            `Synced ${succeeded} of ${items.length} item${items.length !== 1 ? 's' : ''}. ${failures.length} failed.`,
+            i18n.global.t(
+              'notify.account.syncedPartial',
+              { succeeded, n: items.length, failed: failures.length },
+              items.length
+            ),
             'warning'
           )
         }

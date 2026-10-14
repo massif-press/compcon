@@ -30,7 +30,7 @@
           height="32"
           color="primary"
         >
-          <div class="heading h3 px-4">{{ $t('active.actions.selectIcon') }}</div>
+          <div class="heading h3 px-4">{{ $t('active.runner.selectIcon') }}</div>
           <v-spacer />
           <v-btn
             icon

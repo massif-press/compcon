@@ -17,7 +17,7 @@
         >
           <template #link>
             <a href="https://massif-press.itch.io/no-room-for-a-wallflower-act-1">
-              {{ $t('gm.layerSelector.linkText') }}
+              No Room for a Wallflower
             </a>
           </template>
         </i18n-t>
@@ -38,15 +38,10 @@
     equippable
     @equip="AddLayer($event)"
   >
-    <template #header>
-      <div class="heading h3 text-center text-accent">
-        {{ $t('compendium.categories.mechWeapons') }}
-      </div>
-    </template>
     <template #top>
       <cc-switch
         v-model="allowDupes"
-        :label="$t('gm.fields.allowDuplicates')"
+        :label="$t('gm.npcRoster.allowDuplicates')"
         color="error"
         on-icon="mdi-lock-open"
         off-icon="mdi-lock"
@@ -62,7 +57,7 @@
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
 
-  defineOptions({ name: 'npc-class-selector' })
+  defineOptions({ name: 'eidolon-layer-selector' })
 
   const props = withDefaults(
     defineProps<{
@@ -88,10 +83,10 @@
     initialGroup: 'none',
   })
   const headers = ref([
-    { title: t('gm.titles.contentPack'), key: 'LcpName' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.contentPack'), key: 'LcpName' },
+    { title: t('common.name'), key: 'Name' },
     {
-      title: t('gm.titles.shards'),
+      title: t('common.shards'),
       key: 'ShardCount',
     },
   ])

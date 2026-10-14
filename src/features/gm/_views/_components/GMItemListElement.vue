@@ -6,7 +6,16 @@
     @click="$emit('open')"
   >
     <template #prepend>
-      <v-avatar class="ml-n2 mr-1">
+      <v-icon
+        v-if="dragHandle"
+        class="folder-drag-handle ml-n3 mr-1"
+        icon="mdi-drag"
+        size="18"
+        :aria-label="$t('gm.a11y.dragToReorder')"
+        style="cursor: move; opacity: 0.4"
+        @click.stop
+      />
+      <v-avatar :class="dragHandle ? 'mr-1' : 'ml-n2 mr-1'">
         <v-icon
           v-if="item.NpcClassController?.HasClass"
           size="36"
@@ -31,7 +40,7 @@
         class="text-cc-overline"
       >
         <cc-slashes class="pl-2" />
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+        {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
         {{ item.NpcClassController.Class.Name }}
       </span>
     </template>
@@ -77,6 +86,7 @@
       sorting?: string
       selectedId?: string
       disabled?: boolean
+      dragHandle?: boolean
     }>(),
     {
       grouping: 'None',

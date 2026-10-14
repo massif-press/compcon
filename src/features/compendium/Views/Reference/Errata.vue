@@ -93,7 +93,7 @@
                   href="https://lancer-faq.netlify.app/"
                   target="_blank"
                 >
-                  {{ $t('compendium.reference.lancerFaqSite') }}
+                  lancer-faq.netlify.app/
                 </v-chip>
               </template>
             </i18n-t>

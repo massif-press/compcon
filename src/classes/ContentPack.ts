@@ -30,7 +30,7 @@ import { INpcClassData, NpcClass } from './npc/class/NpcClass'
 import { INpcFeatureData, NpcFeature } from './npc/feature/NpcFeature'
 import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate'
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory'
-import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer'
+import { EidolonLayer, IEidolonLayerData, CORE_LAYER_ID } from './npc/eidolon/EidolonLayer'
 import { DowntimeAction, IDowntimeActionData } from './DowntimeAction'
 import type { IndexItem } from '@/stores/nav'
 import { stampContentKeys } from '@/i18n/contentKeys'
@@ -105,6 +105,30 @@ interface IContentPackData {
   bonusDictionary?: any[]
 }
 
+type PackIssue = {
+  severity: 'error' | 'warning'
+  code: 'loadError' | 'invalidField' | 'unknownValue' | 'notArray'
+  collection: string
+  item: string
+  field?: string
+  detail?: string
+}
+
+function invalidField(collection: string, x: any): string | undefined {
+  if (typeof x?.name !== 'string' || !x.name.trim()) return 'name'
+  if (x.license && typeof x.license !== 'string') return 'license'
+  if (collection === 'frames') {
+    if (x.mechtype !== undefined && !Array.isArray(x.mechtype)) return 'mechtype'
+    if (!x.stats || typeof x.stats !== 'object') return 'stats'
+  }
+  if (collection === 'weapons') {
+    const valid = (d: any) => ['string', 'number'].includes(typeof d?.val) || Array.isArray(d?.val)
+    for (const p of [x, ...(Array.isArray(x.profiles) ? x.profiles : [])])
+      if (Array.isArray(p?.damage) && !p.damage.every(valid)) return 'damage'
+  }
+  return undefined
+}
+
 interface IContentPack {
   id: string
   active: boolean
@@ -125,6 +149,7 @@ class ContentPack {
   private _dependencies!: ContentPackDependency[]
 
   public Key: string
+  public readonly Issues: PackIssue[] = []
 
   constructor(pack: IContentPack) {
     this.Key = crypto.randomUUID()
@@ -147,58 +172,105 @@ class ContentPack {
 
     self._id = id
 
-    self._Tags = self._data.tags?.map(x => new Tag(x, self)) || []
+    const build = <D, T>(collection: string, items: D[] | undefined, make: (x: D) => T): T[] => {
+      if (items === undefined || items === null) return []
+      if (!Array.isArray(items)) {
+        self.Issues.push({ severity: 'error', code: 'notArray', collection, item: '' })
+        return []
+      }
+      return items.flatMap((x: any, i) => {
+        const item = [x?.name, x?.id].find(v => typeof v === 'string' && v) ?? `#${i}`
+        const field = invalidField(collection, x)
+        if (field) {
+          self.Issues.push({ severity: 'error', code: 'invalidField', collection, item, field })
+          return []
+        }
+        try {
+          return [make(x)]
+        } catch (err) {
+          self.Issues.push({
+            severity: 'error',
+            code: 'loadError',
+            collection,
+            item,
+            detail: String(err),
+          })
+          return []
+        }
+      })
+    }
 
-    self._Skills = self._data.skills?.map(x => new Skill(x, self)) || []
+    self._Tags = build('tags', self._data.tags, x => new Tag(x, self))
 
-    self._Manufacturers =
-      self._data.manufacturers?.map(x => {
-        const m = new Manufacturer(x, self)
-        return m
-      }) || []
-    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x, self)) || []
-    self._Statuses = self._data.statuses?.map(x => new Status(x, self)) || []
-    self._CoreBonuses = self._data.coreBonuses?.map(x => new CoreBonus(x, self)) || []
-    self._Frames = self._data.frames?.map(x => new Frame(x, self)) || []
-    self._MechWeapons = self._data.weapons?.map(x => new MechWeapon(x, self)) || []
-    self._MechSystems = self._data.systems?.map(x => new MechSystem(x, self)) || []
-    self._WeaponMods = self._data.mods?.map(x => new WeaponMod(x, self)) || []
-    self._PilotGear =
-      self._data.pilotGear?.map(function (x) {
-        if (x.type?.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData, self)
-        else if (x.type?.toLowerCase() === 'armor')
-          return new PilotArmor(x as IPilotArmorData, self)
-        return new PilotGear(x as IPilotEquipmentData, self)
-      }) || []
-    self._Talents = self._data.talents?.map(x => new Talent(x, self)) || []
+    self._Skills = build('skills', self._data.skills, x => new Skill(x, self))
 
-    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x, self)) || []
+    self._Manufacturers = build(
+      'manufacturers',
+      self._data.manufacturers,
+      x => new Manufacturer(x, self)
+    )
+    self._Backgrounds = build('backgrounds', self._data.backgrounds, x => new Background(x, self))
+    self._Statuses = build('statuses', self._data.statuses, x => new Status(x, self))
+    self._CoreBonuses = build('coreBonuses', self._data.coreBonuses, x => new CoreBonus(x, self))
+    self._Frames = build('frames', self._data.frames, x => new Frame(x, self))
+    self._MechWeapons = build('weapons', self._data.weapons, x => new MechWeapon(x, self))
+    self._MechSystems = build('systems', self._data.systems, x => new MechSystem(x, self))
+    self._WeaponMods = build('mods', self._data.mods, x => new WeaponMod(x, self))
+    self._PilotGear = build('pilotGear', self._data.pilotGear, x => {
+      if (x.type?.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData, self)
+      else if (x.type?.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData, self)
+      return new PilotGear(x as IPilotEquipmentData, self)
+    })
+    self._Talents = build('talents', self._data.talents, x => new Talent(x, self))
 
-    self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x, self)) || []
+    self._NpcClasses = build('npcClasses', self._data.npcClasses, x => new NpcClass(x, self))
 
-    self._NpcFeatures = self._data.npcFeatures?.map(x => NpcFeatureFactory.Build(x, self)) || []
+    self._NpcTemplates = build(
+      'npcTemplates',
+      self._data.npcTemplates,
+      x => new NpcTemplate(x, self)
+    )
 
-    self._PlayerActions = self._data.actions?.map(
+    self._NpcFeatures = build('npcFeatures', self._data.npcFeatures, x =>
+      NpcFeatureFactory.Build(x, self)
+    )
+
+    self._PlayerActions = build(
+      'actions',
+      self._data.actions,
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     )
 
-    self._EidolonLayers = self._data.eidolonLayers?.map(x => new EidolonLayer(x, self)) || []
+    const layers = self._data.eidolonLayers
+    self._EidolonLayers = build(
+      'eidolonLayers',
+      Array.isArray(layers) ? layers.filter(x => x?.id !== CORE_LAYER_ID) : layers,
+      x => new EidolonLayer(x, self)
+    )
 
-    self._Environments = self._data.environments?.map(x => new Environment(x, self)) || []
+    self._Environments = build(
+      'environments',
+      self._data.environments,
+      x => new Environment(x, self)
+    )
 
-    self._Sitreps = self._data.sitreps?.map(x => new Sitrep(x, self)) || []
+    self._Sitreps = build('sitreps', self._data.sitreps, x => new Sitrep(x, self))
 
     self._Tables = self._data.tables || []
 
     self._Lists = self._data.lists || {}
 
-    self._Bonds = self._data.bonds?.map(x => new Bond(x, self)) || []
+    self._Bonds = build('bonds', self._data.bonds, x => new Bond(x, self))
 
     self._BondPowers = self._data.bondPowers || []
 
-    self._Reserves = self._data.reserves?.map(x => new Reserve(x, self)) || []
+    self._Reserves = build('reserves', self._data.reserves, x => new Reserve(x, self))
 
-    self._DowntimeActions = self._data.downtimeActions?.map(x => new DowntimeAction(x, self)) || []
+    self._DowntimeActions = build(
+      'downtimeActions',
+      self._data.downtimeActions,
+      x => new DowntimeAction(x, self)
+    )
 
     this._syncVisibility()
   }
@@ -464,6 +536,7 @@ class ContentPack {
 
 export { ContentPack }
 export type {
+  PackIssue,
   IContentPack,
   IContentPackManifest,
   IContentPackData,

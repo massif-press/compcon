@@ -104,7 +104,7 @@
                   />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      {{ $t('pm.sheet.heat') }}
+                      {{ $t('enums.damageType.heat') }}
                       <b>{{ mech.HeatCapacity }}</b>
                     </span>
                   </v-col>
@@ -114,7 +114,7 @@
                   />
                   <v-col cols="auto">
                     <span class="text-overline">
-                      {{ $t('pm.sheet.repcap') }}
+                      {{ $t('stats.repCap') }}
                       <b>{{ mech.RepairCapacity }}</b>
                     </span>
                   </v-col>
@@ -156,12 +156,12 @@
                 </v-tooltip>
                 <cc-dialog
                   :close-on-click="false"
-                  :title="$t('pm.titles.deleteMech')"
+                  :title="$t('pm.pilotSheet.deleteMech')"
                   color="error"
                   icon="mdi-delete"
                 >
                   <template #activator="{ open }">
-                    <v-tooltip :text="$t('pm.titles.deleteMech')">
+                    <v-tooltip :text="$t('pm.pilotSheet.deleteMech')">
                       <template #activator="{ props }">
                         <v-btn
                           size="x-small"
@@ -189,11 +189,11 @@
                 </cc-dialog>
                 <cc-dialog
                   :close-on-click="false"
-                  :title="$t('pm.titles.duplicateMech')"
+                  :title="$t('pm.pilotSheet.duplicateMech')"
                   icon="mdi-content-copy"
                 >
                   <template #activator="{ open }">
-                    <v-tooltip :text="$t('pm.titles.duplicateMech')">
+                    <v-tooltip :text="$t('pm.pilotSheet.duplicateMech')">
                       <template #activator="{ props }">
                         <v-btn
                           size="x-small"
@@ -217,7 +217,7 @@
                     @confirm="$emit('copy', mech)"
                   />
                 </cc-dialog>
-                <v-tooltip :text="$t('pm.tooltips.printMechSheet')">
+                <v-tooltip :text="$t('pm.pilotSheet.printMechSheet')">
                   <template #activator="{ props }">
                     <v-btn
                       size="x-small"
@@ -246,6 +246,9 @@
   import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import MechListItemBase from './MechListItemBase.vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
   const router = useRouter()
 
   defineOptions({ name: 'mech-list-item' })
@@ -263,13 +266,13 @@
   const loadoutWeapons = computed(() => {
     const output = [] as string[]
     for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
+      props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon,
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
     )) {
       if (!mount.IsLocked) {
         let str = `<i style="opacity:0.5">${mount.Name}</i>:`
-        if (!mount.Weapons.length) str += ' EMPTY'
+        if (!mount.Weapons.length) str += ` ${t('pm.loadout.empty').toUpperCase()}`
         else {
           mount.Weapons.forEach((w, i) => {
             str += ` ${w.Name}`

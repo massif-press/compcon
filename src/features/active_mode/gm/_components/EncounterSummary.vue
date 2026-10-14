@@ -42,7 +42,7 @@
                 h3
               >
                 <cc-slashes />
-                <span class="text-lowercase">{{ $t('pm.roster.pilots') }}</span>
+                <span class="text-lowercase">{{ $t('common.pilots') }}</span>
               </div>
               <v-divider class="mb-2" />
               <v-row
@@ -150,10 +150,10 @@
                   <div class="heading h3">{{ n.actor.Name }}</div>
                   <div class="text-cc-overline">
                     <span
-                      v-if="n.actor.NpcClassController?.Tier"
+                      v-if="n.actor.Tier"
                       class="pr-1"
                     >
-                      {{ $t('common.tierN', { n: n.actor.NpcClassController?.Tier }) }}
+                      {{ $t('common.tierN', { n: n.actor.Tier }) }}
                     </span>
                     <span
                       v-if="n.actor.NpcClassController?.Class"

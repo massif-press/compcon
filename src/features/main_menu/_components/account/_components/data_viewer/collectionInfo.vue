@@ -23,7 +23,7 @@
           <tr>
             <th>{{ $t('common.name') }}</th>
             <th>{{ $t('common.type') }}</th>
-            <th>{{ $t('active.labels.lastUpdate') }}</th>
+            <th>{{ $t('common.lastUpdate') }}</th>
           </tr>
         </thead>
         <tbody>

@@ -109,7 +109,7 @@
             <span class="text-overline">
               {{ $t('pm.loadout.gmsArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                {{ $t('pm.loadout.pilotMATERIELREGISTRATIONVERIFIED') }}
+                [ {{ $t('pm.loadout.pilotMaterielVerified') }} ]
               </span>
             </span>
             <br />
@@ -121,12 +121,12 @@
               class="flavor-text overline"
               style="display: block"
             >
-              {{ $t('pm.loadout.currentlyEQUIPPED') }}
+              {{ $t('pm.loadout.currentlyEquipped') }}
             </div>
           </div>
           <div v-else>
             <span class="text-cc-overline">
-              {{ $t('pm.loadout.gmsARMORYEQUIPMENTAUTHORIZATIONPILOTPERSONAL') }}
+              {{ $t('pm.loadout.pilotArmorAuthorizationHeading') }}
             </span>
             <br />
             <span
@@ -139,7 +139,7 @@
               class="flavor-text text-cc-overline text-error"
               style="display: block"
             >
-              {{ $t('pm.loadout.materielIDINVALIDORMISSING') }}
+              [ {{ $t('pm.loadout.pilotMaterielInvalid') }} ]
             </span>
           </div>
         </template>
@@ -180,15 +180,15 @@
   const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
   const headers = ref([
-    { title: t('pm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: t('common.type'), key: 'Type' },
     { title: t('common.item'), key: 'Name' },
     { title: t('stats.armor'), key: 'ArmorString' },
     { title: t('common.hpBonus'), key: 'HpString' },
-    { title: t('pm.titles.eDefense'), key: 'EdefString' },
+    { title: t('stats.edefense'), key: 'EdefString' },
     { title: t('stats.evasion'), key: 'EvasionString' },
     { title: t('stats.speed'), key: 'SpeedString' },
-    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
   ])
 
   const options = ref({

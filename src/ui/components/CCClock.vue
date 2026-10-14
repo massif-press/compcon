@@ -97,7 +97,7 @@
             />
           </div>
           <div v-if="clock.Resolution">
-            <div class="text-caption mb-n1">{{ $t('ui.fields.resolution') }}</div>
+            <div class="text-caption mb-n1">{{ $t('common.resolutionOutcome') }}</div>
             <div
               v-html-safe="clock.Resolution"
               class="ml-2"
@@ -150,7 +150,7 @@
 
     <cc-dialog
       v-model="editDialog"
-      :title="$t('ui.titles.clockEditor')"
+      :title="$t('ui.clock.clockEditor')"
       icon="mdi-clock"
       :close-on-click="false"
       major
@@ -194,7 +194,7 @@
             >
               <cc-text-field
                 v-model="clock.Title"
-                :label="$t('ui.fields.title')"
+                :label="$t('common.title')"
                 color="panel"
                 @change="$emit('change')"
               />
@@ -205,7 +205,7 @@
             >
               <cc-text-field
                 v-model.number="clock.Segments"
-                :label="$t('ui.fields.segments')"
+                :label="$t('ui.clock.segments')"
                 type="number"
                 color="panel"
                 @change="$emit('change')"
@@ -214,7 +214,7 @@
             <v-col cols="auto">
               <cc-switch
                 v-model="clock.Linear"
-                :label="$t('ui.fields.linear')"
+                :label="$t('ui.clock.linear')"
                 hide-details
                 @change="$emit('change')"
               />
@@ -223,8 +223,8 @@
               <div>
                 <cc-checkbox
                   v-model="clock.GmOnly"
-                  :label="$t('ui.fields.gmOnly')"
-                  :tooltip="$t('ui.tooltips.markingAFieldOrItem')"
+                  :label="$t('common.gmOnly')"
+                  :tooltip="$t('ui.clock.markingAFieldOrItem')"
                 ></cc-checkbox>
               </div>
             </v-col>
@@ -245,7 +245,7 @@
             color="primary"
             rows="3"
             auto-grow
-            :label="$t('ui.fields.resolution')"
+            :label="$t('common.resolutionOutcome')"
             class="mx-1 my-4"
             @change="$emit('change')"
           />

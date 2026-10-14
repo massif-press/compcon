@@ -82,7 +82,7 @@
                 <cc-img :src="item.PortraitController.Image" />
                 <cc-dialog
                   v-if="!readonly"
-                  :title="$t('gm.titles.selectImage')"
+                  :title="$t('gm.editorBase.selectImage')"
                   :close-on-click="false"
                   major
                   full-height

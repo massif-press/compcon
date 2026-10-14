@@ -227,9 +227,7 @@
   }
 
   function addNpc(rosterItem: any) {
-    const npc = rosterItem.Clone(false)
-    const number =
-      props.encounterInstance.Combatants.filter(c => c.actor.Name === npc.Name).length + 1
+    const npc = props.encounterInstance.AddFromRoster(rosterItem, 'enemy').actor
     npc.CombatController.StatController.applyRegisteredCustomStats()
     npc.FeatureController.BonusController.applyToStats(
       npc.CombatController.StatController,
@@ -237,14 +235,6 @@
     )
     npc.CombatController.ResetForEncounter()
     npc.CombatController.StatController.resetCurrentStats()
-    props.encounterInstance.Combatants.push(
-      makeCombatant(npc, 'unit', {
-        id: crypto.randomUUID(),
-        index: props.encounterInstance.Combatants.length,
-        number,
-        side: 'enemy',
-      })
-    )
     notify({
       type: 'success',
       title: t('common.npcAdded'),

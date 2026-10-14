@@ -13,7 +13,7 @@
               size="large"
               icon="cc:encounter"
             />
-            {{ $t('gm.encounterEditor.editorHeading') }}
+            {{ $t('gm.shared.encounterEditor') }}
           </div>
           <v-spacer />
           <v-btn
@@ -105,7 +105,7 @@
                       :src="item.PortraitController.Image"
                     />
                     <cc-dialog
-                      :title="$t('gm.titles.setMapImage')"
+                      :title="$t('gm.encounterEditor.setMapImage')"
                       :close-on-click="false"
                       major
                       full-height
@@ -194,7 +194,7 @@
                 @click="item.NarrativeController.AddTable()"
               >
                 <v-icon start>mdi-plus</v-icon>
-                {{ $t('active.fields.addTable') }}
+                {{ $t('common.addTable') }}
               </cc-button>
             </v-col>
           </v-row>
@@ -222,7 +222,7 @@
           start
           icon="mdi-printer"
         />
-        {{ $t('common.print') }}
+        {{ $t('common.printAction') }}
       </cc-button>
       <cc-button
         size="small"
@@ -234,7 +234,7 @@
           start
           icon="mdi-upload"
         />
-        {{ $t('common.export') }}
+        {{ $t('common.exportAction') }}
       </cc-button>
       <v-spacer />
       <cc-dialog
@@ -283,7 +283,7 @@
           </cc-button>
         </template>
         <cc-confirmation
-          :content="$t('gm.tooltips.convertingThisItemToLocalData')"
+          :content="$t('gm.shared.convertToLocalWarning')"
           @confirm="convert()"
         />
       </v-menu>
@@ -297,7 +297,7 @@
             v-bind="props"
           >
             <v-icon start>mdi-cloud-sync</v-icon>
-            {{ $t('common.update') }}
+            {{ $t('common.updateAction') }}
           </cc-button>
         </template>
         {{
@@ -328,11 +328,11 @@
               start
               icon="mdi-content-copy"
             />
-            {{ $t('common.duplicate') }}
+            {{ $t('common.duplicateAction') }}
           </cc-button>
         </template>
         <cc-confirmation
-          :content="$t('gm.tooltips.confirmDuplicationOfThisNpc')"
+          :content="$t('gm.shared.confirmDuplicationOfThisNpc')"
           @confirm="dupe()"
         />
       </v-menu>
@@ -360,7 +360,7 @@
           </cc-button>
         </template>
         <cc-confirmation
-          :content="$t('gm.tooltips.thisWillDeleteThisEncounterFrom')"
+          :content="$t('gm.encounterEditor.deleteEncounterConfirm')"
           @confirm="deleteItem()"
         />
       </v-menu>

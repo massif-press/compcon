@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import console from 'node:console'
 import process from 'node:process'
 
-const DYNAMIC_NAMESPACES = ['nav.', 'language.components.', 'enums.']
+const DYNAMIC_NAMESPACES = ['nav.', 'language.components.', 'enums.', 'bonuses.']
 
 const selectorCodes = [
   ...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g),
@@ -35,7 +35,7 @@ const LITERAL_ATTRS = [
   'aria-label',
   'description',
 ]
-const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username', 'N/A', 'HP', 'E-DEF', 'E-DEFENSE'])
+const LITERAL_ALLOW = new Set(['CC-ID', 'CC-username'])
 const LITERAL_SKIP_FILES = [
   'src/features/ui_test/',
   'src/ui/components/print/CombatRef.vue',
@@ -73,7 +73,6 @@ const boundLiterals = []
 for (const file of collectVue('src')) {
   if (LITERAL_SKIP_FILES.some(s => file.replace(/\\/g, '/').includes(s))) continue
   const src = readFileSync(file, 'utf8')
-  // honor a document-wide disable of the rule this check mirrors
   if (/<!--\s*eslint-disable\s+(?:[^>]*\s)?@intlify\/vue-i18n\/no-raw-text/.test(src)) continue
   const tEnd = src.indexOf('<script')
   const tmpl = tEnd === -1 ? src : src.slice(0, tEnd)
@@ -154,26 +153,59 @@ const unused = (report.unusedKeys ?? []).filter(
   k => !DYNAMIC_NAMESPACES.some(ns => k.path.startsWith(ns)) && !linkTargets.has(k.path)
 )
 
-const SHARED_NAMESPACES = ['common', 'stats', 'notify', 'classes']
-
-const canonByValue = new Map()
+const homographCfg = JSON.parse(readFileSync('./scripts/i18n-homographs.json', 'utf8'))
+const runtimeKey = k => homographCfg.dynamicPrefixes.some(p => k.startsWith(p))
+const homographs = new Set(Object.keys(homographCfg.homographs).map(v => v.toLowerCase()))
+const byValue = new Map()
 for (const [k, v] of Object.entries(flat)) {
-  if (SHARED_NAMESPACES.includes(k.split('.')[0])) canonByValue.set(v, k)
+  const norm = v.trim().toLowerCase()
+  if (!norm || runtimeKey(k) || homographs.has(norm)) continue
+  if (!byValue.has(norm)) byValue.set(norm, [])
+  byValue.get(norm).push(k)
 }
-const redeclared = []
-for (const [k, v] of Object.entries(flat)) {
-  const top = k.split('.')[0]
-  if (SHARED_NAMESPACES.includes(top) || DYNAMIC_NAMESPACES.some(ns => `${top}.`.startsWith(ns)))
-    continue
-  if (canonByValue.has(v)) redeclared.push({ path: k, canonical: canonByValue.get(v), value: v })
-}
-if (redeclared.length) {
-  console.log(
-    `\ni18n: ${redeclared.length} keys redeclare a value that already has a shared canonical:`
+const dupes = [...byValue].filter(([, ks]) => ks.length > 1)
+if (dupes.length) {
+  console.error(`\ni18n: ${dupes.length} value(s) declared by more than one key:`)
+  for (const [, ks] of dupes)
+    console.error(`  - ${ks.map(k => `${k} (${JSON.stringify(flat[k])})`).join(', ')}`)
+  console.error(
+    'Merge them (scripts/rename-locale-keys.mjs), or list a true homograph in scripts/i18n-homographs.json.'
   )
-  for (const r of redeclared)
-    console.log(`  - ${r.path}  ->  ${r.canonical}  (${JSON.stringify(r.value)})`)
-  console.log('repoint call sites to the canonical unless this is variable context.')
+  process.exit(1)
+}
+
+const roleKeys = Object.keys(flat).filter(k =>
+  /^[^.]+\.(titles|fields|tooltips|labels|subtitles|actions)\./.test(k)
+)
+if (roleKeys.length) {
+  console.error(
+    `\ni18n: ${roleKeys.length} key(s) in a role bucket (name them <feature>.<surface>.<purpose>):`
+  )
+  for (const k of roleKeys) console.error(`  - ${k}`)
+  process.exit(1)
+}
+
+const DIEGETIC_VALUE =
+  /^[A-Za-z]{1,4}-[\dA-Za-z]+(?:-[\dA-Za-zδ]+)*(?:\/\/| \/\/ )|:\/\/|^MV-2\/\/|\{callsign\} \/\/ \{name\}|\{name\} \/\/ \{callsign\}|^\/\/ Process interrupt|^Warning \/\/ /
+const FRAMED_VALUE = /^\s*\/\/|\/\/\s*$|^\s*\[.*\]\s*$|^".*"$|^[,-]\s/
+const framed = Object.entries(flat).filter(
+  ([, v]) => FRAMED_VALUE.test(v.replace(/https?:\/\//g, '')) && !DIEGETIC_VALUE.test(v)
+)
+if (framed.length) {
+  console.error(
+    `\ni18n: ${framed.length} value(s) carry presentation framing (move it to the template):`
+  )
+  for (const [k, v] of framed) console.error(`  - ${k}  (${JSON.stringify(v)})`)
+  process.exit(1)
+}
+
+const badKeys = Object.keys(flat).filter(
+  k => /[A-Z]{3,}/.test(k.split('.').pop()) || (/\D\d$/.test(k) && k.slice(0, -1) in flat)
+)
+if (badKeys.length) {
+  console.error(`\ni18n: ${badKeys.length} key(s) with an ALLCAPS run or a collision digit suffix:`)
+  for (const k of badKeys) console.error(`  - ${k}`)
+  process.exit(1)
 }
 
 if (unused.length) {

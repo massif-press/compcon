@@ -1,18 +1,31 @@
 <template>
-  <base-actions-panel
-    :quick-actions="quickNpcActions"
-    :full-actions="fullNpcActions"
+  <action-palette
+    :controller="controller"
+    :actor="owner.actor"
+    :ids="ids"
+    :weapon-actions="wizard && !simple"
     @deploy="$emit('deploy', $event)"
-    @activate="activate($event)"
   >
-    <template #quick-action-btn="{ action }">
+    <template #button="{ action, section, weapon }">
+      <npc-skirmish-button
+        v-if="weapon && action.ID === 'act_skirmish'"
+        :action="action"
+        :preset-weapon="weapon"
+        :label="weaponLabel(action, weapon)"
+      />
+      <npc-barrage-button
+        v-else-if="weapon"
+        :action="action"
+        :preset-weapon="weapon"
+        :label="weaponLabel(action, weapon)"
+      />
       <invade-button
-        v-if="action?.ID === 'act_invade'"
+        v-else-if="action.ID === 'act_invade'"
         :action="action"
         @activate="activate($event)"
       />
       <targeted-action-button
-        v-else-if="action && controller.NeedsTarget(action.ID)"
+        v-else-if="section === 'quick' && controller.NeedsTarget(action.ID)"
         :action="action"
       />
       <basic-action-button
@@ -21,7 +34,7 @@
         @activate="activate($event)"
       />
     </template>
-  </base-actions-panel>
+  </action-palette>
 </template>
 
 <script setup lang="ts">
@@ -30,12 +43,14 @@
   import { notify } from '@/util/notify'
   import { useI18n } from 'vue-i18n'
   const { t } = useI18n()
-  import BaseActionsPanel from './BaseActionsPanel.vue'
+  import ActionPalette from './ActionPalette.vue'
   import BasicActionButton from './loadouts/action_buttons/basicActionButton.vue'
   import InvadeButton from './loadouts/action_buttons/invadeButton.vue'
   import TargetedActionButton from './loadouts/action_buttons/targetedActionButton.vue'
+  import NpcSkirmishButton from './loadouts/action_buttons/npcSkirmishButton.vue'
+  import NpcBarrageButton from './loadouts/action_buttons/npcBarrageButton.vue'
 
-  const { owner } = useEncounterContext()
+  const { owner, simple, wizard } = useEncounterContext()
 
   defineEmits<{ deploy: [event: any] }>()
 
@@ -51,7 +66,19 @@
   ]
   const fullNpcActions = ['act_disengage', 'act_improvised_attack_npc', 'act_stabilize_npc']
 
+  const ids = computed(() => ({
+    quickAttack: simple.value ? ['act_skirmish'] : [],
+    fullAttack: simple.value ? ['act_barrage'] : [],
+    quick: quickNpcActions,
+    full: fullNpcActions,
+    reactions: ['act_overwatch'],
+  }))
+
   const controller = computed(() => owner.value.actor.CombatController)
+
+  function weaponLabel(action: { Name: string }, weapon: { Name: string }) {
+    return t('active.turnWizard.weaponAction', { action: action.Name, weapon: weapon.Name })
+  }
 
   const NOTICES: Record<string, { ok: [string, string]; fail?: [string, string] }> = {
     act_prepare: { ok: ['active.npcActions.npcPreparedTitle', 'active.common.preparedText'] },

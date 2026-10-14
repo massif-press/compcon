@@ -126,7 +126,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.pilotsImported',
+                  'nav.v2Auto.pilotsImported',
                   { count: migrationResult.pilotsImported },
                   migrationResult.pilotsImported
                 )
@@ -143,7 +143,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.pilotsPending',
+                  'nav.v2Auto.pilotsPending',
                   { count: migrationResult.pilotsBackedUp },
                   migrationResult.pilotsBackedUp
                 )
@@ -160,7 +160,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.npcsImported',
+                  'nav.v2Auto.npcsImported',
                   { count: migrationResult.npcsImported },
                   migrationResult.npcsImported
                 )
@@ -177,7 +177,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.npcsPending',
+                  'nav.v2Auto.npcsPending',
                   { count: migrationResult.npcsBackedUp },
                   migrationResult.npcsBackedUp
                 )
@@ -211,7 +211,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.encountersPending',
+                  'nav.v2Auto.encountersPending',
                   { count: migrationResult.encountersBackedUp },
                   migrationResult.encountersBackedUp
                 )
@@ -228,7 +228,7 @@
               />
               {{
                 $t(
-                  'mainMenu.migration.lcpsImported',
+                  'nav.v2Auto.lcpsImported',
                   { count: migrationResult.lcpsImported },
                   migrationResult.lcpsImported
                 )
@@ -254,7 +254,7 @@
                 <v-expansion-panel-title class="text-error">
                   {{
                     $t(
-                      'mainMenu.migration.errorsDuringMigration',
+                      'nav.v2Auto.errorsDuringMigration',
                       { count: migrationResult.errors.length },
                       migrationResult.errors.length
                     )
@@ -294,7 +294,7 @@
           :loading="isMigrating"
           @click="debugResetMigration"
         >
-          {{ $t('common.reset') }}
+          {{ $t('common.resetAction') }}
         </cc-button>
         <v-spacer />
         <cc-button
@@ -311,7 +311,7 @@
           :loading="isMigrating"
           @click="dismiss"
         >
-          {{ migrationResult ? $t('common.close') : $t('ui.pwa.later') }}
+          {{ migrationResult ? $t('common.closeAction') : $t('ui.pwa.later') }}
         </cc-button>
       </v-card-actions>
     </cc-panel>

@@ -3,7 +3,7 @@
     <runner-options-header
       :context="sheet"
       :save-key="saveUpdate"
-      autosave-tooltip="Autosave Character Sheet data on the end of every round. Defaults to ON."
+      :autosave-tooltip="$t('active.options.autosaveSheetTooltip')"
       @manual-save="manualSave()"
     />
     <v-divider class="my-2" />
@@ -55,7 +55,7 @@
                 variant="outlined"
                 density="compact"
                 hide-details
-                :placeholder="$t('active.fields.selectCharacterSheetExportFile')"
+                :placeholder="$t('active.runner.selectCharacterSheetExportFile')"
                 prepend-icon="mdi-paperclip"
                 @change="stageImport"
               />

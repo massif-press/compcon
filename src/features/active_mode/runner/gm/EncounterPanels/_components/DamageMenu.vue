@@ -96,7 +96,7 @@
                 {{ $t('active.damageMenu.irreducible') }}
               </v-btn>
               <div class="text-cc-overline text-disabled mt-3">
-                {{ $t('ui.fields.damageType') }}
+                {{ $t('common.damageType') }}
               </div>
               <v-divider />
               <v-row
@@ -173,7 +173,7 @@
                 class="text-center my-1 px-2"
               >
                 <v-col cols="auto">
-                  <v-icon :icon="`cc:${damage.type.toLowerCase()}`" />
+                  <v-icon :icon="resistIcon(damage.type)" />
                 </v-col>
                 <v-col class="text-cc-overline mt-1">
                   {{ damage.type }} {{ damage.condition }}
@@ -320,14 +320,14 @@
       {
         id: 'exposed',
         icon: 'cc:status_exposed',
-        title: t('active.titles.exposed'),
-        description: t('active.subtitles.kineticExplosiveAndHeatDamageDoubled'),
+        title: t('active.damageMenu.exposed'),
+        description: t('active.damageMenu.kineticExplosiveAndHeatDamageDoubled'),
       },
       {
         id: 'shredded',
         icon: 'cc:condition_shredded',
-        title: t('active.titles.shredded'),
-        description: t('active.subtitles.damageIgnoresArmorAndResistance'),
+        title: t('active.damageMenu.shredded'),
+        description: t('active.damageMenu.damageIgnoresArmorAndResistance'),
       },
     ]
 
@@ -363,6 +363,11 @@
     const { type, dmg, ap, irreducible } = damageArgs()
     props.controller.TakeDamage(type, dmg, ap, irreducible, true)
     if (isActive) isActive.value = false
+  }
+  function resistIcon(type) {
+    return CombatController.BRACE_RESIST.includes(type.toLowerCase())
+      ? `cc:${type.toLowerCase()}`
+      : 'mdi-shield-outline'
   }
   function damageClass(damage) {
     if (damage.condition === 'immunity') {

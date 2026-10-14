@@ -32,6 +32,15 @@ export const StatKey = {
 
 export type StatKeyType = (typeof StatKey)[keyof typeof StatKey]
 
+export type CheckType = 'Hull' | 'Agi' | 'Sys' | 'Eng' | 'Grit'
+
+export const CHECK_STAT: Record<string, CheckType> = {
+  hull: 'Hull',
+  agi: 'Agi',
+  sys: 'Sys',
+  eng: 'Eng',
+}
+
 class Stats {
   public static get DefaultStats(): any {
     return {
@@ -173,6 +182,7 @@ class Stats {
     techattack: 'techAttack',
     limitedbonus: 'limitedBonus',
     attackbonus: 'attackBonus',
+    attack: 'attackBonus',
     heatcapacity: 'heatcap',
   }
 

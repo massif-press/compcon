@@ -16,7 +16,7 @@
         chips
         multiple
         variant="outlined"
-        :label="$t('ui.fields.licenseLevel')"
+        :label="$t('common.licenseLevel')"
         :items="[0, 1, 2, 3]"
         @update:model-value="emitFilters()"
       />
@@ -94,7 +94,7 @@
         variant="plain"
         @click="resetSp()"
       >
-        {{ $t('common.reset') }}
+        {{ $t('common.resetAction') }}
       </v-btn>
     </v-col>
   </v-row>

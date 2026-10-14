@@ -57,6 +57,14 @@ export class NpcWeapon extends NpcFeature {
     return this._weapon_type
   }
 
+  public get Attack(): 'melee' | 'ranged' | 'tech' {
+    const type = this.WeaponType.toLowerCase()
+    if (type.includes('tech')) return 'tech'
+    const meleeType = !type || type.includes('melee')
+    const threatOnly = this._range.every(r => r.Type.toLowerCase() === 'threat')
+    return meleeType && threatOnly ? 'melee' : 'ranged'
+  }
+
   public get IsSuperheavy(): boolean {
     return this.WeaponType.toLowerCase().includes('superheavy')
   }
@@ -182,11 +190,7 @@ export class NpcWeapon extends NpcFeature {
       detail: `Attack with ${this.Name}`,
       range: this.Range(actor.Tier, this.getAppliedMods(actor)).map(r => Range.Serialize(r)),
       damage: this.Damage(actor.Tier, this.getAppliedMods(actor)).map(d => Damage.Serialize(d)),
-      attack: this.WeaponType.toLowerCase().includes('ranged')
-        ? 'ranged'
-        : this.WeaponType.toLowerCase().includes('tech')
-          ? 'tech'
-          : 'melee',
+      attack: this.Attack,
       target_defense: this.Tags?.some(t => t.IsSmart) ? 'edef' : undefined,
       can_crit: true,
       accuracy: this.HasAccuracy ? this.Accuracy(actor.Tier) : undefined,

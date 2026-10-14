@@ -1,8 +1,8 @@
 <template>
   <div>
-    <section-header :title="$t('pm.titles.skillTriggers')">
+    <section-header :title="$t('common.skillTriggers')">
       <cc-dialog
-        :title="$t('pm.titles.setPilotSkillTriggers')"
+        :title="$t('pm.pilotSheet.setPilotSkillTriggers')"
         fullscreen
         icon="cc:skill"
         :close-on-click="false"
@@ -16,7 +16,12 @@
             :highlight="!pilot.SkillsController.HasFullSkills"
             :current="pilot.SkillsController.CurrentSkillPoints"
             :max="pilot.SkillsController.MaxSkillPoints"
-            :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
+            :label="
+              $t('pm.pilotSheet.editPilotSkillTriggersPoints', {
+                current: pilot.SkillsController.CurrentSkillPoints,
+                max: pilot.SkillsController.MaxSkillPoints,
+              })
+            "
             @open-selector="open"
           />
         </template>

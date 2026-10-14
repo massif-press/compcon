@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5">
     <section-header
-      :title="$t('pm.titles.equipmentLoadout')"
+      :title="$t('pm.pilotSheet.equipmentLoadout')"
       class="mb-4"
     />
     <CCMechLoadout

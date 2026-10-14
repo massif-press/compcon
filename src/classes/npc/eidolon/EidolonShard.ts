@@ -1,36 +1,45 @@
-import { StatController } from '@/classes/components/combat/stats/StatController'
-import { NpcClassStats } from '../class/NpcClassStats'
+import { INpcClassStats, NpcClassStats } from '../class/NpcClassStats'
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature'
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory'
 import { ContentPack } from '../../ContentPack'
 import { ActivationType, ItemType } from '../../enums'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { StatController } from '@/classes/components/combat/stats/StatController'
+import type { IStatContainer } from '@/classes/components/combat/stats/IStatContainer'
 import { DeployableInstance } from '@/classes/components/feature/deployable/DeployableInstance'
-import { CombatantData } from '@/classes/encounter/Encounter'
+import type { CombatantData } from '@/classes/encounter/Encounter'
+import { localize } from '@/i18n/localize'
+import { i18n } from '@/i18n'
 
 interface IEidolonShardData {
   count: number | string | number[]
   detail: string
-  features: INpcFeatureData[]
-  tier?: number
+  stats?: Partial<INpcClassStats>
+  destroyed_with_layer?: boolean
+  features?: INpcFeatureData[]
 }
 
-const shard_stats = {
+const SHARD_TYPE = 'shard'
+const PER_HOSTILE = 'hostile_characters'
+
+const layer_stats = {
   hull: [1, 2, 3],
   agility: [1, 2, 3],
   systems: [1, 2, 3],
   engineering: [1, 2, 3],
-  hp: [5, 6, 8],
-  armor: [0, 0, 0],
-  size: [0.5, 0.5, 0.5],
-  heatcap: [5, 5, 5],
+  hp: [10, 15, 20],
+  armor: 0,
+  size: 2,
+  heatcap: 10,
   evade: [10, 12, 14],
   edef: [10, 12, 14],
   save: [12, 14, 16],
-  speed: [5, 5, 5],
-  sensor: [20, 20, 20],
-  activations: [1, 1, 1],
+  speed: 5,
+  sensor: 20,
+  activations: 1,
 }
+
+const shard_stats = { ...layer_stats, hp: [5, 6, 8], size: 0.5, heatcap: 5 }
 
 class EidolonShard implements ILcpTracked {
   public readonly ItemType: ItemType = ItemType.EidolonShard
@@ -38,78 +47,73 @@ class EidolonShard implements ILcpTracked {
   public InLcp: boolean = false
 
   public readonly Count: number | number[] | string
-  public readonly Detail: string
+  public readonly DestroyedWithLayer: boolean
+  public readonly Stats: NpcClassStats
   public readonly Features: NpcFeature[] = []
+  private readonly _detail: string
+  private readonly _layerId: string
 
-  public StatController: StatController
-
-  public MandatoryStats: string[] = []
-
-  public _tier: number = 1
-
-  public static EidolonShardBaseStats = shard_stats
-
-  public IsEncounterInstance = false
-
-  public constructor(data: IEidolonShardData, pack?: ContentPack, tier?: number) {
+  public constructor(data: IEidolonShardData, pack?: ContentPack, layerId: string = '') {
     applyLcpTracking(this, pack)
 
     this.Count = data.count
-    this.Detail = data.detail
-    if (data.features) this.Features = data.features.map(f => NpcFeatureFactory.Build(f))
-    this._tier = tier || 1
-
-    this.StatController = new StatController(this as any)
-
-    this.setStats()
+    this.DestroyedWithLayer = !!data.destroyed_with_layer
+    this.Stats = new NpcClassStats({ ...shard_stats, ...data.stats } as INpcClassStats)
+    this._detail = data.detail
+    this._layerId = layerId
+    if (data.features) this.Features = data.features.map(f => NpcFeatureFactory.Build(f, pack))
 
     this.InLcp = true
   }
 
-  private setStats() {
-    const tierStats = {}
-    for (const key in shard_stats) {
-      tierStats[key] = shard_stats[key][this._tier! - 1]
-    }
-
-    this.StatController.setStats(tierStats)
+  public get Detail(): string {
+    return localize(this._layerId, 'shard_detail', this._detail)
   }
 
-  public get Tier(): number {
-    return this._tier
+  public CountLabel(tier?: number): string {
+    if (this.Count === PER_HOSTILE) return i18n.global.t('gm.eidolon.shardsPerHostile')
+    if (!Array.isArray(this.Count)) return String(this.Count)
+    return tier ? String(this.Count[tier - 1]) : this.Count.join('/')
   }
 
-  public set Tier(tier: number) {
-    this._tier = tier
-    this.setStats()
+  public CountFor(tier: number, hostileCount: number): number {
+    if (this.Count === PER_HOSTILE) return hostileCount
+    if (Array.isArray(this.Count)) return this.Count[tier - 1] ?? 0
+    return Number(this.Count) || 0
   }
 
-  public get Stats(): NpcClassStats {
-    return this.StatController.MaxStats
+  public StatBlock(tier: number): IStatContainer {
+    const block = {} as IStatContainer
+    const { sizes, ...stats } = this.Stats.AllStats(tier)
+    block.StatController = new StatController(block, true)
+    block.StatController.setStats({ ...stats, size: sizes })
+    return block
   }
 
-  public get CountString(): string {
-    if (this.Count === 'hostile_characters') return '# of Hostile Mechs'
-    if (Array.isArray(this.Count)) return this.Count.join('/')
-    return this.Count as string
-  }
-
-  public Create(owner: CombatantData, layerName: string): DeployableInstance {
-    const deployableData = {
-      name: `${layerName} Shard`,
-      type: 'shard',
-      detail: this.Detail,
-      activation: ActivationType.None,
-      size: 1,
-      id: `${layerName} Shard`,
-      description: this.Detail,
-    }
-    const deployable = new DeployableInstance(deployableData, owner)
-    deployable.SetStats()
-
-    return deployable
+  public Create(owner: CombatantData, layerName: string, tier: number): DeployableInstance {
+    const stat = (key: string) => this.Stats.Stat(key, tier) as number
+    return new DeployableInstance(
+      {
+        id: `${layerName} Shard`,
+        name: `${layerName} Shard`,
+        type: SHARD_TYPE,
+        detail: this.Detail,
+        description: this.Detail,
+        activation: ActivationType.None,
+        size: stat('sizes'),
+        hp: stat('hp'),
+        armor: stat('armor'),
+        evasion: stat('evasion'),
+        edef: stat('edef'),
+        heatcap: stat('heatcap'),
+        speed: stat('speed'),
+        save: stat('saveTarget'),
+        sensor_range: stat('sensorRange'),
+      },
+      owner
+    )
   }
 }
 
-export { EidolonShard }
+export { EidolonShard, SHARD_TYPE, layer_stats }
 export type { IEidolonShardData }

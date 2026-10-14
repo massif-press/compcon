@@ -1,6 +1,6 @@
 <template>
   <srd-view
-    :title="$t('compendium.titles.lancerBasics')"
+    :title="$t('compendium.reference.lancerBasics')"
     :content="basics"
     :pre-scroll="preScroll"
   />

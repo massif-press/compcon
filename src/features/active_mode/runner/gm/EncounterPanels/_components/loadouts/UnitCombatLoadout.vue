@@ -45,7 +45,10 @@
       </v-tooltip>
     </v-col>
     <v-spacer />
-    <v-col cols="auto">
+    <v-col
+      v-if="!simple"
+      cols="auto"
+    >
       <v-menu
         location="top"
         :close-on-content-click="false"
@@ -111,7 +114,7 @@
                     :disabled="!canRollRecharge"
                     @click="roll"
                   >
-                    {{ result ? $t('active.unitLoadout.reroll') : $t('common.roll_verb') }}
+                    {{ result ? $t('active.unitLoadout.reroll') : $t('common.rollVerb') }}
                   </v-btn>
                 </v-col>
                 <v-col>
@@ -124,7 +127,7 @@
                     :color="result ? 'primary' : ''"
                     @click="applyAndClose(isActive)"
                   >
-                    <span class="text-lowercase">{{ $t('active.tooltips.apply') }}</span>
+                    <span class="text-lowercase">{{ $t('active.runner.apply') }}</span>
                   </v-btn>
                 </v-col>
               </v-row>
@@ -169,7 +172,7 @@
 
   const { smAndDown: mobile } = useDisplay()
 
-  const { encounterInstance } = useEncounterContext()
+  const { encounterInstance, simple } = useEncounterContext()
 
   const props = defineProps<{
     unit: Unit

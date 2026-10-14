@@ -138,7 +138,6 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { makeCombatant } from '@/classes/encounter/Encounter'
   import { computed, ref } from 'vue'
   import { notify } from '@/util/notify'
   import { useI18n } from 'vue-i18n'
@@ -175,19 +174,7 @@
   })
 
   function add(rosterItem) {
-    const doodad = rosterItem.Clone(false)
-
-    const number =
-      props.encounterInstance.Combatants.filter(c => c.actor.Name === doodad.Name).length + 1
-
-    props.encounterInstance.Combatants.push(
-      makeCombatant(doodad, 'doodad', {
-        id: crypto.randomUUID(),
-        index: props.encounterInstance.Combatants.length,
-        number: number,
-        side: 'neutral',
-      })
-    )
+    const doodad = props.encounterInstance.AddFromRoster(rosterItem, 'neutral').actor
     notify({
       type: 'success',
       title: t('active.addCombatant.doodadAddedTitle'),
@@ -195,41 +182,9 @@
     })
   }
   function addEidolon(rosterItem) {
-    const eidolon = rosterItem.Clone(false)
-
-    const number =
-      props.encounterInstance.Combatants.filter(c => c.actor.Name === eidolon.Name).length + 1
-
-    const playerCount = props.encounterInstance.Combatants.filter(c => c.side === 'ally').length
-
-    eidolon.CombatController.StatController.applyRegisteredCustomStats()
-    eidolon.FeatureController.BonusController.applyToStats(
-      eidolon.CombatController.StatController,
-      props.encounterInstance
-    )
-    eidolon.CombatController.StatController.resetCurrentStats()
-    eidolon.CombatController.Reset()
-
-    eidolon.Layers.forEach(l => {
-      l.CombatController.StatController.applyRegisteredCustomStats()
-      l.FeatureController.BonusController.applyToStats(
-        l.CombatController.StatController,
-        props.encounterInstance
-      )
-      l.ResetHp(playerCount, true)
-      l.SetActivations(playerCount)
-      l.CombatController.StatController.resetCurrentStats()
-      l.CombatController.Reset()
-    })
-
-    props.encounterInstance.Combatants.push(
-      makeCombatant(eidolon, 'eidolon', {
-        id: crypto.randomUUID(),
-        index: props.encounterInstance.Combatants.length,
-        number: number,
-        side: 'enemy',
-      })
-    )
+    const combatant = props.encounterInstance.AddFromRoster(rosterItem, 'enemy')
+    const eidolon = combatant.actor
+    props.encounterInstance.PrepareEidolon(combatant)
     notify({
       type: 'success',
       title: t('active.addCombatant.eidolonAddedTitle'),

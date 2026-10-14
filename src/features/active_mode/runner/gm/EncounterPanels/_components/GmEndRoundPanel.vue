@@ -25,45 +25,47 @@
           {{ $t('common.none') }}
         </i>
 
-        <div class="text-cc-overline mt-4">{{ $t('active.gmEndRound.turnsNotEnded') }}:</div>
-        <div v-if="unendedTurns.length">
-          <v-row
-            v-for="c in unendedTurns"
-            :key="c.Parent.ID"
-            dense
-            align="center"
-            class="my-1 mx-4 px-2 text-text bg-panel"
+        <template v-if="encounterInstance.PlayMode !== 'simple'">
+          <div class="text-cc-overline mt-4">{{ $t('active.gmEndRound.turnsNotEnded') }}:</div>
+          <div v-if="unendedTurns.length">
+            <v-row
+              v-for="c in unendedTurns"
+              :key="c.Parent.ID"
+              dense
+              align="center"
+              class="my-1 mx-4 px-2 text-text bg-panel"
+            >
+              <v-col>
+                <span class="heading h4">{{ c.CombatName }}</span>
+                <span class="text-cc-overline text-disabled ml-2">
+                  {{ c.StatController.CurrentStats['activations'] }}/{{
+                    c.StatController.MaxStats['activations']
+                  }}
+                </span>
+              </v-col>
+              <v-col cols="auto">
+                <cc-button
+                  size="x-small"
+                  prepend-icon="cc:activate"
+                  @click="endActorTurn(c)"
+                >
+                  {{ $t('active.gmEndRound.endTurnBtn') }}
+                </cc-button>
+              </v-col>
+            </v-row>
+          </div>
+          <i
+            v-else
+            class="text-disabled"
           >
-            <v-col>
-              <span class="heading h4">{{ c.CombatName }}</span>
-              <span class="text-cc-overline text-disabled ml-2">
-                {{ c.StatController.CurrentStats['activations'] }}/{{
-                  c.StatController.MaxStats['activations']
-                }}
-              </span>
-            </v-col>
-            <v-col cols="auto">
-              <cc-button
-                size="x-small"
-                prepend-icon="cc:activate"
-                @click="endActorTurn(c)"
-              >
-                {{ $t('active.gmEndRound.endTurnBtn') }}
-              </cc-button>
-            </v-col>
-          </v-row>
-        </div>
-        <i
-          v-else
-          class="text-disabled"
-        >
-          {{ $t('common.none') }}
-        </i>
+            {{ $t('common.none') }}
+          </i>
+        </template>
 
         <div v-if="nextRoundAlerts">
           <v-divider class="my-4" />
 
-          <div class="text-cc-overline mt-2">{{ $t('active.pcEndRound.nextRound') }}::</div>
+          <div class="text-cc-overline mt-2">{{ $t('enums.duration.next_round') }}::</div>
           <div
             v-for="a in activeActors"
             :key="a.Parent.ID"
@@ -140,7 +142,7 @@
               scope="global"
             >
               <template #braced>
-                <b class="text-accent">{{ $t('active.actions.braced') }}</b>
+                <b class="text-accent">{{ $t('active.runner.braced') }}</b>
               </template>
               <template #cooldown>
                 <b class="text-warning">{{ $t('active.pcEndRound.braceCooldown') }}</b>
@@ -195,7 +197,7 @@
     max-width="480"
   >
     <v-card class="pa-4">
-      <div class="heading h3 mb-2">{{ $t('active.structureCheck.blocksTurn') }}</div>
+      <div class="heading h3 mb-2">{{ $t('combat.structureCheck.blocksTurn') }}</div>
       <cc-flow-request :request="pendingTurn?.request" />
       <v-card-actions>
         <v-spacer />
@@ -203,7 +205,7 @@
           variant="text"
           @click="holdDialog = false"
         >
-          {{ $t('common.close') }}
+          {{ $t('common.closeAction') }}
         </cc-button>
       </v-card-actions>
     </v-card>

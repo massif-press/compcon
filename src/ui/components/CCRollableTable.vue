@@ -33,7 +33,7 @@
           hide-details
         >
           <template #label>
-            {{ $t('ui.fields.gmOnly') }}
+            {{ $t('common.gmOnly') }}
             <v-tooltip location="top">
               <template #activator="{ props }">
                 <v-icon
@@ -60,7 +60,7 @@
           cols="auto"
           class="heading pl-3 pr-3"
         >
-          {{ $t('common.roll_noun') }}
+          {{ $t('common.rollNoun') }}
         </v-col>
         <v-col cols="auto">
           <v-menu>

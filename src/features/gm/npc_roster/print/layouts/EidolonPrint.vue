@@ -15,7 +15,7 @@
           <div class="text-caption">
             {{ $t('common.tierN', { n: npc.Tier }) }}
             <cc-slashes />
-            {{ $t('gm.eidolonPrint.classLabel', { class: npc.Class }) }}
+            {{ $t('gm.itemCard.classLabel', { class: npc.EidolonClass }) }}
           </div>
         </div>
       </v-col>
@@ -87,7 +87,7 @@
     <fieldset
       class="mx-1 pa-1 mb-2 no-print-break"
       v-for="l in npc.Layers"
-      :key="l.ID"
+      :key="l.Key"
     >
       <legend
         class="text-overline text-primary px-1"
@@ -129,7 +129,15 @@
         size="small"
         class="mt-1"
       >
-        <b>{{ $t('gm.eidolonPrint.newShards', { n: l.Layer.Shards?.Count }) }}</b>
+        <b>
+          {{
+            $t(
+              'gm.eidolonPrint.newShards',
+              { n: l.Layer.Shards?.CountLabel(npc.Tier) },
+              Number(l.Layer.Shards?.CountLabel(npc.Tier)) || 2
+            )
+          }}
+        </b>
       </v-chip>
       <div
         v-html-safe="ByTier(l.Layer.Shards?.Detail || '', npc.Tier)"
@@ -137,7 +145,7 @@
       />
       <print-npc-stats
         v-if="l.Layer.Shards"
-        :item="l.Layer.Shards"
+        :item="l.Layer.Shards.StatBlock(npc.Tier)"
         hide-zero
       />
       <div
@@ -188,7 +196,7 @@
   import NpcFeaturePrint from './components/NpcFeaturePrint.vue'
   import PrintNpcStats from './components/PrintNpcStats.vue'
   import NpcNarrativePrintSection from './components/NpcNarrativePrintSection.vue'
-  import persistent_traits from '@/classes/npc/eidolon/persistent_traits.json'
+  import { persistentTraits as localizedPersistentTraits } from '@/classes/npc/eidolon/EidolonLayer'
 
   defineOptions({ name: 'EidolonPrint' })
 
@@ -197,7 +205,5 @@
     options: GmPrintOptions
   }>()
 
-  const persistentTraits = computed(() => {
-    return persistent_traits
-  })
+  const persistentTraits = computed(() => localizedPersistentTraits())
 </script>

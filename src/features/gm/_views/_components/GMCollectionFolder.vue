@@ -2,6 +2,8 @@
   <v-card
     class="my-1"
     tile
+    @dragenter.prevent="onItemDragEnter"
+    @dragleave="onItemDragLeave"
   >
     <v-toolbar
       density="compact"
@@ -12,6 +14,14 @@
       @dragover.prevent
       @drop="onDrop"
     >
+      <v-icon
+        v-if="folderDrag"
+        class="folder-sort-handle ml-2"
+        icon="mdi-drag"
+        :aria-label="$t('gm.a11y.dragToReorder')"
+        style="cursor: move; opacity: 0.5"
+        @click.stop
+      />
       <v-btn
         size="x-small"
         icon
@@ -69,11 +79,7 @@
       </v-menu>
     </v-toolbar>
     <v-expand-transition>
-      <v-card-text
-        v-if="open"
-        @dragenter.prevent="onSortableAreaDragEnter"
-        @dragleave="onSortableAreaDragLeave"
-      >
+      <v-card-text v-if="open">
         <sortable
           :key="`${folder}-${transferKey}`"
           :list="sortedFolderItems"
@@ -84,7 +90,7 @@
             handle: '.folder-drag-handle',
             group: { name: 'gm-folder-items', pull: true, put: true },
           }"
-          @start="onItemDragStart"
+          @start="startDragScroll"
           @end="onItemReorder"
           @add="onItemAdded"
         >
@@ -109,9 +115,10 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, nextTick } from 'vue'
+  import { computed, ref } from 'vue'
   import { Sortable } from 'sortablejs-vue3'
-  import { startDragScroll, stopDragScroll } from '@/composables/useScrollOnDrag'
+  import { startDragScroll } from '@/composables/useScrollOnDrag'
+  import { useFolderDrop } from '@/composables/useFolderDrop'
   import ItemCard from '../_components/GMItemCard.vue'
 
   const props = withDefaults(
@@ -142,20 +149,26 @@
     'item-transferred': []
   }>()
 
-  const open = ref(true)
   const deleteMenu = ref(false)
-  const dropActive = ref(false)
 
   const folderItems = computed(() => {
     return props.filteredItems.filter((x: any) => x.FolderController.Folder === props.folder)
   })
 
-  open.value = folderItems.value.length > 0
   const sortedFolderItems = computed(() => {
     return [...(folderItems.value as any[])].sort(
       (a, b) => a.FolderController.SortIndex - b.FolderController.SortIndex
     )
   })
+
+  const { open, dropActive, onItemReorder, onItemAdded, onItemDragEnter, onItemDragLeave, onDrop } =
+    useFolderDrop({
+      folder: () => props.folder,
+      droppableItems: () => props.items,
+      displayedRows: () => sortedFolderItems.value,
+      transferred: () => emit('item-transferred'),
+    })
+  open.value = folderItems.value.length > 0
 
   function setFolderName(name: string) {
     if (name === props.folder) return
@@ -163,64 +176,5 @@
       return
     }
     emit('set-folder-name', name)
-  }
-  function onItemDragStart(event: any) {
-    startDragScroll()
-    const itemId = event.item.dataset.itemId
-    if (event.originalEvent?.dataTransfer && itemId) {
-      event.originalEvent.dataTransfer.setData('text/encounter-id', itemId)
-    }
-  }
-  function onItemReorder(event: any) {
-    stopDragScroll()
-    if (event.from !== event.to) return
-    if (event.oldIndex === event.newIndex) return
-    const items = [...sortedFolderItems.value] as any[]
-    const [moved] = items.splice(event.oldIndex, 1)
-    items.splice(event.newIndex, 0, moved)
-    items.forEach((item, idx) => {
-      item.FolderController.SortIndex = idx
-    })
-  }
-  function onSortableAreaDragEnter(event: DragEvent) {
-    const chosen = document.querySelector('.sortable-chosen[data-item-id]') as HTMLElement | null
-    if (!chosen) return
-    const itemId = chosen.dataset.itemId
-    if ((sortedFolderItems.value as any[]).some((x: any) => x.ID === itemId)) return
-    dropActive.value = true
-  }
-  function onSortableAreaDragLeave(event: DragEvent) {
-    const el = event.currentTarget as HTMLElement
-    if (el.contains(event.relatedTarget as Node)) return
-    dropActive.value = false
-  }
-  async function onItemAdded(event: any) {
-    dropActive.value = false
-    const itemId = event.item.dataset.itemId
-    const item = (props.items as any[]).find((x: any) => x.ID === itemId)
-    if (!item) return
-    item.FolderController.Folder = props.folder
-    open.value = true
-    await nextTick()
-    const items = [...sortedFolderItems.value] as any[]
-    const movedIdx = items.findIndex((x: any) => x.ID === itemId)
-    if (movedIdx !== -1 && movedIdx !== event.newIndex) {
-      const [moved] = items.splice(movedIdx, 1)
-      items.splice(Math.min(event.newIndex, items.length), 0, moved)
-    }
-    items.forEach((item: any, idx: number) => {
-      item.FolderController.SortIndex = idx
-    })
-    emit('item-transferred')
-  }
-  function onDrop(event: DragEvent) {
-    dropActive.value = false
-    const id = event.dataTransfer?.getData('text/encounter-id')
-    if (!id) return
-    const item = (props.items as any[]).find(x => x.ID === id)
-    if (item && item.FolderController) {
-      item.FolderController.Folder = props.folder
-      open.value = true
-    }
   }
 </script>

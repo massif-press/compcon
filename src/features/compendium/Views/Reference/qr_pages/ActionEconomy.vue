@@ -59,7 +59,7 @@
             style="min-width: 12vw"
             class="effect-text text-center text-capitalize"
           >
-            {{ a.action }}
+            {{ $t(`enums.activationType.${a.action}`) }}
             <br />
             <v-card
               tile

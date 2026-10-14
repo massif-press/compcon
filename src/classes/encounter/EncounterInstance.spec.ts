@@ -1,8 +1,11 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { Encounter } from './Encounter'
-import { EncounterInstance } from './EncounterInstance'
+import { EncounterInstance, applyPlayMode } from './EncounterInstance'
 import { Placeholder } from './Placeholder'
-import { makePilot, makeMech } from '@/__tests__/factories'
+import { makePilot, makeMech, makeNpc, makeEidolon } from '@/__tests__/factories'
+import { Doodad } from '@/classes/npc/doodad/Doodad'
+import { DamageType } from '@/classes/enums'
+import { reduceEvents } from '@/classes/components/combat/log/telemetry'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
 const makeEncounter = (name = 'Test Encounter') => {
@@ -231,5 +234,135 @@ describe('EncounterInstance.Serialize/Deserialize', () => {
 
     expect(clone.ID).not.toBe(instance.ID)
     expect(clone.Combatants).toHaveLength(instance.Combatants.length)
+  })
+})
+
+describe('EncounterInstance play mode', () => {
+  const reload = (i: EncounterInstance) =>
+    EncounterInstance.Deserialize(JSON.parse(JSON.stringify(EncounterInstance.Serialize(i))))
+
+  it('defaults to full', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    expect(instance.PlayMode).toBe('full')
+    expect(instance.Combatants[0].actor.CombatController.Automated).toBe(true)
+  })
+
+  it('keeps simple mode across a reload', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    instance.SetPlayMode('simple')
+    const reloaded = reload(instance)
+
+    expect(reloaded.PlayMode).toBe('simple')
+    const actor = reloaded.Combatants[0].actor
+    expect(actor.CombatController.Automated).toBe(false)
+    expect(actor.ActiveMech!.CombatController.Automated).toBe(false)
+  })
+
+  it('keeps its own layout and wizard policy across a reload', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    expect(reload(instance).Layout).toBeUndefined()
+
+    instance.Layout = { full: { density: 'compact' } as any }
+    instance.TurnWizardClose = 'undo'
+    const reloaded = reload(instance)
+
+    expect(reloaded.Layout).toEqual({ full: { density: 'compact' } })
+    expect(reloaded.Layout).not.toBe(instance.Layout)
+    expect(reloaded.TurnWizardClose).toBe('undo')
+  })
+
+  it('stamps every eidolon layer', () => {
+    const layer = () => ({ CombatController: { ManualPlay: false, PendingChecks: [] } })
+    const layers = [layer(), layer()]
+    const eidolon = { CombatController: layers[0].CombatController, Layers: layers }
+
+    applyPlayMode(eidolon, 'simple')
+    expect(layers.every(l => l.CombatController.ManualPlay)).toBe(true)
+  })
+
+  it('clears pending checks when switched to simple', () => {
+    const instance = new EncounterInstance(undefined, makeEncounter(), [pilot])
+    const mech = instance.Combatants[0].actor.ActiveMech!
+    mech.CombatController.AddPendingCheck('structure')
+
+    instance.SetPlayMode('simple')
+    expect(mech.CombatController.PendingChecks).toEqual([])
+  })
+})
+
+describe('EncounterInstance player counts', () => {
+  it('gates reinforcements on every pilot and placeholder, and counts players more narrowly', () => {
+    const encounter = makeEncounter()
+    encounter.AddCombatant(makeNpc('Test NPC 1'))
+    encounter.Combatants[0].playerCount = 2
+
+    const instance = new EncounterInstance(
+      undefined,
+      encounter,
+      [pilot],
+      [placeholder('enemy', 'Test Placeholder 1')]
+    )
+
+    expect(instance.Combatants.some(c => c.type === 'unit')).toBe(true)
+    expect(instance.PlayerCount).toBe(1)
+  })
+})
+
+describe('EncounterInstance.AddFromRoster', () => {
+  const instanceWith = () => new EncounterInstance(undefined, makeEncounter(), [pilot])
+
+  const rosterItems = [
+    ['unit', () => makeNpc('Test NPC 1')],
+    ['doodad', () => Object.assign(new Doodad(), { Name: 'Test Doodad 1' })],
+    ['eidolon', () => makeEidolon()],
+  ] as const
+
+  it.each(rosterItems)('adds a %s as a copy that remembers its roster entry', (type, make) => {
+    const rosterItem = make()
+    const instance = instanceWith()
+
+    const combatant = instance.AddFromRoster(rosterItem, 'enemy')
+
+    expect(combatant.type).toBe(type)
+    expect(instance.Combatants).toContain(combatant)
+    expect(combatant.actor.ID).not.toBe(rosterItem.ID)
+    expect((combatant.actor as { OriginId?: string }).OriginId).toBe(rosterItem.ID)
+    expect(combatant.id).toBe(combatant.actor.ID)
+  })
+
+  it.each(rosterItems)('adds a %s as an instance that never saves to the roster', (_type, make) => {
+    const combatant = instanceWith().AddFromRoster(make(), 'enemy')
+    const reloaded = Encounter.DeserializeCombatant(
+      JSON.parse(JSON.stringify(Encounter.SerializeCombatant(combatant)))
+    )
+
+    const isInstance = (c: typeof combatant) => (c.actor as { IsInstance?: boolean }).IsInstance
+
+    expect(isInstance(combatant)).toBe(true)
+    expect(combatant.actor.IsEncounterInstance).toBe(true)
+    expect(isInstance(reloaded)).toBe(true)
+  })
+
+  it('numbers a second copy of the same roster entry', () => {
+    const rosterItem = makeNpc('Test NPC 1')
+    const instance = instanceWith()
+
+    instance.AddFromRoster(rosterItem, 'enemy')
+
+    expect(instance.AddFromRoster(rosterItem, 'enemy').number).toBe(2)
+  })
+
+  it('joins the copy to its log and its roster entry in the stream', () => {
+    const rosterItem = makeNpc('Test NPC 1')
+    const instance = instanceWith()
+    const combatant = instance.AddFromRoster(rosterItem, 'enemy')
+    combatant.actor.SetStats()
+
+    combatant.actor.CombatController.TakeDamage(DamageType.Kinetic, 2)
+
+    const stream = instance.Stream
+    const ref = stream.participants.find(p => p.originId === rosterItem.ID)!
+    expect(ref.id).toBe(combatant.id)
+    expect(reduceEvents(stream.events, ref.id).totalTaken).toBe(2)
   })
 })

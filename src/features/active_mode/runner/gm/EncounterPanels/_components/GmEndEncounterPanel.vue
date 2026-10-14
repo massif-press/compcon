@@ -3,6 +3,7 @@
     :combatants="props.encounterInstance.Combatants"
     :build-stream="() => props.encounterInstance.Stream"
     :confirm-message="$t('active.endEnc.gmConfirm')"
+    :skip-report="props.encounterInstance.PlayMode === 'simple'"
     @end="end"
   />
 </template>

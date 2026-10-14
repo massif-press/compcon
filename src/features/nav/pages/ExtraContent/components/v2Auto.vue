@@ -80,7 +80,7 @@
             >
               {{
                 $t(
-                  'nav.v2Auto.encountersImported',
+                  'mainMenu.migration.encountersImported',
                   { count: migrationResult.encountersImported },
                   migrationResult.encountersImported
                 )

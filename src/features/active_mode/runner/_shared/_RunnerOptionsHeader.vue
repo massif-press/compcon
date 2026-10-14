@@ -26,7 +26,7 @@
           v-else
           class="text-disabled ml-1"
         >
-          {{ $t('active.runnerHeader.never') }}
+          {{ $t('common.never') }}
         </i>
       </v-col>
       <v-col cols="auto">
@@ -43,7 +43,10 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col
+        cols="12"
+        md="6"
+      >
         <div class="text-cc-overline mt-1 text-disabled">
           {{ $t('active.runnerHeader.autosave') }}
         </div>
@@ -57,12 +60,23 @@
           "
           :tooltip="autosaveTooltip"
         />
+        <play-mode-select
+          :model-value="context.PlayMode"
+          class="mt-4"
+          @update:model-value="context.SetPlayMode($event)"
+        />
+        <turn-wizard-close-select
+          v-model="context.TurnWizardClose"
+          class="mt-4"
+        />
       </v-col>
-      <v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
         <div class="text-cc-overline mt-1 text-disabled">
           {{ $t('active.runnerHeader.layoutOptions') }}
         </div>
-        <layout-options-controls dense />
+        <layout-options-controls :pc="context.ItemType === ItemType.PilotSheet" />
       </v-col>
     </v-row>
   </v-card-text>
@@ -70,8 +84,11 @@
 
 <script setup lang="ts">
   import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
+  import { ItemType } from '@/classes/enums'
   import PilotSheet from '@/features/pilot_management/store/PilotSheet'
   import LayoutOptionsControls from '@/features/active_mode/_components/LayoutOptionsControls.vue'
+  import PlayModeSelect from '@/features/active_mode/_components/PlayModeSelect.vue'
+  import TurnWizardCloseSelect from '@/features/active_mode/_components/TurnWizardCloseSelect.vue'
 
   defineProps<{
     context: EncounterInstance | PilotSheet

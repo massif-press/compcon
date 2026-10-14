@@ -120,10 +120,11 @@ function rowSummaryText(r: IEncounterRollup, t: Translate): string {
 
 function formatReport(stream: ILogStream, t: Translate, result?: string): string {
   const summaries = summarize(stream)
-  const k = (name: string, params?: Record<string, unknown>) => t(`active.aar.${name}`, params)
+  const k = (name: string, params?: Record<string, unknown>, plural?: number) =>
+    t(`active.aar.${name}`, params, plural)
   const lines: string[] = [
     `${stream.encounterName}${result || stream.result ? `: ${result || stream.result}` : ''}`,
-    k('roundsValue', { n: stream.rounds }),
+    k('roundsValue', { n: stream.rounds }, stream.rounds),
     '',
     `// ${t('gm.combatant.combatants')}`,
   ]

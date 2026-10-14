@@ -1,3 +1,4 @@
+import { toRaw } from 'vue'
 import { ICoreBonusData } from '@/classes/pilot/components'
 import { MountType, FittingSize, WeaponSize } from '../../../enums'
 import { IMechWeaponSaveData, MechWeapon } from '../equipment/MechWeapon'
@@ -50,7 +51,6 @@ abstract class Mount {
         ]
       } else if (mountType === MountType.Aux) {
         this.slots = [new WeaponSlot(FittingSize.Auxiliary, this)]
-        this._name_override = 'Integrated Weapon'
       } else if (mountType === MountType.MainAux) {
         this.slots = [
           new WeaponSlot(FittingSize.Main, this),
@@ -78,7 +78,10 @@ abstract class Mount {
   }
 
   public get Name(): string {
-    return this._name_override ? this._name_override : `${this.Type} Mount`
+    if (this._name_override) return this._name_override
+    if (toRaw(this) === toRaw(this._parent.IntegratedWeaponMount as Mount))
+      return 'Integrated Weapon'
+    return `${this.Type} Mount`
   }
 
   public get Slots(): WeaponSlot[] {

@@ -1,7 +1,7 @@
 <template>
   <gm-split-view
     ref="viewRef"
-    :title="$t('gm.titles.doodads')"
+    :title="$t('gm.shared.doodads')"
     item-type="Doodad"
     :items="doodads"
     :selected="<any>selected"
@@ -13,7 +13,7 @@
     <template #tooltip>
       <div class="text-center mt-n1 mb-1">
         <v-tooltip
-          :text="$t('gm.actions.noncharacterObjectsSuchAsTerrain')"
+          :text="$t('gm.npcRoster.doodadDescription')"
           location="bottom"
           max-width="400"
         >

@@ -4,7 +4,7 @@ import { getUserDataChanged, bulkDelete, cloudDelete } from '@/io/apis/account'
 import { DbItemMetadata } from '@/classes/components/cloud/CloudController'
 import type { dbItemMeta } from '@/classes/components/cloud/CloudController'
 import type { CollectionMetadata } from '@/classes/components/cloud/ContentCollection'
-import { getItemRegistration } from '@/classes/components/cloud/ItemRegistry'
+import { getItemRegistration, allRegistrations } from '@/classes/components/cloud/ItemRegistry'
 import { normalizeItemType, expandFilterTypes } from '@/classes/components/cloud/ItemTypeMap'
 import { setServerTimeOffset } from '@/classes/components/cloud/fieldMerge'
 import { AuthStore } from './AuthStore'
@@ -95,7 +95,17 @@ export const CloudDataStore = defineStore('cloudData', {
       this.CloudSizeMap = {}
       _isFirstMetadataLoad = true
     },
-    getLocalItem(sortkey: string): SyncableItem | undefined {
+    buildLocalIndex(): Map<string, SyncableItem> {
+      const index = new Map<string, SyncableItem>()
+      for (const [type, reg] of allRegistrations()) {
+        for (const item of reg.getAll()) {
+          const key = `${type}_${item.ID}`
+          if (!index.has(key)) index.set(key, item as SyncableItem)
+        }
+      }
+      return index
+    },
+    getLocalItem(sortkey: string, index?: Map<string, SyncableItem>): SyncableItem | undefined {
       const parts = sortkey.split('_')
       const datatype = parts[0]
       if (
@@ -106,11 +116,12 @@ export const CloudDataStore = defineStore('cloudData', {
       )
         return undefined
       const rawType = parts[1]
-      const id = parts[2]
+      const id = parts.slice(2).join('_')
       const normalized = normalizeItemType(rawType)
 
       const reg = getItemRegistration(normalized)
       if (reg) {
+        if (index) return index.get(`${normalized}_${id}`)
         return reg.getAll().find((item: any) => item.ID === id) as SyncableItem | undefined
       }
 
@@ -193,9 +204,10 @@ export const CloudDataStore = defineStore('cloudData', {
           localStorage.setItem(`cc_last_query_${authStore.Cognito.userId}`, String(this.LastQuery))
         }
         const newSizeMap: Record<string, number> = {}
+        const localIndex = this.buildLocalIndex()
         result.items.forEach((item: any) => {
           if (item.deleted) {
-            const localItem = this.getLocalItem(item.sortkey)
+            const localItem = this.getLocalItem(item.sortkey, localIndex)
             if (localItem) {
               toRaw(localItem).CloudController.Metadata = item
               const raw = toRaw(localItem) as any
@@ -210,7 +222,7 @@ export const CloudDataStore = defineStore('cloudData', {
             }
             return
           }
-          const localItem = this.getLocalItem(item.sortkey)
+          const localItem = this.getLocalItem(item.sortkey, localIndex)
           if (item.size && !isNaN(item.size)) newSizeMap[item.sortkey] = item.size
           if (localItem) {
             toRaw(localItem).CloudController.Metadata = item

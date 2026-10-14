@@ -5,10 +5,12 @@ import { CombatController } from '../../combat/CombatController'
 import { Deployable, IDeployableData } from './Deployable'
 import { ICombatant } from '../../combat/ICombatant'
 import { FeatureController } from '../FeatureController'
+import type { Bonus } from '../bonus/Bonus'
 
 interface IDeployableInstanceData {
   name: string
   data: IDeployableData
+  bonus_resist?: string[]
 }
 
 class DeployableInstance implements ICombatant {
@@ -25,7 +27,7 @@ class DeployableInstance implements ICombatant {
   public FeatureController: FeatureController
   public IsDeployed: boolean = true
 
-  // stubbed, as this is not required
+  // stubbed
   public SaveController = {
     save: () => {},
   } as SaveController
@@ -140,6 +142,27 @@ class DeployableInstance implements ICombatant {
     return 0
   }
 
+  public BonusResist: string[] = []
+
+  public get ResistBonus(): Bonus | undefined {
+    const owner = this.Owner.actor as any
+    const id = this.Base.Type.toLowerCase() === 'drone' ? 'drone_resist' : 'deployable_resist'
+    return (owner?.CombatController?.ActiveActor ?? owner)?.FeatureController?.Bonuses.find(
+      (b: Bonus) => b.ID === id
+    )
+  }
+
+  public SetBonusResist(on: boolean): void {
+    this.BonusResist.forEach(t => this.CombatController.RemoveResist(t))
+    this.BonusResist = []
+    if (!on || !this.ResistBonus) return
+    const val = String(this.ResistBonus.Value).toLowerCase()
+    this.BonusResist = (val === 'all' ? CombatController.BRACE_RESIST : [val]).filter(
+      t => !this.CombatController.Resistances.some(r => r.type === t)
+    )
+    this.BonusResist.forEach(t => this.CombatController.AddResist(t, 'resistance'))
+  }
+
   public SetStats() {
     const ownerSaveTarget =
       (this.Owner.actor as any)?.CombatController?.SaveTarget ||
@@ -206,12 +229,15 @@ class DeployableInstance implements ICombatant {
       name: instance.name,
       data: instance.ItemData,
       id: instance.ID,
+      bonus_resist: instance.BonusResist,
     } as IDeployableInstanceData
   }
 
   public static Deserialize(d: IDeployableInstanceData, owner: CombatantData): DeployableInstance {
     if (!d.data) throw new Error('Deployable data is missing.')
     const dep = new DeployableInstance(d.data, owner)
+    dep.BonusResist = d.bonus_resist ?? []
+    dep.BonusResist.forEach(t => dep.CombatController.AddResist(t, 'resistance'))
     return dep
   }
 }

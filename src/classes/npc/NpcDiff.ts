@@ -1,7 +1,6 @@
 import { Npc } from './Npc'
 import { Doodad } from './doodad/Doodad'
 import { Eidolon } from './eidolon/Eidolon'
-import { EidolonLayer } from './eidolon/EidolonLayer'
 import { Unit } from './unit/Unit'
 
 const GenerateItemDiff = (target: Npc, source: Npc) => {
@@ -154,8 +153,8 @@ const unitDiff = (diff: any, target: Unit, source: Unit) => {
 
 const eidolonDiff = (diff: any, target: Eidolon, source: Eidolon) => {
   diff.Class = {
-    instance: target.Class,
-    source: source.Class,
+    instance: target.EidolonClass,
+    source: source.EidolonClass,
   }
 
   diff.Tier = {
@@ -214,13 +213,7 @@ const SetDiff = (target: Npc, key: string) => {
   }
 
   if (key === 'Layers') {
-    if (target.ItemType.toLowerCase() === 'unit') {
-      const u = target as Eidolon
-      u.ClearLayers()
-      ;(source as Eidolon).Layers.forEach(l => {
-        u.AddLayer(l.Layer as EidolonLayer)
-      })
-    }
+    if (target instanceof Eidolon) target.CopyLayersFrom(source as Eidolon)
     return
   }
 

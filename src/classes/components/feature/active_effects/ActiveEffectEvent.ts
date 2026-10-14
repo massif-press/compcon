@@ -2,7 +2,7 @@ import { ActiveEffect } from './ActiveEffect'
 import { EncounterInstance } from '@/classes/encounter/EncounterInstance'
 import { CombatantData } from '@/classes/encounter/Encounter'
 import { Damage } from '../../../Damage'
-import { DamageType } from '../../../enums'
+import { DamageType, WeaponType } from '../../../enums'
 import { DamageEvent } from './effect_events/damageEvent'
 import { ActiveEventTarget } from './effect_events/eventTarget'
 import { ResistEvent } from './effect_events/resistEvent'
@@ -13,6 +13,7 @@ import { ActionSummary } from './EffectActionSummary'
 import { withLogGroup } from '@/classes/components/combat/log/CombatLogRecorder'
 import { itemRef } from '@/classes/components/combat/log/refs'
 import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
+import { Bonus } from '../bonus/Bonus'
 
 function isTargetable(combatant: CombatantData): boolean {
   if (!combatant?.actor) return false
@@ -65,6 +66,12 @@ class ActiveEffectEvent {
     this.Accuracy = effect.Accuracy || 0
     this.AttackBonus = effect.AttackBonus || 0
 
+    if (this.Attack)
+      this.Accuracy += Bonus.AccuracyFor(
+        ['attack', this.Attack === 'tech' ? 'tech_attack' : this.Attack],
+        initiator.actor.CombatController?.MechScaleBonuses
+      )
+
     if (this.Attack === 'ranged' || this.Attack === 'melee') {
       this.AttackBonus +=
         initiator.actor.CombatController?.ActiveActor.CombatController?.AttackBonus || 0
@@ -95,7 +102,26 @@ class ActiveEffectEvent {
 
     const tier = this.Initiator.actor.CombatController.Tier
 
-    if (effect.Damage) this.DamageEvents = effect.Damage.map(d => new DamageEvent(d, tier))
+    const improvised = effect.ID.startsWith('act_improvised_attack')
+      ? (initiator.actor.CombatController?.MechScaleBonuses as Bonus[] | undefined)?.find(
+          b =>
+            b.ID === 'damage' &&
+            b.Overwrite &&
+            b.Replace &&
+            b.WeaponTypes.includes(WeaponType.Improvised)
+        )
+      : undefined
+
+    if (effect.Damage)
+      this.DamageEvents = effect.Damage.map(
+        d =>
+          new DamageEvent(
+            improvised
+              ? new Damage({ ...Damage.Serialize(d), val: improvised.Value as string })
+              : d,
+            tier
+          )
+      )
     if (this.DamageEvents[0]) {
       this.SaveHalf = effect.Damage[0].SaveHalf
       this.Save = effect.Damage[0].Save?.Stat

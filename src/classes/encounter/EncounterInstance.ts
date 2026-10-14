@@ -9,7 +9,17 @@ import {
   ISaveable,
   SaveController,
 } from '../components'
-import { CombatantData, Encounter, IEncounterData, isOutOfCombat, makeCombatant } from './Encounter'
+import {
+  CombatantData,
+  DESERIALIZE_ACTOR,
+  Encounter,
+  IEncounterData,
+  isOutOfCombat,
+  makeCombatant,
+} from './Encounter'
+import type { CombatantSide, CombatantType } from './Encounter'
+import type { Unit } from '../npc/unit/Unit'
+import type { Doodad } from '../npc/doodad/Doodad'
 import { Deployable } from '../components/feature/deployable/Deployable'
 import type { ICombatant } from '../components/combat/ICombatant'
 import { ItemType } from '../enums'
@@ -18,11 +28,16 @@ import { Placeholder } from './Placeholder'
 import { deployToCombatant } from '../components/feature/deployable/DeployableInstance'
 import { Eidolon } from '../npc/eidolon/Eidolon'
 import { combatantRef } from '../components/combat/log/refs'
+import { combatControllers } from '../components/combat/ActorIdentity'
 import { buildStream } from '../components/combat/log/stream'
-import { eventsFor } from '../components/combat/log/CombatLogRecorder'
+import { eventsFor, recordersFor } from '../components/combat/log/CombatLogRecorder'
 import { commitOutcome } from '../components/combat/log/outcome'
 import type { IOutcome } from '../components/combat/log/outcome'
 import type { ILogStream } from '../components/combat/log/events'
+import type { InstanceLayouts } from '@/features/active_mode/layoutOptions'
+import type { TurnWizardClosePolicy } from '@/features/active_mode/turnWizard'
+
+type PlayMode = 'full' | 'simple'
 
 interface IEncounterInstanceData {
   itemType: 'EncounterInstance'
@@ -34,10 +49,28 @@ interface IEncounterInstanceData {
   encounter: IEncounterData
   isActive?: boolean
   autosave?: boolean
+  play_mode?: PlayMode
+  layout?: InstanceLayouts
+  turn_wizard_close?: TurnWizardClosePolicy
   simple_tickbars?: boolean
   force_complex_tickbars?: boolean
   layout_columns?: boolean
   max_masonry_columns?: number
+}
+
+function applyPlayMode(actor: any, mode: PlayMode, layouts?: InstanceLayouts): void {
+  const roots = [
+    actor?.CombatController,
+    ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
+  ]
+  const trackMovement = layouts?.[mode]?.trackMovement ?? true
+  for (const cc of roots) {
+    if (!cc) continue
+    cc.ManualPlay = mode === 'simple'
+    cc.TrackMovement = trackMovement
+  }
+  if (mode !== 'simple') return
+  for (const cc of [...roots, actor?.ActiveMech?.CombatController]) if (cc) cc.PendingChecks = []
 }
 
 function hasPendingMeltdown(c: CombatantData): boolean {
@@ -55,6 +88,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public Combatants: CombatantData[] = []
   public Encounter!: Encounter
   public Autosave: boolean = true
+  public PlayMode: PlayMode = 'full'
+  public Layout?: InstanceLayouts
+  public TurnWizardClose?: TurnWizardClosePolicy
   public SimpleTickbars: boolean = false
   public ForceComplexTickbars: boolean = false
   public LayoutColumns: boolean = true
@@ -82,6 +118,8 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     this._id = data?.id || crypto.randomUUID()
     this._round = data?.round || 1
     this.IsActive = data?.isActive || false
+    this.Layout = data?.layout
+    this.TurnWizardClose = data?.turn_wizard_close
     this.SimpleTickbars = data?.simple_tickbars || false
     this.ForceComplexTickbars = data?.force_complex_tickbars || false
     this.LayoutColumns = data?.layout_columns ?? true
@@ -148,20 +186,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         combatant.index = index
         if (combatant.type === 'pilot') {
           combatant.actor.SetStats()
-        } else if (combatant.actor.Layers) {
-          const eidolon = combatant.actor as unknown as Eidolon
-          eidolon.CombatController.StatController.applyRegisteredCustomStats()
-          eidolon.Layers.forEach(l => {
-            l.CombatController.StatController.applyRegisteredCustomStats()
-            l.FeatureController.BonusController.applyToStats(
-              l.CombatController.StatController,
-              this
-            )
-            l.ResetHp(playerCount, true)
-            l.SetActivations(playerCount)
-            l.CombatController.StatController.resetCurrentStats()
-            l.CombatController.Reset()
-          })
+        } else if (combatant.actor instanceof Eidolon) {
+          this.PrepareEidolon(combatant)
+          return
         } else {
           combatant.actor.CombatController.StatController.applyRegisteredCustomStats()
         }
@@ -191,6 +218,12 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
+    this.SetPlayMode(data?.play_mode ?? 'full')
+  }
+
+  public SetPlayMode(mode: PlayMode): void {
+    this.PlayMode = mode
+    for (const c of this.Combatants) applyPlayMode(c.actor, mode, this.Layout)
   }
 
   private _markStaticControllers(actor: any): void {
@@ -223,15 +256,53 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
     deployToCombatant(deployable, combatant)
   }
 
+  public get PlayerCount(): number {
+    return this.Combatants.filter(
+      c =>
+        c.type === 'pilot' ||
+        (c.type === 'placeholder' && c.side === 'ally' && c.actor.PlaceholderType === 'pilot')
+    ).length
+  }
+
+  public get HostileCount(): number {
+    return this.Combatants.filter(
+      c => c.side === 'ally' && ['pilot', 'placeholder', 'unit'].includes(c.type)
+    ).length
+  }
+
+  public AddFromRoster(rosterItem: Unit | Doodad | Eidolon, side: CombatantSide): CombatantData {
+    const type = rosterItem.ItemType.toLowerCase() as CombatantType
+    const actor = DESERIALIZE_ACTOR[type](JSON.parse(JSON.stringify(rosterItem.CreateInstance())))
+
+    const combatant = makeCombatant(actor, type, {
+      id: actor.ID,
+      index: this.Combatants.length,
+      number: this.Combatants.filter(c => c.actor.Name === actor.Name).length + 1,
+      side,
+    })
+    combatant.actor.IsEncounterInstance = true
+    this._markStaticControllers(combatant.actor)
+    this.Combatants.push(combatant)
+    return combatant
+  }
+
+  public PrepareEidolon(combatant: CombatantData): void {
+    ;(combatant.actor as unknown as Eidolon).PrepareForEncounter(
+      this.PlayerCount,
+      this.HostileCount,
+      this
+    )
+  }
+
+  public ScaleEidolons(): void {
+    for (const c of this.Combatants) {
+      if (c.actor instanceof Eidolon) c.actor.ScaleToEncounter(this.PlayerCount, this.HostileCount)
+    }
+  }
+
   public ApplyPassiveResistances(): void {
     for (const c of this.Combatants) {
-      for (const cc of [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]) {
-        if (!cc) continue
-        for (const effect of cc.ActiveEffects ?? []) {
-          if (!effect.IsAutoSelfResist) continue
-          effect.AddResist.forEach((r: any) => cc.SetResistance(r.ResistType, r.Resist))
-        }
-      }
+      combatControllers(c.actor).forEach(cc => cc.ApplyPassiveResistances())
     }
   }
 
@@ -246,13 +317,11 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
 
   public StampLogContext(source: 'gm' | 'self' = 'gm'): void {
     for (const c of this.Combatants) {
-      const recorders = [c.actor?.CombatController, c.actor?.ActiveMech?.CombatController]
-      for (const cc of recorders) {
-        if (!cc?.CombatLog) continue
-        cc.CombatLog.EncounterId = this.ID
-        cc.CombatLog.Source = source
-        cc.CombatLog.CampaignId = (this as any).Campaign || undefined
-        cc.CombatLog.Side = c.side
+      for (const log of recordersFor(c.actor)) {
+        log.EncounterId = this.ID
+        log.Source = source
+        log.CampaignId = (this as any).Campaign || undefined
+        log.Side = c.side
       }
     }
   }
@@ -283,8 +352,7 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   public EndEncounter(result = '', outcomes: Record<string, IOutcome> = {}): void {
     for (const c of this.Combatants) if (outcomes[c.id]) commitOutcome(c, outcomes[c.id])
     for (const c of this.Combatants) {
-      c.actor.CombatController.EndEncounter()
-      if (c.actor.ActiveMech) c.actor.ActiveMech.CombatController.EndEncounter()
+      combatControllers(c.actor).forEach(cc => cc.EndEncounter())
       c.actor.CombatController.Record('encounter.end', { result, rounds: this.Round })
     }
   }
@@ -381,17 +449,13 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
         if (b.id === self_id) return 1
       }
 
-      // Sort by side first
       if (a.side !== b.side) {
-        // Prioritize the target side
         if (a.side === targetSide) return -1
         if (b.side === targetSide) return 1
 
-        // Then sort remaining sides alphabetically
         return a.side.localeCompare(b.side)
       }
 
-      // If same side, sort by name
       return a.actor.Name.localeCompare(b.actor.Name)
     })
   }
@@ -410,6 +474,9 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
       encounter: instance._cachedEncounterData ?? Encounter.Serialize(instance.Encounter),
       isActive: instance.IsActive,
       autosave: instance.Autosave,
+      play_mode: instance.PlayMode,
+      layout: instance.Layout && JSON.parse(JSON.stringify(instance.Layout)),
+      turn_wizard_close: instance.TurnWizardClose,
       simple_tickbars: instance.SimpleTickbars,
       force_complex_tickbars: instance.ForceComplexTickbars,
       layout_columns: instance.LayoutColumns,
@@ -443,5 +510,5 @@ class EncounterInstance implements ISaveable, ICloudSyncable {
   }
 }
 
-export { EncounterInstance }
-export type { IEncounterInstanceData }
+export { EncounterInstance, applyPlayMode }
+export type { IEncounterInstanceData, PlayMode }

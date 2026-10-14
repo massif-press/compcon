@@ -35,7 +35,14 @@ const immunity: IFlowStep<IAddStatusState> = {
   Name: 'immunity',
   Run: s => {
     const rule = ruleFor(s.statusID)
-    if (!rule?.immuneIf?.some(id => s.sc.HasCondition(id))) return 'continue'
+    const fromBonus = s.sc.ActiveController?.MechScaleBonuses?.some(
+      b => b.ID === 'immunity' && [b.Value].flat().some(v => String(v).toLowerCase() === s.statusID)
+    )
+    const fromResist = s.sc.ActiveController?.Resistances?.some(
+      r => r.type === s.statusID && r.condition === 'immunity'
+    )
+    if (!fromBonus && !fromResist && !rule?.immuneIf?.some(id => s.sc.HasCondition(id)))
+      return 'continue'
     s.blockedBy = 'immune'
     return 'halt'
   },

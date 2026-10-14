@@ -24,7 +24,7 @@
         <slot name="selector" />
         <v-spacer />
         <cc-dialog
-          :title="$t('ui.titles.printOptions')"
+          :title="$t('ui.print.printOptions')"
           :close-on-click="false"
           major
           full-height
@@ -39,7 +39,7 @@
           <slot name="options-dialog" />
         </cc-dialog>
         <v-btn @click="print()">
-          <span>{{ $t('common.print') }}</span>
+          <span>{{ $t('common.printAction') }}</span>
           <v-icon icon="mdi-printer" />
         </v-btn>
       </v-bottom-navigation>

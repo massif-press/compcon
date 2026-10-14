@@ -8,7 +8,7 @@
       prepend-icon="mdi-printer"
       @click="$router.push(`/print/${pilot.ID}`)"
     >
-      {{ $t('common.print') }}
+      {{ $t('common.printAction') }}
       <template #subtitle>
         <span class="text-cc-overline">
           {{ $t('pm.sheet.printTabletopReadyCharacterAndMech') }}
@@ -19,7 +19,7 @@
     <br />
 
     <cc-dialog
-      :title="$t('pm.titles.statblockGenerator')"
+      :title="$t('pm.pilotSheet.statblockGenerator')"
       icon="mdi-code-block-tags"
       :close-on-click="false"
       major
@@ -56,7 +56,7 @@
     >
       {{ $t('pm.sheet.exportPilot') }}
       <template #subtitle>
-        <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAJSON') }}</span>
+        <span class="text-cc-overline">{{ $t('pm.sheet.exportJsonDescription') }}</span>
       </template>
     </cc-button>
     <cc-button
@@ -67,16 +67,16 @@
       prepend-icon="mdi-download"
       @click="exportPilot(true)"
     >
-      {{ $t('pm.sheet.exportLegacyJSON') }}
+      {{ $t('pm.sheet.exportLegacyJson') }}
       <template #subtitle>
-        <span class="text-cc-overline">{{ $t('pm.sheet.exportThisPilotAsAV2') }}</span>
+        <span class="text-cc-overline">{{ $t('pm.sheet.exportLegacyJsonDescription') }}</span>
       </template>
     </cc-button>
     <br />
 
     <cc-dialog
       v-if="!pilot.IsRemote"
-      :title="$t('pm.titles.sharePilotData')"
+      :title="$t('pm.pilotSheet.sharePilotData')"
       icon="cc:pilot"
       :close-on-click="false"
     >
@@ -84,7 +84,9 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
+          :text="
+            isAuthed ? $t('pm.pilotSheet.sharePilotData') : $t('pm.sheet.requiresCloudAccount')
+          "
         >
           <template #activator="{ props }">
             <cc-button
@@ -111,7 +113,7 @@
     <cc-dialog
       v-if="pilot.IsRemote"
       :close-on-click="false"
-      :title="$t('pm.titles.convertRemotePilot')"
+      :title="$t('pm.pilotSheet.convertRemotePilot')"
       icon="cc:pilot"
     >
       <template #activator="{ open }">
@@ -124,7 +126,7 @@
           {{ $t('common.convertToLocal') }}
           <template #subtitle>
             <span class="text-cc-overline">
-              {{ $t('pm.sheet.convertThisPilotToAnEditable') }}
+              {{ $t('pm.pilotSheet.convertToLocalDescription') }}
             </span>
           </template>
         </cc-button>
@@ -132,7 +134,7 @@
       <template #default="{ close }">
         <cc-confirmation
           full-width
-          :content="$t('pm.tooltips.convertingThisPilotToLocalData')"
+          :content="$t('pm.pilotSheet.convertToLocalWarning')"
           cancellable
           @confirm="convert()"
           @cancel="close"
@@ -142,7 +144,7 @@
 
     <cc-dialog
       v-else
-      :title="$t('pm.titles.clonePilot')"
+      :title="$t('pm.pilotSheet.clonePilot')"
       icon="mdi-dna"
       :close-on-click="false"
       major
@@ -175,7 +177,7 @@
 
     <br />
     <cc-dialog
-      :title="$t('pm.sheet.setLCPConfiguration')"
+      :title="$t('pm.sheet.setLcpConfiguration')"
       icon="mdi-list-status"
       :close-on-click="false"
       major
@@ -190,10 +192,10 @@
           prepend-icon="mdi-list-status"
           @click="open"
         >
-          {{ $t('pm.sheet.setLCPConfiguration') }}
+          {{ $t('pm.sheet.setLcpConfiguration') }}
           <template #subtitle>
             <span class="text-cc-overline">
-              {{ $t('pm.sheet.manageWhichContentPacksAreAccessible') }}
+              {{ $t('pm.sheet.lcpConfigurationDescription') }}
             </span>
           </template>
         </cc-button>
@@ -219,7 +221,7 @@
           {{
             pilot.CloudController.isSynced
               ? $t('pm.sheet.pilotIsUpToDateWith')
-              : $t('pm.sheet.downloadAllRemoteChangesToThis')
+              : $t('pm.sheet.downloadRemoteDescription')
           }}
         </span>
       </template>
@@ -228,7 +230,7 @@
 
     <cc-dialog
       :close-on-click="false"
-      :title="$t('pm.titles.confirmPilotDeletion')"
+      :title="$t('pm.pilotSheet.confirmPilotDeletion')"
       icon="cc:pilot"
     >
       <template #activator="{ open }">

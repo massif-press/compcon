@@ -19,7 +19,7 @@
         v-if="context === 'new'"
         class="heading h2"
       >
-        {{ $t('pm.new.uadIDENTService') }}
+        {{ $t('pm.new.identServiceName') }}
         <cc-slashes />
         &nbsp;{{ $t('pm.shared.rm4cPilotSelfAssessment2') }}
       </div>
@@ -29,7 +29,7 @@
       >
         {{ $t('pm.level.mv2LicenseAcquisitionRequest') }}
         <cc-slashes />
-        &nbsp;{{ $t('pm.shared.mv2BCOAResourceRequisition') }}
+        &nbsp;{{ $t('pm.shared.coaRequisitionFormTitle') }}
       </div>
 
       <p
@@ -37,14 +37,14 @@
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT3') }}
+        {{ $t('pm.shared.talentsAssessmentIntro') }}
       </p>
       <p
         v-else
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theCombatOperationAbilityRequisitionOn') }}
+        {{ $t('pm.shared.coaRequisitionIntro') }}
       </p>
 
       <v-alert
@@ -62,7 +62,7 @@
           }}
         </div>
         <p class="text-cc-overline">
-          {{ $t('pm.shared.bySubmittingThisFormYouAttest') }}
+          {{ $t('pm.shared.attestation') }}
         </p>
       </v-alert>
     </div>

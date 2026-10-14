@@ -5,7 +5,7 @@
       style="letter-spacing: 3px; font-size: 10px"
     >
       {{ header }} //
-      <b>{{ $t('pm.print.deployable') }}</b>
+      <b>{{ $t('enums.systemType.deployable') }}</b>
     </div>
     <v-row
       dense
@@ -41,7 +41,7 @@
             class="pa-1"
           >
             <b>
-              <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
+              <span class="text-uppercase">{{ $t('stats.size') }}</span>
               :
             </b>
             <br />
@@ -127,7 +127,7 @@
             variant="tonal"
             class="pa-1"
           >
-            <b>{{ $t('active.titles.repairCap') }}:</b>
+            <b>{{ $t('common.repairCap') }}:</b>
             <br />
             {{ (deployable as any).Repcap }}
           </v-card>
@@ -138,7 +138,7 @@
             class="pa-1"
           >
             <b>
-              <span class="text-uppercase">{{ $t('common.save') }}</span>
+              <span class="text-uppercase">{{ $t('common.saveAction') }}</span>
               :
             </b>
             <br />

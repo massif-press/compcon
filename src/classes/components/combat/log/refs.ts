@@ -1,4 +1,5 @@
 import type { IActorRef, IRef, ActorRefType } from './events'
+import { identityActor } from '../ActorIdentity'
 
 const KIND_TO_TYPE: Record<string, ActorRefType> = {
   mech: 'mech',
@@ -8,14 +9,15 @@ const KIND_TO_TYPE: Record<string, ActorRefType> = {
 
 function actorRef(cc: any, side?: string): IActorRef {
   if (!cc) return { id: '', name: 'Unknown', type: 'unknown' }
-  const parent = cc.Parent ?? {}
+  const parent = identityActor(cc) ?? {}
   const templates = parent.NpcTemplateController?.Templates ?? []
   const npcClass = parent.NpcClassController?.Class ?? null
+  const byItem = typeFromItemType(parent.ItemType)
 
   const ref: IActorRef = {
     id: parent.ID ?? '',
     name: cc.CombatName ?? parent.Name ?? 'Unknown',
-    type: KIND_TO_TYPE[cc.Kind] ?? typeFromItemType(parent.ItemType),
+    type: byItem === 'eidolon' ? byItem : (KIND_TO_TYPE[cc.Kind] ?? byItem),
   }
 
   if (parent.OriginId) ref.originId = parent.OriginId

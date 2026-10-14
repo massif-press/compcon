@@ -40,17 +40,17 @@
 
   const lcpHeaders = [
     { title: '', key: 'data-table-expand', width: '0' },
-    { title: t('nav.titles.lcp'), key: 'title' },
-    { title: t('nav.titles.author'), key: 'author' },
+    { title: t('common.lcp'), key: 'title' },
+    { title: t('common.author'), key: 'author' },
     { title: 'v3', value: 'v3' },
     {
-      title: t('nav.titles.latestVersion'),
+      title: t('common.latestVersion'),
       key: 'remote_version',
       align: 'center',
       sortable: false,
     },
     {
-      title: t('nav.titles.installedVersion'),
+      title: t('common.installedVersion'),
       key: 'local_version',
       align: 'center',
       sortable: false,

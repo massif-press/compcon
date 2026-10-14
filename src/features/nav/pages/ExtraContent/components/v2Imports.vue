@@ -93,7 +93,7 @@
               </v-tooltip>
             </v-btn>
           </template>
-          <cc-panel :title="$t('nav.v2Import.forceImportPanelTitle')">
+          <cc-panel :title="$t('common.forceImport')">
             <v-card-text class="pa-1">
               {{ $t('nav.v2Import.forceImportNotice', { type: item.type }) }}:
               <div class="mt-2">
@@ -118,7 +118,7 @@
                 :loading="loading"
                 @click="doForceImport(item)"
               >
-                {{ $t('nav.v2Import.confirmForceImport') }}
+                {{ $t('common.forceImport') }}
               </cc-button>
             </v-card-actions>
           </cc-panel>
@@ -242,10 +242,10 @@
   const showStripped = ref(false)
 
   const headers = [
-    { title: t('nav.titles.type'), key: 'type', sortable: true },
-    { title: 'Name', key: 'name', sortable: true },
-    { title: t('nav.titles.missing'), key: 'missing', sortable: false },
-    { title: t('nav.titles.backedUp'), key: 'date', sortable: true },
+    { title: t('common.type'), key: 'type', sortable: true },
+    { title: t('common.name'), key: 'name', sortable: true },
+    { title: t('nav.extraContent.missing'), key: 'missing', sortable: false },
+    { title: t('nav.extraContent.backedUp'), key: 'date', sortable: true },
     { title: '', key: 'actions', sortable: false },
   ]
 

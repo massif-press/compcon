@@ -55,6 +55,7 @@ export const UserStore = defineStore('cloud', {
     AllSyncableItems: () => SyncStore().AllSyncableItems,
     CloudOnlyItems: () => SyncStore().CloudOnlyItems,
     AllItemsToSync: () => SyncStore().AllItemsToSync,
+    SyncEligibleItems: () => SyncStore().SyncEligibleItems,
     AllRemoteItemsToSync: () => SyncStore().AllRemoteItemsToSync,
     ItemsRequiringUpdate: () => SyncStore().ItemsRequiringUpdate,
     SyncItemTypes: () => SyncStore().SyncItemTypes,
@@ -224,12 +225,7 @@ export const UserStore = defineStore('cloud', {
     },
     async fetchLcp(dbItem: any): Promise<any> {
       const meta = UserMetadataStore().UserMetadata
-      const presign = await getItemDownloadLink(
-        meta.ItchData.user.id,
-        dbItem.game_id,
-        dbItem.uri,
-        meta.HasCoreBook
-      )
+      const presign = await getItemDownloadLink(meta.ItchData.user.id, dbItem.game_id, dbItem.uri)
       const file = await getFromPresignDirect(presign)
       const fileData = await this.readAsBinaryStringAsync(file)
       const lcp = await parseContentPack(fileData as string)

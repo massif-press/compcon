@@ -9,7 +9,7 @@
     >
       <v-tooltip
         location="top"
-        :text="$t('active.actions.equipmentDeployableInstance')"
+        :text="$t('active.runner.equipmentDeployableInstance')"
       >
         <template #activator="{ props }">
           <v-icon
@@ -61,15 +61,26 @@
             offset-y
           >
             <template #activator="{ props }">
+              <cc-button
+                v-if="simple"
+                v-bind="props"
+                size="x-small"
+                block
+                :color="canActivate ? deployable.DeployAction.Color : 'panel'"
+                :prepend-icon="deployable.DeployAction.Icon"
+              >
+                {{ $t('active.deploy.deployNamed', { name: deployable.Name }) }}
+              </cc-button>
               <v-btn
+                v-else
                 v-bind="props"
                 flat
                 tile
                 block
                 size="small"
                 :color="canActivate ? deployable.DeployAction.Color : 'panel'"
-                height="26px"
-                class="ml-n1"
+                :height="actionOnly ? 28 : 26"
+                :class="actionOnly ? '' : 'ml-n1'"
                 :prepend-icon="deployable.DeployAction.Icon"
               >
                 {{
@@ -150,6 +161,13 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-col
+      v-if="layout.showActionDetails && !actionOnly && deployable.Detail"
+      cols="12"
+      class="pt-0 text-caption"
+    >
+      <div v-html-safe="deployable.Detail" />
+    </v-col>
   </v-row>
 </template>
 
@@ -158,6 +176,7 @@
   import type { Deployable } from '@/classes/components/feature/deployable/Deployable'
   import { ref, computed } from 'vue'
   import CombatActionIndicator from '@/ui/components/chips/_CombatActionIndicator.vue'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   const props = withDefaults(
     defineProps<{
@@ -166,6 +185,7 @@
       disabled?: boolean
       customDisabledText?: string
       actionOnly?: boolean
+      simple?: boolean
     }>(),
     {
       disabled: false,
@@ -177,6 +197,7 @@
   const emit = defineEmits<{ deploy: [deployable: Deployable] }>()
 
   const menu = ref(false)
+  const { layout } = useLayoutOptions()
 
   const canActivate = computed(
     () =>

@@ -16,15 +16,7 @@
             :text="
               mobile ? $t('mainMenu.publishing.headerShort') : $t('mainMenu.publishing.header')
             "
-            tooltip="Through this tool you can create and publish collections of COMP/CON content to
-                other users, who can then subscribe to your content collections and automatically
-                receive updates when you publish new content. This tool is intended for GMs and
-                LANCER content creators, and is not required for general use or LANCER gameplay.
-                <br />
-                <br />
-                Please use this tool responsibly. Publishing inappropriate or harmful content, or
-                content you do not have permission to distribute, may result in your account being
-                banned from the COMP/CON cloud service."
+            :tooltip="$t('mainMenu.publishing.headerTooltip')"
           />
         </v-toolbar-title>
       </v-toolbar>
@@ -33,7 +25,7 @@
           color="text"
           icon="mdi-information-outline"
           variant="outlined"
-          :title="$t('mainMenu.titles.youDoNotHaveAccess2')"
+          :title="$t('mainMenu.publishing.noPublishingAccess')"
         >
           <i18n-t
             keypath="mainMenu.publishing.accessInfo"
@@ -132,7 +124,7 @@
                           :label="
                             !collection.Author
                               ? $t('mainMenu.publishing.authorRequired')
-                              : $t('share.resultAuthor')
+                              : $t('common.author')
                           "
                         />
                       </v-col>
@@ -504,7 +496,7 @@
                               </i18n-t>
                             </p>
                             <span class="text-caption">
-                              {{ $t('mainMenu.publishing.actionUndone') }}
+                              {{ $t('common.actionCannotBeUndone') }}
                             </span>
                           </div>
                         </v-card-text>
@@ -512,7 +504,7 @@
                           <div>
                             <p>{{ $t('mainMenu.publishing.confirmDelete') }}</p>
                             <span class="text-caption">
-                              {{ $t('mainMenu.publishing.actionUndone') }}
+                              {{ $t('common.actionCannotBeUndone') }}
                             </span>
                           </div>
                         </v-card-text>
@@ -565,9 +557,9 @@
   const loading = ref(false)
   const colIdx = ref(0)
   const dataHeaders = ref([
-    { title: 'Name', key: 'name' },
+    { title: t('common.name'), key: 'name' },
     { title: t('common.type'), key: 'item_type' },
-    { title: t('mainMenu.titles.lastUpdated'), key: 'update' },
+    { title: t('share.resultLastUpdated'), key: 'update' },
     { title: '', key: 'actions', width: '115px' },
   ])
 
@@ -617,7 +609,7 @@
     } catch (e) {
       logger.error(`Failed to publish collection ${collection.Name}: ${e}`, undefined, e)
       notify({
-        title: t('notify.common.error'),
+        title: t('common.error'),
         text: t('notify.account.collectionPublishFailedText', { name: collection.Name }),
         color: 'error',
         icon: 'mdi-alert',

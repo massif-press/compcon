@@ -1,7 +1,7 @@
 <template>
   <ref-roll-table-base
     ref="base"
-    :title="$t('ui.titles.structureDamage')"
+    :title="$t('combat.structureCheck.structure')"
   >
     <v-divider class="ma-2" />
     <v-row>

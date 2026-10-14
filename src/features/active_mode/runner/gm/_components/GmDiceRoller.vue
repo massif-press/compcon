@@ -113,7 +113,7 @@
                   md=""
                 >
                   <div class="text-cc-overline text-disabled">
-                    {{ $t('active.diceRoller.count') }}
+                    {{ $t('active.charts.count') }}
                   </div>
                   <v-text-field
                     v-model="count"
@@ -236,15 +236,15 @@
               <div class="mt-2 mb-4">
                 <cc-switch
                   v-model="isCrit"
-                  :label="$t('pm.shared.critical')"
+                  :label="$t('pm.shared.criticalWarning')"
                   class="mt-2"
-                  :tooltip="$t('active.tooltips.rollAllDiceTakingThe')"
+                  :tooltip="$t('active.runner.rollAllDiceTakingThe')"
                 />
                 <cc-switch
                   v-model="Overkill"
-                  :label="$t('active.fields.overkill')"
+                  :label="$t('common.overkill')"
                   class="mt-2"
-                  :tooltip="$t('active.tooltips.reroll1s')"
+                  :tooltip="$t('active.runner.reroll1s')"
                 />
               </div>
 
@@ -257,7 +257,7 @@
                 class="mt-1"
                 @click="reset()"
               >
-                {{ $t('common.reset') }}
+                {{ $t('common.resetAction') }}
               </v-btn>
             </v-card-text>
           </v-card>
@@ -315,16 +315,22 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { computed, ref } from 'vue'
+  import { computed, ref, watch } from 'vue'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
+  import type { CheckType } from '@/classes/components/combat/stats/Stats'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   const props = withDefaults(
     defineProps<{
       selected?: { actor?: any } | false
       encounterInstance: EncounterInstance
+      check?: CheckType | null
     }>(),
     {
       selected: false,
+      check: null,
     }
   )
 
@@ -383,17 +389,27 @@
     lastRoll.value = rollResult.value.total
 
     const rollerName = (props.selected as any)?.Label || actor.value?.CombatController.CombatName
-    let str = actor.value ? `<b>${rollerName}</b> rolled: ` : 'GM Rolled: '
+    let str = actor.value
+      ? `${t('active.diceRoller.actorRolled', { name: `<b>${rollerName}</b>` })} `
+      : `${t('active.diceRoller.gmRolled')} `
     str += `(${diceValue}) `
     if (accuracy.value) {
-      str += ` [${isAcc ? '+' : '-'}${Math.abs(accuracy.value)} ${isAcc ? 'ACC' : 'DIFF'}]`
+      str += ` [${isAcc ? '+' : '-'}${Math.abs(accuracy.value)} ${t(isAcc ? 'active.diceRoller.accuracyShort' : 'active.diceRoller.difficultyShort')}]`
     }
-    if (isCrit.value) str += ' [CRIT]'
-    if (Overkill.value) str += ' [OVERKILL]'
+    if (isCrit.value) str += ` [${t('ui.combat.crit').toUpperCase()}]`
+    if (Overkill.value) str += ` [${t('common.overkill').toUpperCase()}]`
     str += ` ${lastRollString.value}`
     const history = (props.encounterInstance as any).RollHistory as string[]
     history.unshift(str)
     if (history.length > 200) history.length = 200
     rollType.value = ''
   }
+
+  watch(
+    () => props.check,
+    type => {
+      if (type && actor.value) setCheck(type)
+    },
+    { immediate: true }
+  )
 </script>

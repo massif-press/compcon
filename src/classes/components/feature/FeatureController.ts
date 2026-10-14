@@ -12,34 +12,43 @@ import type { MechSystem } from '../../mech/components/equipment/MechSystem'
 import type { MechWeapon } from '../../mech/components/equipment/MechWeapon'
 import { ActiveEffect } from './active_effects/ActiveEffect'
 import { Parser } from 'expr-eval'
+import { i18n } from '@/i18n'
 import { ExpressionContext } from '@/classes/utility/ExpressionContext'
 
 const strDict = [
-  { key: 'll', prop: 'Level', text: 'Pilot License Level' },
-  { key: 'tier', prop: 'Tier', text: 'NPC Tier' },
-  { key: 'grit', prop: 'Grit', text: 'Pilot Grit' },
-  { key: 'hull', prop: 'Hull', text: 'Hull' },
-  { key: 'agi', prop: 'Agi', text: 'Agility' },
-  { key: 'sys', prop: 'Sys', text: 'Systems' },
-  { key: 'eng', prop: 'Eng', text: 'Engineering' },
-  { key: 'size', prop: 'Size', text: 'Size' },
-  { key: 'structure', prop: 'Structure', text: 'Maximum Structure' },
-  { key: 'stress', prop: 'Stress', text: 'Maximum Reactor Stress' },
-  { key: 'armor', prop: 'Armor', text: 'Armor' },
-  { key: 'hp', prop: 'HP', text: 'Maximum HP' },
-  { key: 'current_structure', prop: 'CurrentStructure', text: 'Current Structure' },
-  { key: 'current_stress', prop: 'CurrentStress', text: 'Current Reactor Stress' },
-  { key: 'current_hp', prop: 'CurrentHp', text: 'Current HP' },
-  { key: 'overshield', prop: 'Overshield', text: 'Overshield' },
-  { key: 'speed', prop: 'Speed', text: 'Speed' },
-  { key: 'evasion', prop: 'Evasion', text: 'Evasion' },
-  { key: 'edef', prop: 'Edef', text: 'E-Defense' },
-  { key: 'heatcap', prop: 'Heatcap', text: 'Heat Capacity' },
-  { key: 'heat', prop: 'Heat', text: 'Current Heat' },
-  { key: 'sensors', prop: 'Sensors', text: 'Sensor Range' },
-  { key: 'repcap', prop: 'Repcap', text: 'Repair Capacity' },
-  { key: 'save', prop: 'Save', text: 'Save' },
-  { key: 'sp', prop: 'SP', text: 'System Points' },
+  { key: 'll', prop: 'Level', label: 'classes.expressionVariable.ll' },
+  { key: 'tier', prop: 'Tier', label: 'classes.expressionVariable.tier' },
+  { key: 'grit', prop: 'Grit', label: 'active.panelBase.pilotGrit' },
+  { key: 'hull', prop: 'Hull', label: 'stats.hull' },
+  { key: 'agi', prop: 'Agi', label: 'stats.agility' },
+  { key: 'sys', prop: 'Sys', label: 'stats.systems' },
+  { key: 'eng', prop: 'Eng', label: 'stats.engineering' },
+  { key: 'size', prop: 'Size', label: 'stats.size' },
+  { key: 'structure', prop: 'Structure', label: 'classes.expressionVariable.structure' },
+  { key: 'stress', prop: 'Stress', label: 'classes.expressionVariable.stress' },
+  { key: 'armor', prop: 'Armor', label: 'stats.armor' },
+  { key: 'hp', prop: 'HP', label: 'classes.expressionVariable.hp' },
+  {
+    key: 'current_structure',
+    prop: 'CurrentStructure',
+    label: 'classes.expressionVariable.currentStructure',
+  },
+  {
+    key: 'current_stress',
+    prop: 'CurrentStress',
+    label: 'classes.expressionVariable.currentStress',
+  },
+  { key: 'current_hp', prop: 'CurrentHp', label: 'classes.expressionVariable.currentHp' },
+  { key: 'overshield', prop: 'Overshield', label: 'common.overshield' },
+  { key: 'speed', prop: 'Speed', label: 'stats.speed' },
+  { key: 'evasion', prop: 'Evasion', label: 'stats.evasion' },
+  { key: 'edef', prop: 'Edef', label: 'stats.edefense' },
+  { key: 'heatcap', prop: 'Heatcap', label: 'common.heatCapacity' },
+  { key: 'heat', prop: 'Heat', label: 'classes.expressionVariable.heat' },
+  { key: 'sensors', prop: 'Sensors', label: 'common.sensorRange' },
+  { key: 'repcap', prop: 'Repcap', label: 'common.repairCapacity' },
+  { key: 'save', prop: 'Save', label: 'classes.expressionVariable.save' },
+  { key: 'sp', prop: 'SP', label: 'common.systemPoints' },
 ]
 
 class FeatureController {
@@ -57,12 +66,22 @@ class FeatureController {
     this.Containers = containers
   }
 
-  private collectAll<T>(collection: string): T[] {
+  private collectAll<T>(collection: string, live = false): T[] {
     if (!this.Containers.length) {
       return []
     }
 
-    return this.Containers.flatMap(container => Collect(collection, container.FeatureSource))
+    return this.Containers.flatMap(container =>
+      Collect(
+        collection,
+        live ? FeatureController.liveSources(container.FeatureSource) : container.FeatureSource
+      )
+    )
+  }
+
+  private static liveSources(sources: any[]): any[] {
+    const deadMods = sources.filter(x => x?.Destroyed && x.Mod).map(x => x.Mod)
+    return sources.filter(x => !x || (!x.Destroyed && !x.IsCascading && !deadMods.includes(x)))
   }
 
   private getRootEntity(node: object): object {
@@ -85,7 +104,7 @@ class FeatureController {
         s
           .toString()
           .replace(`_`, '')
-          .replace(new RegExp(`{${p.key}}`, 'g'), p.text)
+          .replace(new RegExp(`{${p.key}}`, 'g'), i18n.global.t(p.label))
       )
     })
 
@@ -135,10 +154,28 @@ class FeatureController {
     return (this.Parent as any).CombatController?.CoreActive || false
   }
 
+  private conditionMet(condition: string): boolean {
+    const cc = (this.Parent as any).CombatController
+    return !!this.EvaluateSpecial(
+      condition.replace(/\{([\w-]+)\}/g, (token, id) => (cc?.HasStatus?.(id) ? '1' : token))
+    )
+  }
+
+  private get effectBonuses(): Bonus[] {
+    const core = this.isCoreActive ? this.collectAll<ActiveEffect>('CoreActiveEffects', true) : []
+    return this.collectAll<ActiveEffect>('ActiveEffects', true)
+      .concat(this.collectAll('PassiveEffects', true))
+      .flatMap(e => e.Bonuses.filter(b => b.Condition || !e.Condition))
+      .concat(core.flatMap(e => e.Bonuses))
+  }
+
   public get Bonuses(): Bonus[] {
-    return this.collectAll('Bonuses')
-      .concat(this.collectAll('PassiveBonuses'))
-      .concat(this.isCoreActive ? this.collectAll('ActiveBonuses') : []) as Bonus[]
+    return (
+      this.collectAll('Bonuses', true)
+        .concat(this.collectAll('PassiveBonuses', true))
+        .concat(this.isCoreActive ? this.collectAll('ActiveBonuses', true) : [])
+        .concat(this.effectBonuses) as Bonus[]
+    ).filter(b => !b.Condition || this.conditionMet(b.Condition))
   }
 
   public get Synergies(): Synergy[] {

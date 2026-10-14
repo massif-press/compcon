@@ -198,7 +198,7 @@
               </div>
               <div class="my-1">
                 {{ strings.currentVersion }}
-                <b>{{ $t('ui.widget.versionLabel', { version: item.version }) }}</b>
+                <b>{{ $t('gm.campaign.versionLabel', { version: item.version }) }}</b>
                 <span class="text-caption">
                   ({{ new Date(item.updated * 1000).toLocaleDateString() }})
                 </span>

@@ -9,17 +9,16 @@
     max-width="80vw"
   >
     <template #activator="{ open }">
-      <v-btn
+      <component
+        :is="inMenu ? CcButton : VBtn"
+        v-bind="activatorProps"
         block
-        flat
-        tile
-        :size="mobile ? 'x-small' : 'small'"
-        height="28"
         :color="available ? displayColor : 'panel'"
         @click="open"
       >
-        <span class="ml-1">
+        <span :class="inMenu ? '' : 'ml-1'">
           <v-icon
+            v-if="!inMenu"
             :icon="displayIcon"
             :color="available ? '' : 'error'"
             start
@@ -33,11 +32,11 @@
                 v-bind="props"
                 icon="mdi-exclamation-thick"
                 color="error"
-                class="ml-n2"
+                :class="inMenu ? 'mr-1' : 'ml-n2'"
               />
             </template>
             <div class="text-center text-cc-overline">
-              {{ $t('ui.combat.cannotActivateShort') }}
+              {{ $t('ui.combat.cannotActivate') }}
             </div>
             <v-divider class="my-1" />
             <div v-if="!canActivate">
@@ -64,7 +63,7 @@
         >
           <template #activator="{ props }">
             <span v-bind="props">
-              {{ action.Name }}
+              {{ label ?? action.Name }}
             </span>
           </template>
           <div
@@ -132,7 +131,7 @@
             />
           </template>
         </v-tooltip>
-      </v-btn>
+      </component>
     </template>
     <template #default="{ close }">
       <slot :close="close" />
@@ -143,9 +142,12 @@
 <script setup lang="ts">
   import { useEncounterContext } from '../../../encounterContext'
   import type { Action } from '@/classes/Action'
-  import { computed } from 'vue'
+  import { computed, inject } from 'vue'
   import { useI18n } from 'vue-i18n'
   import { ActivePeriod } from '@/classes/Frequency'
+  import { VBtn } from 'vuetify/components'
+  import CcButton from '@/ui/components/buttons/CCButton.vue'
+  import { MenuButtonsKey } from '../../actionPalette'
 
   const { activeController: controller } = useEncounterContext()
   const { t } = useI18n()
@@ -154,6 +156,7 @@
     defineProps<{
       action: Action
       presetWeapon?: { InstanceID: string }
+      label?: string
       mobile?: boolean
       actionColor?: string
       actionIcon?: string
@@ -161,6 +164,7 @@
     }>(),
     {
       presetWeapon: undefined,
+      label: undefined,
       mobile: false,
       actionColor: undefined,
       actionIcon: undefined,
@@ -176,6 +180,12 @@
     if (overchargeUse.value) return 'cc:overcharge'
     return props.actionIcon ?? props.action.Icon
   })
+  const inMenu = inject(MenuButtonsKey, false)
+  const activatorProps = computed(() =>
+    inMenu
+      ? { size: 'x-small', prependIcon: displayIcon.value }
+      : { flat: true, tile: true, size: props.mobile ? 'x-small' : 'small', height: 28 }
+  )
   const canActivate = computed(() => {
     return controller.value.CanActivate(props.action.Activation)
   })

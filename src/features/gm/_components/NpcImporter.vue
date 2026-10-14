@@ -7,9 +7,9 @@
       <v-col cols="6">
         <v-file-input
           v-model="fileValue"
-          accept="text/json"
+          accept=".json,application/json"
           variant="outlined"
-          :label="$t('gm.fields.selectDataFile')"
+          :label="$t('gm.shared.selectDataFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -46,7 +46,7 @@
               </v-btn>
             </th>
             <th>{{ $t('common.item') }}</th>
-            <th>{{ $t('gm.import.collection') }}</th>
+            <th>{{ $t('common.collection') }}</th>
             <th>{{ $t('nav.deletedItems.itemType') }}</th>
             <th>{{ $t('common.contentPacks') }}</th>
             <th class="text-center">{{ $t('common.status') }}</th>

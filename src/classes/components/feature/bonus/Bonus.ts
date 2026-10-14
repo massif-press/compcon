@@ -2,11 +2,35 @@ import { DamageType, RangeType, WeaponSize, WeaponType } from '../../../enums'
 import { IFeatureController } from '../IFeatureController'
 import { getBonusDictionary } from './bonus_dictionary'
 import { IBonusDataContainer } from './IBonusDataContainer'
+import { i18n } from '@/i18n'
 
 const TIER_LIST = /^-?\d+(\.\d+)?(\/-?\d+(\.\d+)?)*$/
 
 function isTierList(value: string): boolean {
   return TIER_LIST.test(value.trim())
+}
+
+function bonusKey(id: string, field: string): string {
+  const name = id.replace(/[^A-Za-z0-9]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+  return `bonuses.${name}.${field}`
+}
+
+function coreText(
+  id: string,
+  field: string,
+  params: Record<string, unknown> = {}
+): string | undefined {
+  const key = bonusKey(id, field)
+  return i18n.global.te(key, 'en') ? i18n.global.t(key, params) : undefined
+}
+
+function typeList(types: string[]): string {
+  return ` ${types.length ? types.join('/').toUpperCase() : ''}`
+}
+
+function enumValues<T extends string>(values: Record<string, T>, raw: string[] = []): T[] {
+  const all = Object.values(values)
+  return raw.map(v => all.find(x => x.toLowerCase() === String(v).toLowerCase()) ?? (v as T))
 }
 
 function tierValue(value: string, tier: number): string {
@@ -27,6 +51,8 @@ interface IBonusData {
   replace?: boolean
   type?: 'flag'
   condition?: string
+  max?: number
+  detail?: string
 }
 
 class Bonus {
@@ -45,26 +71,102 @@ class Bonus {
   public readonly PerPc: boolean = false
   public readonly IsFlag: boolean
   public readonly Condition: string | undefined
+  public readonly Max: number | undefined
+  private readonly _detail: string | undefined
 
   public constructor(data: IBonusData, source: string) {
     const entry = getBonusDictionary().find(x => x.id === data.id)
-    this.ID = data.id || 'UNKNOWN_BONUS'
+    this.ID = (data.id === 'heat_cap' ? 'heatcap' : data.id) || 'UNKNOWN_BONUS'
     this.Source = source
     this.PerPc = data.id?.includes('_pct') || false
 
     this.Value = data.val
     this.Accuracy = data.accuracy || 0
-    this.DamageTypes = data.damage_types || []
-    this.RangeTypes = data.range_types || []
-    this.WeaponTypes = data.weapon_types || []
-    this.WeaponSizes = data.weapon_sizes || []
-    this.Overwrite = data.overwrite || false
-    this.Replace = data.replace || false
+    this.DamageTypes = enumValues(DamageType, data.damage_types)
+    this.RangeTypes = enumValues(RangeType, data.range_types)
+    this.WeaponTypes = enumValues(WeaponType, data.weapon_types)
+    this.WeaponSizes = enumValues(WeaponSize, data.weapon_sizes)
+    const legacy = (data as any).override || false
+    this.Overwrite = data.overwrite || legacy
+    this.Replace = data.replace || legacy
     this.IsFlag = data.type === 'flag' || data.val === true
     this.Condition = data.condition
+    this.Max = data.max
+    this._detail = data.detail
 
-    this.Title = entry ? entry.title : 'UNKNOWN BONUS'
-    this.Detail = entry ? this.parseDetail(entry.detail) : 'UNKNOWN BONUS'
+    const unknown = i18n.global.t('ui.bonus.unknown')
+    if (!entry) {
+      this.Title = unknown
+      this.Detail = unknown
+    } else if (entry.core) {
+      this.Title = coreText(entry.id, 'title') ?? ''
+      this.Detail = this.coreDetail(entry.id)
+    } else {
+      this.Title = entry.title
+      this.Detail = this.parseDetail(entry.detail)
+    }
+    if (entry && data.detail) this.Detail = data.detail
+  }
+
+  public get IsFiltered(): boolean {
+    return !!(
+      this.WeaponTypes.length ||
+      this.WeaponSizes.length ||
+      this.RangeTypes.length ||
+      this.DamageTypes.length
+    )
+  }
+
+  public MatchesWeapon(types: string[], size: string): boolean {
+    return (
+      (!this.WeaponTypes.length || this.WeaponTypes.some(t => types.includes(t))) &&
+      (!this.WeaponSizes.length || this.WeaponSizes.some(s => s === size))
+    )
+  }
+
+  private get valueText(): string | undefined {
+    if (!this.Value) return undefined
+    return Array.isArray(this.Value) ? this.Value.join(', ') : String(this.Value)
+  }
+
+  private get isDecrease(): boolean {
+    const rep = this.valueText
+    const repNum = Array.isArray(this.Value)
+      ? Number(this.Value[0])
+      : Number(tierValue(String(rep), 1))
+    return isNaN(repNum)
+      ? String(rep ?? '-')
+          .trim()
+          .startsWith('-')
+      : repNum <= -1
+  }
+
+  private coreDetail(id: string): string {
+    const t = i18n.global.t
+    const value = this.valueText ?? ''
+    const types = {
+      rangeTypes: typeList(this.RangeTypes),
+      damageTypes: typeList(this.DamageTypes),
+      weaponTypes: typeList(this.WeaponTypes),
+      weaponSizes: typeList(this.WeaponSizes),
+    }
+    const target = coreText(id, 'target', types)
+    if (target === undefined) {
+      const direction = t(this.isDecrease ? 'ui.bonus.decreases' : 'ui.bonus.increases')
+      const params = { ...types, value, direction, max: this.Max }
+      return (
+        (this.Max === undefined ? coreText(id, 'detailUnlimited', params) : undefined) ??
+        coreText(id, 'detail', params) ??
+        ''
+      )
+    }
+    if (this.Accuracy)
+      return t(this.Accuracy > 0 ? 'ui.bonus.takeAccuracy' : 'ui.bonus.takeDifficulty', {
+        target,
+        n: Math.abs(this.Accuracy),
+      })
+    if (this.Overwrite && this.Replace) return t('ui.bonus.setsTo', { target, value })
+    return t(this.isDecrease ? 'ui.bonus.decreasesBy' : 'ui.bonus.increasesBy', { target, value })
   }
 
   private parseDetail(detail): string {
@@ -86,7 +188,7 @@ class Bonus {
       return str
     }
 
-    if (this.Overwrite) str = str.replace(/{BY_TO}/g, 'Sets').replace('by', 'to')
+    if (this.Overwrite && this.Replace) str = str.replace(/{BY_TO}/g, 'Sets').replace('by', 'to')
 
     const repNum = Array.isArray(this.Value)
       ? Number(this.Value[0])
@@ -131,7 +233,7 @@ class Bonus {
   }
 
   public get Symbol(): string {
-    if (this.Overwrite || this.Replace) return '='
+    if (this.Replace) return '='
     if (isNaN(this.Value as number)) return ''
     if ((this.Value as number) > -1) return '+'
     if ((this.Value as number) < 0) return '-'
@@ -147,33 +249,42 @@ class Bonus {
     return str
   }
 
-  public static Int(base: number, id: string, source?: IFeatureController): number {
+  public static Int(
+    base: number,
+    id: string,
+    source?: IFeatureController,
+    filter: (b: Bonus) => boolean = () => true
+  ): number {
     if (!source) return base
 
-    const all = source.FeatureController.Bonuses.filter(x => x.ID === id)
+    const all = source.FeatureController.Bonuses.filter(x => x.ID === id && filter(x))
+    return this.Resolve(base, all, b => this.Evaluate(b, source))
+  }
 
-    // overwrite: ignore base and all other bonuses; take the highest overwrite value
-    const overwrites = all.filter(b => b.Overwrite && !b.Replace)
-    if (overwrites.length) {
-      return Math.max(...overwrites.map(b => this.Evaluate(b, source)))
-    }
+  public static Resolve<T extends { Overwrite: boolean; Replace: boolean }>(
+    base: number,
+    bonuses: T[],
+    evaluate: (b: T) => number
+  ): number {
+    const sum = (arr: T[]) => arr.reduce((total, b) => total + evaluate(b), 0)
 
-    // replace: sum of replace bonuses becomes the new base
-    const replaces = all.filter(b => b.Replace)
-    const val = replaces.length
-      ? replaces.reduce((sum, b) => sum + this.Evaluate(b, source), 0)
-      : base
+    const flats = bonuses.filter(b => b.Overwrite && b.Replace)
+    if (flats.length) return Math.max(...flats.map(evaluate))
 
-    // additive: sum remaining bonuses
-    return (
-      val +
-      all
-        .filter(b => !b.Overwrite && !b.Replace)
-        .reduce((sum, b) => sum + this.Evaluate(b, source), 0)
-    )
+    const replaces = bonuses.filter(b => b.Replace)
+    const val = replaces.length ? sum(replaces) : base
+
+    const overwrites = bonuses.filter(b => b.Overwrite)
+    if (overwrites.length) return val + Math.max(...overwrites.map(evaluate))
+
+    return val + sum(bonuses.filter(b => !b.Replace))
   }
 
   public static get(id: string, source: IFeatureController): number {
+    const flats = source.FeatureController.Bonuses.filter(
+      x => x.ID === id && x.Overwrite && x.Replace
+    )
+    if (flats.length) return Math.max(...flats.map(b => this.Evaluate(b, source)))
     let bArr = source.FeatureController.Bonuses.filter(x => x.ID === id && !x.Replace)
     if (bArr.some(b => b.Overwrite)) {
       bArr = bArr.filter(x => x.Overwrite)
@@ -204,14 +315,22 @@ class Bonus {
     }
 
     if (typeof value === 'number') return Math.ceil(value)
+    if (/\dd\d/.test(value as string)) return 0
     return source.FeatureController.EvaluateSpecial(value as string) as number
+  }
+
+  public static AccuracyFor(ids: string[], bonuses: Bonus[] = []): number {
+    return bonuses
+      .filter(b => ids.includes(b.ID) && !(b.ID === 'attack' && b.IsFiltered))
+      .reduce((sum, b) => sum + b.Accuracy, 0)
   }
 
   public static Contributors(
     id: string,
-    controller: IFeatureController
+    controller: IFeatureController,
+    filter: (b: Bonus) => boolean = () => true
   ): { name: string; val: number }[] {
-    return controller.FeatureController.Bonuses.filter(x => x.ID === id).map(b => ({
+    return controller.FeatureController.Bonuses.filter(x => x.ID === id && filter(x)).map(b => ({
       name: b.Source,
       val: Bonus.Evaluate(b, controller),
     }))
@@ -229,6 +348,9 @@ class Bonus {
       replace: bonus.Replace,
     }
     if (bonus.Condition) data.condition = bonus.Condition
+    if (bonus.Accuracy) data.accuracy = bonus.Accuracy
+    if (bonus.Max !== undefined) data.max = bonus.Max
+    if (bonus._detail) data.detail = bonus._detail
     return data
   }
 }

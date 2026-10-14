@@ -194,8 +194,8 @@
   const deleteLoading = ref(false)
   const headers = ref([
     { title: '', key: 'image' },
-    { title: t('mainMenu.titles.filename'), key: 'name' },
-    { title: t('mainMenu.titles.uploadDate'), key: 'created' },
+    { title: t('mainMenu.account.filename'), key: 'name' },
+    { title: t('mainMenu.account.uploadDate'), key: 'created' },
     { title: '', key: 'actions', width: '155px' },
   ])
 

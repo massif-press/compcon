@@ -1,7 +1,7 @@
 <template>
   <div>
     <section-header
-      :title="$t('pm.titles.specialEquipment')"
+      :title="$t('pm.pilotSheet.specialEquipment')"
       class="mb-4"
     />
     <no-data-block v-if="!pilot.SpecialEquipment.length" />
@@ -48,7 +48,7 @@
     >
       <v-col>
         <cc-dialog
-          :title="$t('pm.titles.addStandardEquipment')"
+          :title="$t('pm.pilotSheet.addStandardEquipment')"
           icon="mdi-star-circle-outline"
           fullscreen
           clip

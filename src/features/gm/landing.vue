@@ -15,7 +15,7 @@
           class="font-weight-light text-center my-n2"
           style="letter-spacing: 2vw !important; font-size: 2vw !important"
         >
-          {{ $t('gm.landing.toolkit') }}
+          {{ $t('common.gmToolkit') }}
         </div>
       </v-col>
       <v-col><v-divider /></v-col>
@@ -29,7 +29,7 @@
         to="gm/campaigns"
         name="Campaign Manager"
         :disabled="!isDevsite"
-        :description="$t('gm.subtitles.createModifyAndBrowseLancerCampaigns')"
+        :description="$t('gm.landing.createModifyAndBrowseLancerCampaigns')"
         img="campaign"
         :max-height="mobile ? 'calc((100vh - 20px) * 0.95)' : 'calc((100vh - 50px) * 0.95)'"
       />
@@ -39,14 +39,14 @@
           <landing-card
             to="gm/npcs"
             name="NPCS"
-            :description="$t('gm.subtitles.manageNonPlayerCombatUnits')"
+            :description="$t('gm.landing.manageNonPlayerCombatUnits')"
             img="npcs"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
           />
           <landing-card
             to="gm/narrative"
             name="Narrative Elements"
-            :description="$t('gm.subtitles.manageCharactersLocationsAndFactions')"
+            :description="$t('gm.landing.manageCharactersLocationsAndFactions')"
             img="location"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
           />
@@ -55,7 +55,7 @@
           <landing-card
             to="gm/encounters"
             name="Encounters"
-            :description="$t('gm.subtitles.createCombatEncounters')"
+            :description="$t('gm.landing.createCombatEncounters')"
             img="encounters"
             :max-height="mobile ? 'calc((100vh - 20px) * 0.46)' : 'calc((100vh - 50px) * 0.46)'"
           />

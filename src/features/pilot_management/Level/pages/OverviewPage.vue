@@ -15,14 +15,14 @@
         &nbsp;{{ $t('common.overview') }}
       </div>
       <i18n-t
-        keypath="pm.level.theUADIDENTMV2License"
+        keypath="pm.level.licenseRequestIntro"
         tag="p"
         scope="global"
         class="flavor-text"
         style="font-size: 14px"
       >
         <template #node>
-          <code>{{ $t('pm.level.unOmni18364AndesCerroboneteNode') }}</code>
+          <code>un_omni-18364.andes.cerrobonete.node:9</code>
         </template>
       </i18n-t>
       <v-alert
@@ -32,13 +32,13 @@
         class="mt-2"
       >
         <p class="text-cc-overline">
-          {{ $t('pm.level.submittingUnauthorizedLicensingUpdatesAndOr') }}
+          {{ $t('pm.level.unauthorizedUpdateWarning') }}
         </p>
       </v-alert>
       <div class="flavor-text my-4">
         <v-row justify="center">
           <v-col class="text-center text-stark">
-            {{ $t('pm.level.theUADIDENTServiceHasDetermined') }}&nbsp;
+            {{ $t('pm.level.identServiceDetermined') }}&nbsp;
             <div
               class="text-accent stat-text d-inline-block"
               style="position: relative; top: 10px; line-height: 10px"
@@ -71,7 +71,7 @@
           cols="12"
           md="auto"
         >
-          <div class="text-overline text-white">{{ $t('ui.fields.licenseLevel') }}</div>
+          <div class="text-overline text-white">{{ $t('common.licenseLevel') }}</div>
           <v-avatar
             color="background"
             size="100"
@@ -86,22 +86,22 @@
           class="flavor-text text-white px-4"
         >
           <ul>
-            <li>{{ $t('pm.level.pilotSKILLTRIGGERIMPROVEMENT') }}</li>
-            <li>{{ $t('pm.level.pilotTALENTUPGRADE') }}</li>
-            <li>{{ $t('pm.level.mechSKILLUPGRADE') }}</li>
-            <li>{{ $t('pm.level.gritIMPROVEMENT') }}</li>
-            <li>{{ $t('pm.level.newLICENSEUNLOCK') }}</li>
+            <li>{{ $t('pm.level.skillTriggerImprovement') }}</li>
+            <li>{{ $t('pm.level.talentUpgrade') }}</li>
+            <li>{{ $t('pm.level.mechSkillUpgrade') }}</li>
+            <li>{{ $t('pm.level.gritImprovement') }}</li>
+            <li>{{ $t('pm.level.licenseUnlock') }}</li>
             <li
               v-if="cbEligible"
               class="font-weight-bolder"
             >
-              {{ $t('pm.level.coreBONUSINSTALLATION') }}
+              {{ $t('pm.level.coreBonusInstallation') }}
             </li>
             <li
               v-else
               class="text-disabled"
             >
-              {{ $t('pm.level.ineligibleFORCOREBONUS') }}
+              {{ $t('pm.level.coreBonusIneligible') }}
             </li>
           </ul>
         </v-col>

@@ -14,7 +14,7 @@
         chips
         clearable
         variant="outlined"
-        :label="$t('ui.fields.tags')"
+        :label="$t('common.tags')"
         :items="systemTags"
         multiple
         item-title="Name"
@@ -30,7 +30,7 @@
         prepend-icon="cc:system"
         variant="outlined"
         hide-details
-        :label="$t('ui.fields.systemType')"
+        :label="$t('ui.filters.systemType')"
         :items="systemTypes"
         chips
         clearable

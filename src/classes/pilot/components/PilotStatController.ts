@@ -40,7 +40,7 @@ class PilotStatController {
   }
 
   public get AttackBonus(): number {
-    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this._pilot)
+    return Bonus.Int(this._pilot.Grit, BonusId.ATTACK, this._pilot, b => !b.IsFiltered)
   }
 
   public get TechAttack(): number {
@@ -76,10 +76,9 @@ class PilotStatController {
     }
   }
 
-  public SetStats(): void {
-    const p = this._pilot
-    const kvps = [
-      { key: 'grit', val: p.Grit },
+  public get StatValues(): { key: string; val: number }[] {
+    return [
+      { key: 'grit', val: this._pilot.Grit },
       { key: 'hp', val: this.MaxHP },
       { key: 'armor', val: this.Armor },
       { key: 'speed', val: this.Speed },
@@ -87,9 +86,12 @@ class PilotStatController {
       { key: 'edef', val: this.EDefense },
       { key: 'limitedBonus', val: this.LimitedBonus },
       { key: 'activations', val: 1 },
-    ] as { key: string; val: number }[]
+    ]
+  }
 
-    p.CombatController.setStats(kvps)
+  public SetStats(): void {
+    const p = this._pilot
+    p.CombatController.setStats(this.StatValues)
 
     p.Mechs.forEach(m => {
       m.SetStats()

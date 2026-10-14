@@ -38,6 +38,9 @@
 <script setup lang="ts">
   import type { Mech } from '@/classes/mech/Mech'
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'mech-card-loadout-field' })
 
@@ -48,13 +51,13 @@
   const loadoutWeapons = computed(() => {
     const output = [] as string[]
     for (const mount of props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
+      props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon,
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
     )) {
       if (!mount.IsLocked) {
         let str = `<i style="opacity:0.8">${mount.Name}</i>:`
-        if (!mount.Weapons.length) str += ' EMPTY'
+        if (!mount.Weapons.length) str += ` ${t('pm.loadout.empty').toUpperCase()}`
         else {
           mount.Weapons.forEach((w, i) => {
             str += `<span class='text-text'> ${w.Name}`

@@ -33,7 +33,7 @@
             start
             icon="cc:corebonus"
           />
-          <span class="heading h3">{{ $t('pm.loadout.mountCOREBonus') }}</span>
+          <span class="heading h3">{{ $t('pm.loadout.mountCoreBonus') }}</span>
         </v-toolbar>
         <v-card-text class="text-center">
           <cc-button

@@ -988,6 +988,106 @@
       "classification": "ASSIST",
       "statement": "A cascading NHP takes the mech out of its pilot's control and puts it under the GM's. SHUT DOWN stabilises a cascading NHP.",
       "split": "**App:** hold the cascade state, enumerate AI equipment eligible for it, and transfer control. **User:** declares that a cascade has begun."
+    },
+    {
+      "id": "T-EIDOLON-class-01",
+      "title": "class is the layer count above the core",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "A class 1, 2 or 3 Eidolon has 3, 4 or 5 layers surrounding its core. The core is always the innermost layer and the last one fought."
+    },
+    {
+      "id": "T-EIDOLON-layerstats-01",
+      "title": "layer base statistics",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Every layer has the tier table statistics, 1 STRUCTURE and 1 STRESS, and 10/15/20 HP plus 5 per player. Players are the pilots and the pilot placeholders on the allied side."
+    },
+    {
+      "id": "T-EIDOLON-layerstats-02",
+      "title": "a layer's own stat line replaces the table",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "A statistic stated by a layer replaces the table value while that layer is active. A stated HP value is not scaled per player."
+    },
+    {
+      "id": "T-EIDOLON-shardstats-01",
+      "title": "shard base statistics",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Every shard has the shard tier table statistics, with any statistic stated by its layer replacing the table value."
+    },
+    {
+      "id": "T-EIDOLON-order-01",
+      "title": "only the outermost remaining layer is active",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Combat starts on the outermost layer. Only one layer is active at a time, and only the active layer takes damage."
+    },
+    {
+      "id": "T-EIDOLON-metamorphosis-01",
+      "title": "METAMORPHOSIS",
+      "category": "EIDOLON",
+      "classification": "ASSIST",
+      "statement": "A layer at 0 HP is destroyed with no structure check. The Eidolon and its shards clear all statuses, conditions and effects, and the next layer inward becomes the active layer.",
+      "split": "**App:** flag the destroyed layer, and on confirmation clear statuses and effects from the Eidolon and its shards and advance to the next layer. **User:** confirms the metamorphosis."
+    },
+    {
+      "id": "T-EIDOLON-metamorphosis-02",
+      "title": "a new layer manifests at the start of the Eidolon's next turn",
+      "category": "EIDOLON",
+      "classification": "ASSIST",
+      "statement": "After a layer is destroyed the Eidolon is manifesting until the start of its next turn, when the new layer appears with its shards.",
+      "split": "**App:** hold and show the manifesting state, and create the new layer's shards when it is manifested. **User:** manifests the layer at the start of the Eidolon's next turn, and withholds damage and effects from the Eidolon and its shards until then."
+    },
+    {
+      "id": "T-EIDOLON-shards-01",
+      "title": "shards appear with their layer and carry over",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "A layer creates its listed number of shards, by tier or one per hostile character where the layer says so. Surviving shards carry over to the next layer unless their layer destroys them with it."
+    },
+    {
+      "id": "T-EIDOLON-core-01",
+      "title": "the core",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Revealing the core destroys every shard. The Eidolon is defeated when its core is destroyed, and not before."
+    },
+    {
+      "id": "T-EIDOLON-activations-01",
+      "title": "BONUS ACTIVATIONS",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Each round the Eidolon takes one turn for every two hostile characters, to a minimum of one and a maximum of four. Hostile characters are the player characters, placeholders and NPC units on the allied side."
+    },
+    {
+      "id": "T-EIDOLON-activations-02",
+      "title": "reactions return on each of its turns",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "The Eidolon regains its spent reactions at the start of each of its turns."
+    },
+    {
+      "id": "T-EIDOLON-overheat-01",
+      "title": "an overheating layer is EXPOSED",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "A layer has 1 STRESS and makes no overheating check. Overheating it makes it EXPOSED."
+    },
+    {
+      "id": "T-EIDOLON-memetic-01",
+      "title": "MEMETIC weapons",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "Memetic weapons are ranged weapons that ignore engagement."
+    },
+    {
+      "id": "T-EIDOLON-scan-01",
+      "title": "INCOMPREHENSIBLE",
+      "category": "EIDOLON",
+      "classification": "AUTO",
+      "statement": "SCAN reveals none of the Eidolon's statistics. It yields the active layer's hints instead."
     }
   ],
   "interactions": [

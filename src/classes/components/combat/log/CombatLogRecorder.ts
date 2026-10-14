@@ -1,6 +1,7 @@
 import { makeEvent, readEvent } from './events'
 import { buildStream } from './stream'
 import { actorRef } from './refs'
+import { combatControllers } from '../ActorIdentity'
 import type {
   ILogEvent,
   ILogPayloads,
@@ -126,9 +127,9 @@ class CombatLogRecorder {
 }
 
 function recordersFor(actor: any): CombatLogRecorder[] {
-  return [actor?.CombatController, actor?.ActiveMech?.CombatController]
-    .map(cc => cc?.CombatLog)
-    .filter(Boolean) as CombatLogRecorder[]
+  return combatControllers(actor)
+    .map(cc => cc.CombatLog)
+    .filter(Boolean)
 }
 
 function eventsFor(actor: any): ILogEvent[] {

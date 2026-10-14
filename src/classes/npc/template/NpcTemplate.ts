@@ -3,7 +3,9 @@ import { NpcFeature } from '../feature/NpcFeature'
 import * as _ from 'lodash-es'
 import { ContentPack } from '../../ContentPack'
 import { ItemType } from '../../enums'
+import { i18n } from '@/i18n'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { localize } from '@/i18n/localize'
 
 interface INpcTemplateData {
   id: string
@@ -85,11 +87,11 @@ class NpcTemplate implements ILcpTracked {
   }
 
   public get Name(): string {
-    return this._name
+    return localize(this._id, 'name', this._name)
   }
 
   public get Description(): string {
-    return this._description
+    return localize(this._id, 'description', this._description)
   }
 
   public get Terse(): string {
@@ -97,44 +99,38 @@ class NpcTemplate implements ILcpTracked {
   }
 
   public get Tactics(): string {
-    return this._tactics
+    return localize(this._id, 'tactics', this._tactics)
   }
 
   public get FeatureSelectionInfo(): string {
-    let out = ''
-    if (!this.OptionalFeatures.length) return out
-    if (!this.OptionalMax && !this.OptionalMin)
-      out += `When choosing optional systems, the ${this.Name} can also choose from the ${this.Name} Template Optional Features list.`
-    else {
-      out += `The ${this.Name} ${this.OptionalMax ? 'chooses' : 'may choose'} `
-      if (this.OptionalMin === this.OptionalMax) out += `${this.OptionalMin} `
-      else out += `between ${this.OptionalMin} and ${this.OptionalMax} `
-      out += `option${this.OptionalMax > 1 ? 's' : ''} from the ${
-        this.Name
-      } Template Optional Features list`
-    }
+    if (!this.OptionalFeatures.length) return ''
+    const t = i18n.global.t
+    const params = { name: this.Name, min: this.OptionalMin, max: this.OptionalMax }
+    const exact = this.OptionalMin === this.OptionalMax
+    let out =
+      !this.OptionalMax && !this.OptionalMin
+        ? t('gm.npcSelection.templateAny', params)
+        : t(
+            `gm.npcSelection.template${this.OptionalMax ? '' : 'May'}${exact ? 'Exact' : 'Range'}`,
+            params,
+            this.OptionalMax
+          )
 
-    if (this.OptionalPerTier) {
-      out += ` The ${this.Name} can choose ${
-        this.OptionalPerTier > 1
-          ? `${this.OptionalPerTier} additional optional features`
-          : 'an additional optional feature'
-      } per NPC Tier`
-    }
+    if (this.OptionalPerTier)
+      out += ` ${t('gm.npcSelection.templatePerTier', { name: this.Name, n: this.OptionalPerTier }, this.OptionalPerTier)}`
 
     return out
   }
 
   public get ClassFeatureSelectionInfo(): string {
     if (!this.OptionalClassMin) return ''
-    let out = `The ${this.Name} chooses `
-    if (this.OptionalClassMin === this.OptionalClassMax) out += `${this.OptionalClassMin} `
-    else out += `between ${this.OptionalClassMin} and ${this.OptionalClassMax} `
-    out += `additional optional feature${this.OptionalClassMax > 1 ? 's' : ''} from their class ${
-      this.OptionalClassPerTier ? 'per NPC Tier' : ''
-    }`
-
-    return out
+    const exact = this.OptionalClassMin === this.OptionalClassMax
+    const key = `gm.npcSelection.templateClass${exact ? 'Exact' : 'Range'}${this.OptionalClassPerTier ? 'PerTier' : ''}`
+    return i18n.global.t(
+      key,
+      { name: this.Name, min: this.OptionalClassMin, max: this.OptionalClassMax },
+      this.OptionalClassMax
+    )
   }
 
   public get Features(): NpcFeature[] {

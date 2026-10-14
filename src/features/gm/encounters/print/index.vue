@@ -35,7 +35,7 @@
         density="compact"
         hide-details
         variant="outlined"
-        :label="$t('gm.fields.encounter')"
+        :label="$t('common.encounter')"
         class="mx-3"
         clearable
       />

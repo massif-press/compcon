@@ -1,7 +1,6 @@
 <template>
   <v-menu
     v-if="store.IsLoggedIn"
-    v-model="menu"
     :close-on-content-click="false"
   >
     <template #activator="{ props }">
@@ -10,7 +9,6 @@
         icon="mdi-bell"
         variant="outlined"
         v-bind="props"
-        @click="menu = !menu"
       ></cc-button>
       <v-badge
         v-if="itemCount"
@@ -24,11 +22,10 @@
 </template>
 
 <script setup lang="ts">
-  import { ref, computed } from 'vue'
+  import { computed } from 'vue'
   import { UserStore } from '@/stores'
   import CloudNotificationList from './_components/CloudNotificationList.vue'
 
-  const menu = ref(false)
   const store = UserStore()
   const itemCount = computed(() => store.CloudNotifications.length)
 </script>

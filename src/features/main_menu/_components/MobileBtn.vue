@@ -21,8 +21,8 @@
             {{ icon }}
           </v-icon>
           <div
-            class="heading no-wrap"
-            style="font-size: 13cqw"
+            class="heading cc-fit-text wrap"
+            :style="[fitText(title, 2), { '--fit-max': '13cqw' }]"
           >
             {{ title }}
           </div>
@@ -36,11 +36,12 @@
   import { computed } from 'vue'
   import { useRouter } from 'vue-router'
   import { useDisplay } from 'vuetify'
+  import { fitText } from '@/util/fitText'
   const router = useRouter()
 
   const _display = useDisplay()
 
-  defineOptions({ name: 'mobile-btn' })
+  defineOptions({ name: 'MobileBtn' })
 
   const props = withDefaults(
     defineProps<{

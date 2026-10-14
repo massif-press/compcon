@@ -36,7 +36,7 @@
         <v-col cols="6">
           <v-text-field
             v-model="org.Name"
-            :label="$t('ui.fields.organizationName')"
+            :label="$t('ui.items.organizationName')"
             variant="outlined"
             hide-details
           />
@@ -44,7 +44,7 @@
         <v-col cols="6">
           <v-select
             v-model="org.Purpose"
-            :label="$t('ui.fields.organizationType')"
+            :label="$t('common.organizationType')"
             :items="orgTypes"
             variant="outlined"
             hide-details
@@ -53,7 +53,7 @@
       </v-row>
       <v-textarea
         v-model="org.Description"
-        :label="$t('ui.fields.purposeGoalAndOrganizationDetails')"
+        :label="$t('ui.shared.purposeGoalAndOrganizationDetails')"
         auto-grow
         rows="2"
         filled
@@ -90,11 +90,7 @@
               <cc-tooltip
                 simple
                 inline
-                content="How directly effective your organization is at what it does (a military
-                organization with high efficiency would be good at combat, for example).
-                <br />Efficiency can be used to perform activities related to your organization's
-                purpose (science, military, etc). You can use these advantages as
-                <strong>reserves.</strong>"
+                :content="$t('pm.selectors.organizationEfficiencyHelp')"
               >
                 <v-icon size="small">mdi-help-circle-outline</v-icon>
               </cc-tooltip>
@@ -142,7 +138,7 @@
               <cc-tooltip
                 simple
                 inline
-                :content="$t('ui.tooltips.influenceIsYourOrganizationsSizeReach')"
+                :content="$t('ui.items.organizationInfluenceHelp')"
               >
                 <v-icon size="small">mdi-help-circle-outline</v-icon>
               </cc-tooltip>

@@ -28,8 +28,8 @@ export function packPatches(idents: Array<string | undefined>): LanguagePatch[] 
   return LocalizationStore().patches.filter(p => set.has(p.target))
 }
 
-// True when the patch declares a target_version range the installed pack version no longer satisfies
-// (i.e. the translation was written against a different version and may have drifted). Advisory only.
+// True when the patch declares a target_version range the installed pack version no longer aligns
+// (i.e. the translation was written against a different version and may have drifted). Warn only.
 export function patchIsStale(patch: LanguagePatch, packVersion?: string): boolean {
   if (!patch.target_version || !packVersion) return false
   const v = semver.coerce(packVersion)

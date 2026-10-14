@@ -1,4 +1,4 @@
-import { cloudDelete, updateItem, uploadToS3 } from '@/io/apis/account'
+import { cloudDelete, getUploadPresigns, updateItem, uploadToS3 } from '@/io/apis/account'
 import { i18n } from '@/i18n'
 import { GenerateExportCollection } from '@/io/Importer'
 import { RemoveItem } from '@/io/Storage'
@@ -144,14 +144,15 @@ class ContentCollection {
   public UpdateItem(item: any) {
     const idx = this._contents.findIndex(x => x.id === item.id)
     if (idx === -1) return
-    this._contents[idx].last_updated = item.data.SaveController.LastModified
+    this._contents[idx].last_updated =
+      item.data?.SaveController?.LastModified ?? this._contents[idx].last_updated
     this._contents[idx].data = item.data
   }
 
   public GenerateChangelog() {
     let changes = [...this._autoLog]
     this.Contents.forEach(e => {
-      if (e.last_updated != e.data.SaveController.LastModified)
+      if (e.data?.SaveController && e.last_updated != e.data.SaveController.LastModified)
         changes.push(`Updated ${e.item_type} ${e.name}`)
     })
     changes = changes.map(x => `- ${x}\n`)
@@ -170,22 +171,31 @@ class ContentCollection {
   }
 
   public async Publish(type: 'major' | 'minor') {
+    const previous = {
+      version: this.Version,
+      changelog: [...this.Changelog],
+      lastUpdated: this._contents.map(c => c.last_updated),
+    }
+    const changes = (this.NextChangelog || this.GenerateChangelog()).split('\n')
     this.Version = this.NextVersion(type)
-    await this._publish()
+    this.Changelog.push({ version: this.Version, changes })
+    this.Contents.forEach(contentItem => this.UpdateItem(contentItem))
+
+    try {
+      await this._publish()
+    } catch (e) {
+      this.Version = previous.version
+      this.Changelog = previous.changelog
+      this._contents.forEach((c, i) => (c.last_updated = previous.lastUpdated[i]))
+      throw new Error('Error while publishing collection ' + e, { cause: e })
+    }
+
+    this.NextChangelog = ''
+    this._autoLog = []
+    this.Save()
   }
 
   private async _publish() {
-    this.Contents.forEach(contentItem => {
-      this.UpdateItem(contentItem)
-    })
-    this.Changelog.push({
-      version: this.Version,
-      changes: this.GenerateChangelog().split('\n'),
-    })
-    this.NextChangelog = ''
-
-    this.Save()
-
     const serialized = ContentCollection.Serialize(this)
 
     const metadata = {
@@ -203,16 +213,15 @@ class ContentCollection {
     if (this.Metadata) metadata.created = this.Metadata.created
     if (this.Metadata) metadata.code = this.Metadata.code
 
-    try {
-      const res = await updateItem(metadata, 'collection')
-      const collectedData = GenerateExportCollection(
-        this._contents.map(x => x.data),
-        'collection'
-      )
-      await uploadToS3(collectedData, res.presign.upload)
-    } catch (e) {
-      throw new Error('Error while publishing collection ' + e, { cause: e })
-    }
+    const upload = (await getUploadPresigns([metadata.uri]))[metadata.uri]
+    if (!upload) throw new Error('No presign returned.')
+    const collectedData = GenerateExportCollection(
+      this._contents.map(x => x.data),
+      'collection'
+    )
+    if (!(await uploadToS3(collectedData, upload))) throw new Error('S3 upload failed.')
+    const res = await updateItem(metadata, 'collection')
+    if (res?.error) throw new Error(res.error)
   }
 
   public static Serialize(collection: ContentCollection): CollectionData {

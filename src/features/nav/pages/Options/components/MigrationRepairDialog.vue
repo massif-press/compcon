@@ -45,7 +45,7 @@
             {{
               scanning
                 ? $t('nav.migrationRepair.scanning')
-                : `Applying fixes (${progress} / ${progressTotal})...`
+                : $t('nav.migrationRepair.applyingFixes', { progress, total: progressTotal })
             }}
           </div>
         </div>
@@ -70,7 +70,7 @@
               <span v-if="reportOnlyCount">
                 {{
                   $t(
-                    'nav.migrationRepair.andRequiringManual',
+                    'nav.migrationRepair.requiresManual',
                     {
                       count: reportOnlyCount,
                     },
@@ -78,7 +78,6 @@
                   )
                 }}
               </span>
-              .
             </cc-panel>
 
             <v-table
@@ -89,7 +88,7 @@
               <thead>
                 <tr class="heading">
                   <th>{{ $t('nav.migrationRepair.colCategory') }}</th>
-                  <th>{{ $t('nav.migrationRepair.colItem') }}</th>
+                  <th>{{ $t('common.item') }}</th>
                   <th>{{ $t('nav.migrationRepair.colIssue') }}</th>
                   <th class="text-center">{{ $t('nav.migrationRepair.colFixable') }}</th>
                 </tr>

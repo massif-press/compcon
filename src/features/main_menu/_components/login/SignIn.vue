@@ -87,7 +87,7 @@
     <v-fade-transition>
       <div v-if="!signingIn">
         <form
-          :aria-label="$t('mainMenu.a11y.signIn')"
+          :aria-label="$t('mainMenu.auth.signIn')"
           @submit.prevent="signIn"
         >
           <v-row class="mt-1">
@@ -108,7 +108,7 @@
                 variant="outlined"
                 type="email"
                 autocomplete="email"
-                :aria-label="$t('mainMenu.a11y.eMail')"
+                :aria-label="$t('mainMenu.auth.email')"
               />
             </v-col>
             <v-col
@@ -129,8 +129,10 @@
                 :type="show ? 'text' : 'password'"
                 :append-inner-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 autocomplete="current-password"
-                :aria-label="$t('mainMenu.a11y.password')"
-                :append-inner-aria-label="show ? 'Hide password' : 'Show password'"
+                :aria-label="$t('mainMenu.auth.password')"
+                :append-inner-aria-label="
+                  show ? $t('mainMenu.signIn.hidePassword') : $t('mainMenu.signIn.showPassword')
+                "
                 @click-append-inner="show = !show"
               />
             </v-col>
@@ -257,7 +259,7 @@
       showError.value = true
       await addLoginLog('Auth service reports failure to connect', true)
       await addLoginLog('Error: sign-in failed', true)
-      notifyError(t('mainMenu.tooltips.signInFailed'))
+      notifyError(t('mainMenu.login.signInFailed'))
       return
     }
 

@@ -8,7 +8,7 @@
       class="d-flex justify-center align-center heading h3"
       style="letter-spacing: 9px"
     >
-      {{ $t('active.cards.equipmentDestroyed') }}
+      {{ $t('active.telemetry.rollup.equipmentDestroyed') }}
     </v-col>
   </v-row>
 </template>

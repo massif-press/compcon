@@ -50,7 +50,7 @@
                     v-model.number="trackableValue"
                     clearable
                     density="compact"
-                    :label="$t('active.fields.statValue')"
+                    :label="$t('active.customStatEditor.statValue')"
                     hide-details
                   />
                   <cc-button
@@ -61,7 +61,7 @@
                     :disabled="!trackableStat"
                     @click="addTrackableStat()"
                   >
-                    {{ hasStat(trackableStat || '') ? $t('common.save') : $t('common.add') }}
+                    {{ hasStat(trackableStat || '') ? $t('common.saveAction') : $t('common.add') }}
                   </cc-button>
                   <cc-button
                     v-if="trackableStat && isCoreStat(trackableStat) && hasStat(trackableStat)"
@@ -89,7 +89,7 @@
                     v-model.number="staticValue"
                     clearable
                     density="compact"
-                    :label="$t('active.fields.statValue')"
+                    :label="$t('active.customStatEditor.statValue')"
                     hide-details
                   />
                   <cc-button
@@ -100,7 +100,7 @@
                     :disabled="!staticStat"
                     @click="addStaticStat()"
                   >
-                    {{ hasStat(staticStat || '') ? $t('common.save') : $t('common.add') }}
+                    {{ hasStat(staticStat || '') ? $t('common.saveAction') : $t('common.add') }}
                   </cc-button>
                   <cc-button
                     v-if="staticStat && isCoreStat(staticStat) && hasStat(staticStat)"
@@ -157,28 +157,28 @@
   ]
   const trackable = [
     { title: 'HP', key: 'hp' },
-    { title: t('active.titles.reactor'), key: 'stress' },
-    { title: t('active.titles.heatCapacity'), key: 'heatcap' },
+    { title: t('active.customStatEditor.reactor'), key: 'stress' },
+    { title: t('common.heatCapacity'), key: 'heatcap' },
     { title: t('stats.structure'), key: 'structure' },
-    { title: t('active.titles.repairCapacity'), key: 'repairCapacity' },
+    { title: t('common.repairCapacity'), key: 'repairCapacity' },
     { title: t('common.overcharge'), key: 'overcharge' },
-    { title: t('active.titles.activations'), key: 'activations' },
+    { title: t('active.customStatEditor.activations'), key: 'activations' },
     { title: t('stats.speed'), key: 'speed' },
   ]
   const statics = [
-    { title: t('active.titles.hull'), key: 'hull' },
+    { title: t('stats.hull'), key: 'hull' },
     { title: t('stats.agility'), key: 'agi' },
     { title: t('stats.systems'), key: 'sys' },
     { title: t('stats.engineering'), key: 'eng' },
-    { title: t('active.titles.size'), key: 'size' },
+    { title: t('stats.size'), key: 'size' },
     { title: t('common.sensorRange'), key: 'sensorRange' },
     { title: t('stats.evasion'), key: 'evasion' },
-    { title: t('active.titles.eDefense'), key: 'edef' },
+    { title: t('stats.edefense'), key: 'edef' },
     { title: t('common.attackBonus'), key: 'attackBonus' },
-    { title: t('common.techAttack'), key: 'techAttack' },
-    { title: t('active.titles.saveTarget'), key: 'saveTarget' },
-    { title: t('active.titles.grapple'), key: 'grapple' },
-    { title: t('active.titles.ram'), key: 'ram' },
+    { title: t('stats.techAttack'), key: 'techAttack' },
+    { title: t('common.saveTarget'), key: 'saveTarget' },
+    { title: t('active.customStatEditor.grapple'), key: 'grapple' },
+    { title: t('active.customStatEditor.ram'), key: 'ram' },
   ]
 
   defineOptions({ name: 'StatEditor' })

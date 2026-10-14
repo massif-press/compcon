@@ -53,7 +53,7 @@
                 icon="mdi-drag"
                 size="23.5"
                 class="drag-handle"
-                :aria-label="$t('pm.a11y.dragToReorder')"
+                :aria-label="$t('gm.a11y.dragToReorder')"
                 tabindex="0"
                 style="cursor: move; opacity: 0.4; transition: opacity 0.2s"
                 @click.stop
@@ -85,7 +85,7 @@
         >
           <b class="text-stark">{{ pilot.Name }}</b>
           <div class="text-cc-overline">
-            <span class="text-disabled">{{ $t('ui.fields.licenseLevel') }}</span>
+            <span class="text-disabled">{{ $t('common.licenseLevel') }}</span>
             {{ pilot.Level }}
           </div>
         </div>
@@ -108,25 +108,25 @@
                 <span class="text-text">
                   [
                   <b>
-                    {{ $t('common.hase_h') }}:
+                    {{ $t('common.haseHullShort') }}:
                     <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Hull }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('common.hase_a') }}:
+                    {{ $t('common.haseAgilityShort') }}:
                     <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Agi }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('common.hase_s') }}:
+                    {{ $t('common.haseSystemsShort') }}:
                     <span class="text-weight-normal text-accent pr-2">
                       {{ pilot.MechSkillsController.MechSkills.Sys }}
                     </span>
                   </b>
                   <b>
-                    {{ $t('common.hase_e') }}:
+                    {{ $t('common.haseEngineeringShort') }}:
                     <span class="text-weight-normal text-accent">
                       {{ pilot.MechSkillsController.MechSkills.Eng }}
                     </span>

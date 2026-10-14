@@ -13,6 +13,19 @@
         }`"
         @click="$emit('open', item)"
       >
+        <v-col
+          cols="auto"
+          class="d-flex align-center px-1"
+        >
+          <v-icon
+            class="folder-drag-handle"
+            icon="mdi-drag"
+            size="18"
+            :aria-label="$t('gm.a11y.dragToReorder')"
+            style="cursor: move; opacity: 0.4"
+            @click.stop
+          />
+        </v-col>
         <v-col cols="auto">
           <v-card
             variant="tonal"
@@ -35,7 +48,7 @@
             <slot name="title">
               {{ item.Name }}
               <span v-if="item.NpcClassController?.Class">
-                &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+                &mdash; {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
                 {{ item.NpcClassController.Class.Name }}
               </span>
               <span class="px-4">

@@ -51,7 +51,7 @@
         v-for="mod in mods"
         :key="mod.ID"
         :mod="mod"
-        :tier="owner.actor.NpcClassController?.Tier || 1"
+        :tier="owner.actor.Tier || 1"
       />
     </div>
 

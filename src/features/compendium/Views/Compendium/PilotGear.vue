@@ -21,30 +21,30 @@
 
   const headers = ref({
     PilotArmor: [
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+      { title: t('common.contentPack'), key: 'LcpName' },
       { title: t('common.type'), key: 'Type' },
       { title: t('common.item'), key: 'Name' },
       { title: t('stats.armor'), key: 'ArmorString' },
       { title: t('common.hpBonus'), key: 'HpString' },
-      { title: t('compendium.titles.eDefense'), key: 'EdefString' },
+      { title: t('stats.edefense'), key: 'EdefString' },
       { title: t('stats.evasion'), key: 'EvasionString' },
       { title: t('stats.speed'), key: 'SpeedString' },
-      { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+      { title: t('common.tags'), align: 'center', key: 'Tags' },
     ],
     PilotWeapon: [
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+      { title: t('common.contentPack'), key: 'LcpName' },
       { title: t('common.type'), key: 'Type' },
       { title: t('common.item'), key: 'Name' },
-      { title: t('compendium.titles.range'), key: 'Range' },
-      { title: t('compendium.titles.damage'), key: 'Damage' },
-      { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+      { title: t('stats.range'), key: 'Range' },
+      { title: t('common.damage'), key: 'Damage' },
+      { title: t('common.tags'), align: 'center', key: 'Tags' },
     ],
     PilotGear: [
-      { title: t('compendium.titles.contentPack'), key: 'LcpName' },
+      { title: t('common.contentPack'), key: 'LcpName' },
       { title: t('common.type'), key: 'Type' },
       { title: t('common.item'), key: 'Name' },
-      { title: t('compendium.titles.uses'), key: 'MaxUses' },
-      { title: t('compendium.titles.tags'), align: 'center', key: 'Tags' },
+      { title: t('common.uses'), key: 'MaxUses' },
+      { title: t('common.tags'), align: 'center', key: 'Tags' },
     ],
   })
   const options = ref({

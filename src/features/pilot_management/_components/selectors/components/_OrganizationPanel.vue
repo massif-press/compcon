@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-col>
       <cc-titled-panel
-        :title="$t('pm.titles.newOrganization')"
+        :title="$t('pm.selectors.newOrganization')"
         icon="mdi-account-group"
         color="reserve"
       >
@@ -29,7 +29,7 @@
         </v-row>
         <v-textarea
           v-model="orgDetails"
-          :label="$t('ui.fields.purposeGoalAndOrganizationDetails')"
+          :label="$t('ui.shared.purposeGoalAndOrganizationDetails')"
           color="accent"
           auto-grow
           rows="2"
@@ -55,11 +55,7 @@
               <cc-tooltip
                 simple
                 inline
-                content="How directly effective your organization is at what it does (a military
-                organization with high efficiency would be good at combat, for example).
-                <br />Efficiency can be used to perform activities related to your organization’s
-                purpose (science, military, etc). You can use these advantages as
-                <strong>reserves.</strong>"
+                :content="$t('pm.selectors.organizationEfficiencyHelp')"
               >
                 <v-icon
                   size="small"
@@ -96,7 +92,7 @@
               <cc-tooltip
                 simple
                 inline
-                :content="$t('pm.tooltips.influenceIsYourOrganizationsSizeReach')"
+                :content="$t('pm.selectors.organizationInfluenceHelp')"
               >
                 <v-icon
                   size="small"
@@ -124,7 +120,7 @@
           @click="add()"
         >
           <v-icon start>mdi-plus</v-icon>
-          {{ $t('pm.titles.addOrganization') }}
+          {{ $t('pm.selectors.addOrganization') }}
         </v-btn>
       </cc-titled-panel>
     </v-col>

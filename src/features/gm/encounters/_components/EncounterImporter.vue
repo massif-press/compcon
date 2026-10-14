@@ -7,9 +7,9 @@
       <v-col cols="6">
         <v-file-input
           v-model="fileValue"
-          accept="text/json"
+          accept=".json,application/json"
           variant="outlined"
-          :label="$t('gm.fields.selectEncounterFile')"
+          :label="$t('gm.encounters.selectEncounterFile')"
           prepend-icon="mdi-paperclip"
           density="compact"
           @change="stageImport"
@@ -101,11 +101,11 @@
         v-if="missingContent.length"
         class="mx-12 mt-4"
         icon="mdi-alert"
-        :title="$t('gm.titles.missingNpcs')"
+        :title="$t('gm.encounters.missingNpcs')"
       >
         <p>{{ $t('gm.encImport.someMissingNpcs') }}</p>
         <v-card-text>
-          <p class="heading h4 text-accent">{{ $t('gm.titles.missingNpcs') }}:</p>
+          <p class="heading h4 text-accent">{{ $t('gm.encounters.missingNpcs') }}:</p>
           <p
             v-html-safe="missingContent"
             class="effect-text text-center bg-background pa-1 ma-1"

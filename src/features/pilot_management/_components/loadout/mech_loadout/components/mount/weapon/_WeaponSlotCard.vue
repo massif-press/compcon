@@ -100,7 +100,7 @@
               prepend-icon="cc:weaponmod"
               @click.stop="modDialog = true"
             >
-              {{ $t('pm.loadout.noMODINSTALLED') }}
+              {{ $t('pm.loadout.noModInstalled') }}
             </cc-button>
           </div>
         </template>

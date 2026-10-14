@@ -31,7 +31,7 @@
     <v-spacer style="min-height: 80px" />
   </div>
   <div v-else>
-    <h1 style="margin-top: 50px; text-align: center">{{ $t('pm.sheet.errorINVALIDPILOT') }}</h1>
+    <h1 style="margin-top: 50px; text-align: center">{{ $t('pm.sheet.invalidPilotError') }}</h1>
   </div>
 </template>
 

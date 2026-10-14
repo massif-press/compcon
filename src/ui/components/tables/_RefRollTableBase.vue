@@ -20,7 +20,7 @@
             <v-card-text>
               <v-row>
                 <v-col cols="2">
-                  <span class="heading h3">{{ $t('common.roll_noun') }}</span>
+                  <span class="heading h3">{{ $t('common.rollNoun') }}</span>
                 </v-col>
                 <v-col cols="3">
                   <span class="heading h3">{{ $t('common.result') }}</span>

@@ -53,7 +53,7 @@ export function notify({
 
 export function notifySuccess(text: string) {
   notify({
-    title: i18n.global.t('notify.common.success'),
+    title: i18n.global.t('common.success'),
     text,
     color: 'success',
     icon: 'mdi-check-circle',
@@ -62,7 +62,7 @@ export function notifySuccess(text: string) {
 
 export function notifyError(text: string) {
   notify({
-    title: i18n.global.t('notify.common.error'),
+    title: i18n.global.t('common.error'),
     text,
     color: 'error',
     icon: 'mdi-alert-circle',

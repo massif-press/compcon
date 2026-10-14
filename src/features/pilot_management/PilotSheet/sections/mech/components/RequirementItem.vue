@@ -42,11 +42,11 @@
         class="px-2 heading h3"
         height="32"
       >
-        {{ $t('pm.sheet.warningLICENSEMISSING') }}
+        {{ $t('pm.sheet.licenseMissingWarning') }}
       </v-toolbar>
       <v-card-text class="pa-2 text-text">
         <b v-if="licenseRequirement.source === 'GMS'">
-          {{ $t('pm.sheet.gmsSTANDARDPILOTSLICENSE') }}
+          {{ $t('pm.sheet.standardPilotLicense') }}
         </b>
         <b v-else>
           {{ licenseRequirement.name }} {{ $t('common.rank') }} {{ licenseRequirement.rank }}

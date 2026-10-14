@@ -76,13 +76,8 @@
   function rangeText(r: Range): string {
     if (r.Override) return r.Value.toString()
     const typeLabel = enumLabel('rangeType', r.Type)
-    if (r.Bonus)
-      return t('ui.widget.glossary.rangeTextBonus', {
-        type: typeLabel,
-        value: r.Value,
-        bonus: r.Bonus,
-      })
-    return t('ui.widget.glossary.rangeText', { type: typeLabel, value: r.Value })
+    if (r.Bonus) return `${typeLabel} ${r.Value} (+${r.Bonus})`
+    return `${typeLabel} ${r.Value}`
   }
 
   function gloss(r: Range) {

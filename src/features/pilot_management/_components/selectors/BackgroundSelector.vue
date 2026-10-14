@@ -3,7 +3,7 @@
     id="bs-dialog"
     ref="dialog"
     fullscreen
-    :title="$t('pm.titles.selectPilotBackground')"
+    :title="$t('pm.selectors.selectPilotBackground')"
     clip
     :close-on-click="false"
     major
@@ -32,7 +32,7 @@
       >
         <template #header>
           <div class="heading h4 text-center text-accent">
-            {{ $t('pm.titles.selectPilotBackground') }}
+            {{ $t('pm.selectors.selectPilotBackground') }}
           </div>
         </template>
       </cc-compendium-browser>

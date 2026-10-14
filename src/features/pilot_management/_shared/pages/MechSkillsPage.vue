@@ -21,7 +21,7 @@
         v-if="context === 'new'"
         class="heading h2"
       >
-        {{ $t('pm.new.uadIDENTService') }}
+        {{ $t('pm.new.identServiceName') }}
         <cc-slashes />
         &nbsp;{{ $t('pm.shared.rm4dPilotSelfAssessment3') }}
       </div>
@@ -39,7 +39,7 @@
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT') }}
+        {{ $t('pm.shared.mechSkillsAssessmentIntro') }}
       </p>
       <p
         v-else
@@ -64,7 +64,7 @@
           }}
         </div>
         <p class="text-cc-overline">
-          {{ $t('pm.shared.bySubmittingThisFormYouAttest') }}
+          {{ $t('pm.shared.attestation') }}
         </p>
       </v-alert>
     </div>

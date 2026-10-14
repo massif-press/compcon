@@ -15,32 +15,32 @@
     "changeImage": "이미지 변경",
     "delete": "삭제",
     "result": "결과",
-    "save": "저장",
+    "saveAction": "저장",
     "yes": "예",
     "saveAndExit": "저장 후 나가기",
     "website": "웹사이트",
-    "close": "닫기",
+    "closeAction": "닫기",
     "confirm": "확인",
     "search": "검색",
     "all": "전체",
-    "edit": "편집",
+    "editAction": "편집",
     "offline": "오프라인",
-    "reset": "초기화",
+    "resetAction": "초기화",
     "dismiss": "안 보기",
     "shareCode": "공유 코드",
     "continue": "계속",
-    "back": "뒤로가기",
+    "backAction": "뒤로가기",
     "importCampaign": "캠페인 불러오기",
-    "print": "인쇄",
-    "export": "내보내기",
-    "import": "불러오기",
-    "update": "갱신",
-    "duplicate": "복제",
-    "exit": "나가기",
+    "printAction": "인쇄",
+    "exportAction": "내보내기",
+    "importAction": "불러오기",
+    "updateAction": "갱신",
+    "duplicateAction": "복제",
+    "exitAction": "나가기",
     "done": "완료",
     "status": "상태",
     "tier": "티어",
-    "hide": "숨기기",
+    "hideAction": "숨기기",
     "confirmDeletion": "삭제 확인",
     "selectAll": "전체선택",
     "skipToMainContent": "메인 컨텐츠로 건너뛰기",
@@ -54,7 +54,7 @@
     "accuracy": "정확도",
     "remove": "제거",
     "unlock": "해금",
-    "clear": "비우기",
+    "clearAction": "비우기",
     "mainMenu": "메인 메뉴",
     "pilotRoster": "파일럿 목록",
     "closePreview": "미리보기 닫기",
@@ -66,7 +66,7 @@
     "submit": "등록",
     "removeName": "{name} 제거하기",
     "action": "행동",
-    "set": "설정",
+    "setAction": "설정",
     "description": "설명",
     "actions": "행동",
     "item": "아이템",
@@ -82,14 +82,14 @@
     "cancelPermanentDeletion": "영구 삭제 취소",
     "confirmPermanentDeletion": "영구 삭제 확인",
     "contentLabel": "컨텐츠",
-    "show": "표시",
-    "mount": "마운트",
+    "showAction": "표시",
+    "weaponMount": "마운트",
     "environment": "환경",
     "background": "배경",
     "changelog": "변경사항",
     "hidden": "숨김",
-    "core": "코어",
-    "restore": "복구",
+    "coreSystem": "코어",
+    "restoreAction": "복구",
     "alert": "경고",
     "ok": "OK",
     "loading": "불러오는 중…",
@@ -118,14 +118,13 @@
     "overview": "개요",
     "syncNow": "지금 동기화",
     "tables": "굴림표",
-    "roll_verb": "굴리기",
+    "rollVerb": "굴리기",
     "trigger": "발동 조건",
     "side": "진영",
     "statsLabel": "스탯",
     "contents": "내용",
     "reserves": "보급",
-    "roll_noun": "굴림",
-    "deployables": "배치물",
+    "rollNoun": "굴림",
     "mech": "메크",
     "talents": "재능",
     "tierN": "티어 {n}",
@@ -135,17 +134,24 @@
     "deletePilot": "파일럿 제거",
     "electronicDefense": "전자 방어",
     "hpBonus": "HP 보너스",
-    "overshield": "오버실드"
+    "overshield": "오버실드",
+    "unlocked": "해금됨",
+    "error": "오류",
+    "success": "성공",
+    "log": "로그",
+    "destroyed": "파괴됨",
+    "burnStatus": "화재",
+    "pilot": "파일럿",
+    "tags": "태그",
+    "latestVersion": "최신 버전",
+    "installedVersion": "설치된 버전",
+    "weaponType": "무기 유형",
+    "damageType": "피해 유형"
   },
   "gm": {
-    "fields": {
-      "authors": "작성자",
-      "service": "소셜 서비스"
-    },
     "campaign": {
       "patch": "패치",
       "jsonFile": "JSON 파일",
-      "latestVersion": "최신 버전",
       "major": "주요",
       "minor": "부차"
     },
@@ -174,8 +180,7 @@
     },
     "npcTemplate": {
       "noTemplates": "템플릿 없음",
-      "editTemplates": "NPC 템플릿 편집",
-      "selectNpcTemplate": "npc 템플릿 선택"
+      "editTemplates": "NPC 템플릿 편집"
     },
     "npcBuilder": {
       "templates": "템플릿"
@@ -200,9 +205,6 @@
       "v2Export": "v2 내보내기",
       "statblock": "스탯블록"
     },
-    "labels": {
-      "sortAlphabetically": "이름순으로 정렬"
-    },
     "eidolon": {
       "layers": "층위",
       "addLayer": "층위 추가",
@@ -213,13 +215,26 @@
       "layer": "층위"
     },
     "gmNotes": "GM 메모",
-    "titles": {
-      "eidolons": "아이돌론",
-      "selectImage": "이미지 선택",
-      "deletePreset": "프리셋 삭제",
+    "gmLabelEditor": {
+      "sortAlphabetically": "이름순으로 정렬"
+    },
+    "npcRoster": {
       "selectLayer": "층위 선택",
       "npcStatblock": "NPC 스탯블록",
       "selectTemplate": "템플릿 선택"
+    },
+    "shared": {
+      "eidolons": "아이돌론"
+    },
+    "editorBase": {
+      "selectImage": "이미지 선택"
+    },
+    "encounters": {
+      "deletePreset": "프리셋 삭제"
+    },
+    "overview": {
+      "service": "소셜 서비스",
+      "authors": "작성자"
     }
   },
   "language": {
@@ -250,7 +265,6 @@
       "disengageFailedText": "{name}은 교전상태가 아닙니다.",
       "disengagedText": "{name}(이)가 교전해제됨.",
       "currentlySelected": "현재 선택됨:",
-      "destroyed": "파괴됨",
       "saveFailed": "저장 실패",
       "hiddenText": "{name}(이)가 은신함.",
       "dangerZone": "열위험 상태"
@@ -264,14 +278,10 @@
       "scan": "스캔"
     },
     "actionChips": {
-      "protocol": "프로토콜",
       "quickAction": "빠른 행동"
     },
     "pcEndRound": {
       "willLoseStatuses": "다음 상태를 잃습니다:"
-    },
-    "invade": {
-      "invade": "침투"
     },
     "addCombatant": {
       "addedText": "{name}(이)가 인카운터에 추가되었습니다."
@@ -289,11 +299,7 @@
     "actorLogs": {
       "exportText": "텍스트 로그 내보내기",
       "exportJson": "JSON 로그 내보내기",
-      "log": "로그",
       "noEntries": "전투 로그 목록이 없습니다."
-    },
-    "timedEffect": {
-      "roundsRemaining": "{n} 라운드 남음"
     },
     "statusCond": {
       "title": "상태 / 상태이상",
@@ -304,46 +310,43 @@
       "insufficient": "부족",
       "activationAction": "{n} 행동"
     },
-    "cards": {
-      "equipmentDestroyed": "장비 파괴됨"
-    },
-    "titles": {
-      "burn": "화재",
-      "pilot": "파일럿",
-      "movement": "이동"
-    },
     "npcActions": {
       "npcHiddenTitle": "NPC 은신함"
     },
     "telemetry": {
-      "lifetime": "생애"
+      "lifetime": "생애",
+      "rollup": {
+        "equipmentDestroyed": "장비 파괴됨",
+        "deployables": "배치물"
+      }
     },
     "activeEffect": {
       "title": "활성 효과",
       "hiddenEffects": "숨겨진 효과"
     },
-    "actions": {
-      "allActions": "모든 행동",
-      "selectIcon": "아이콘 선택",
-      "mounted": "마운트에 탑재됨",
-      "overwatch": "경계",
-      "activeEffect": "활성 효과",
-      "passiveBonus": "패시브 보너스"
-    },
     "pilotActions": {
       "hiddenTitle": "파일럿 은신함"
     },
-    "fields": {
-      "customStatusName": "커스텀 상태 이름"
-    },
     "barrage": {
       "selectWeapon": "전력 공격 무기 선택"
+    },
+    "runner": {
+      "allActions": "모든 행동",
+      "selectIcon": "아이콘 선택",
+      "overwatch": "경계",
+      "activeEffect": "활성 효과",
+      "passiveBonus": "패시브 보너스",
+      "customStatusName": "커스텀 상태 이름",
+      "movement": "이동"
+    },
+    "shared": {
+      "mounted": "마운트에 탑재됨"
     }
   },
   "compendium": {
     "content": {
       "eidolonLayer": "아이돌론 층위",
-      "frameSuffix": "{type} 프레임"
+      "frameTypeLabel": "{type} 프레임"
     },
     "campaign": {
       "recommendedLicenseLevel": "권장 라이선스 레벨",
@@ -381,12 +384,6 @@
       "communityContentTitle": "@:{'common.gameName'} 커뮤니티 컨텐츠 팩",
       "clickHere": "여기를 클릭하세요."
     },
-    "contentManager": {
-      "refreshContent": "새로 고침"
-    },
-    "roster": {
-      "newPilot": "새 파일럿"
-    },
     "settings": {
       "importData": "데이터 가져오기"
     },
@@ -395,8 +392,7 @@
     },
     "nav": {
       "pilotManagement": "파일럿 관리",
-      "achievements": "업적",
-      "help": "도움말"
+      "achievements": "업적"
     },
     "help": {
       "faq": "자주 묻는 질문",
@@ -412,14 +408,10 @@
       "theme": "테마",
       "font": "글꼴",
       "errorReporting": "오류 보고",
-      "errorReportingPrefix": "오류 보고"
-    },
-    "log": {
-      "error": "오류"
+      "errorReportingStatus": "오류 보고 {status}"
     },
     "packInstall": {
-      "install": "설치",
-      "success": "성공"
+      "install": "설치"
     },
     "communityTable": {
       "currentVersion": "현재 버전",
@@ -428,14 +420,6 @@
     "search": {
       "searchResults": "검색결과",
       "recentSearches": "최근 검색"
-    },
-    "achievementItem": {
-      "unlockedLabel": "해금됨"
-    },
-    "titles": {
-      "latestVersion": "최신 버전",
-      "installedVersion": "설치된 버전",
-      "version": "버전"
     }
   },
   "stats": {
@@ -452,27 +436,17 @@
     "stress": "스트레스",
     "sp": "SP",
     "edefense": "전자방어",
-    "edef": "전자방어"
+    "edef": "전자방어",
+    "hull": "선체",
+    "size": "크기"
   },
   "pm": {
     "link": {
-      "hull": "선체",
-      "agi": "민첩",
       "sys": "시스템",
       "eng": "공학"
     }
   },
   "ui": {
-    "fields": {
-      "size": "크기",
-      "license": "라이선스",
-      "tags": "태그",
-      "systemType": "시스템 유형",
-      "weaponType": "무기 유형",
-      "requiredMount": "요구 마운트",
-      "attackType": "공격 유형",
-      "damageType": "피해 유형"
-    },
     "pwa": {
       "updateAvailable": "@:{'common.appName'}의 새로운 버전이 있습니다.",
       "updateNow": "지금 업데이트하기",
@@ -484,11 +458,6 @@
       "setItemFilters": "아이템 필터 설정",
       "noFilters": "유효한 필터 없음"
     },
-    "titles": {
-      "structureDamage": "구조 피해",
-      "overheating": "과열",
-      "cascade": "폭주"
-    },
     "combat": {
       "statusEffect": "유효한 상태 효과",
       "resistanceImmunity": "저항/면역 유효",
@@ -496,6 +465,16 @@
     },
     "rollTable": {
       "d": "D"
+    },
+    "filters": {
+      "license": "라이선스",
+      "systemType": "시스템 유형",
+      "requiredMount": "요구 마운트",
+      "attackType": "공격 유형"
+    },
+    "tables": {
+      "overheating": "과열",
+      "cascade": "폭주"
     }
   },
   "mainMenu": {
@@ -590,7 +569,15 @@
     "dataItem": {
       "bulkDeletedText": "선택된 아이템이 제거되었습니다.",
       "bulkPartialTitle": "{n}개 제거됨, {f}개 실패",
-      "bulkDeletedTitle": "{n} 개의 아이템 제거됨 | {n} 개의 아이템 제거됨"
+      "bulkDeletedTitle": "{n} 개의 아이템 제거됨"
+    }
+  },
+  "combat": {
+    "timedEffect": {
+      "roundsRemaining": "{n} 라운드 남음"
+    },
+    "structureCheck": {
+      "structure": "구조 피해"
     }
   }
 }

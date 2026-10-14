@@ -20,6 +20,7 @@ export interface IActivationState {
   recorded?: boolean
   legal: boolean
   blockedBy?: BlockedReason
+  spent?: string[]
 }
 
 const FREE = ['free', 'none']
@@ -88,13 +89,22 @@ const heatApplication = step<IActivationState>(
 const consume = step<IActivationState>(
   'consume',
   s => {
-    if (s.reaction) s.cc.UseReaction(s.reaction)
-    else if (!FREE.includes(s.activation)) s.cc.SetCombatAction(s.activation, false)
+    if (s.reaction) {
+      s.cc.UseReaction(s.reaction)
+      return
+    }
+    if (FREE.includes(s.activation)) return
+    const before = { ...s.cc.CombatActions }
+    s.cc.SetCombatAction(s.activation, false)
+    s.spent = Object.keys(before).filter(k => before[k] && !s.cc.CombatActions[k])
   },
   {
     Undo: s => {
       if (s.reaction) s.cc.RestoreReaction(s.reaction)
-      else if (!FREE.includes(s.activation)) s.cc.ResetActivation(s.activation)
+      else if (s.spent) {
+        s.spent.forEach(k => (s.cc.CombatActions[k] = true))
+        s.cc.CombatLogVersion++
+      } else if (!FREE.includes(s.activation)) s.cc.ResetActivation(s.activation)
     },
   }
 )

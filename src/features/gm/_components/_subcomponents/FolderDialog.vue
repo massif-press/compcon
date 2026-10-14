@@ -18,7 +18,7 @@
         <v-combobox
           v-model="folderName"
           :items="folders"
-          :label="$t('gm.fields.folder')"
+          :label="$t('common.folder')"
           clearable
           hide-details
           :menu-props="{ retainFocus: false }"
@@ -38,7 +38,7 @@
           color="accent"
           @click="confirm"
         >
-          {{ $t('common.set') }}
+          {{ $t('common.setAction') }}
         </v-btn>
       </v-card-actions>
     </v-card>

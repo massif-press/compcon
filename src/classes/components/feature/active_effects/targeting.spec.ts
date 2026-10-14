@@ -63,7 +63,6 @@ describe('who can be targeted', () => {
     npc.reinforcementTurn = 2
     expect(targets()).not.toContain(npc.id)
 
-    // deploying clears the flag but leaves the turn behind
     npc.reinforcement = false
     expect(targets()).toContain(npc.id)
   })
@@ -106,7 +105,7 @@ describe('a trait that only resists, only for its bearer', () => {
 
     instance.ApplyPassiveResistances()
 
-    expect(applied).toContain('Resistance:Kinetic')
+    expect(applied).toContain('kinetic:Resistance')
   })
 })
 

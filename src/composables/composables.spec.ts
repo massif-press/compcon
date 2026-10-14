@@ -65,16 +65,16 @@ describe('computeItemGroupings', () => {
   })
 
   it('groups by folder and files the rest under N/A', () => {
-    const out = computeItemGroupings([folded('Squad A'), folded('Squad A'), folded()], 'Folder', [
-      'Squad A',
+    const out = computeItemGroupings([folded('TEST A'), folded('TEST A'), folded()], 'Folder', [
+      'TEST A',
     ]) as Record<string, any[]>
 
-    expect(out['Squad A']).toHaveLength(2)
+    expect(out['TEST A']).toHaveLength(2)
     expect(out['N/A']).toHaveLength(1)
   })
 
   it('omits the N/A group when every item is filed', () => {
-    const out = computeItemGroupings([folded('Squad A')], 'Folder', ['Squad A']) as Record<
+    const out = computeItemGroupings([folded('TEST A')], 'Folder', ['TEST A']) as Record<
       string,
       any[]
     >

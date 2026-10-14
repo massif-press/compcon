@@ -88,8 +88,8 @@
               hide-details
               color="success"
               active-color="error"
-              :label="$t('ui.fields.used')"
-              :tooltip="$t('ui.tooltips.markThisResourceAsUsed')"
+              :label="$t('common.used')"
+              :tooltip="$t('ui.items.markResourceUsedHint')"
             />
           </v-col>
         </v-row>
@@ -104,7 +104,7 @@
         <cc-text-area
           v-model="reserve.ResourceCost"
           color="primary"
-          :label="$t('ui.fields.costcomplications')"
+          :label="$t('ui.items.costcomplications')"
           clearable
         />
       </v-card-text>

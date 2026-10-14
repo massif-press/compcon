@@ -9,7 +9,7 @@
       no-gutters
     >
       <v-col :cols="mobile ? '' : 'auto'">
-        <div class="text-cc-overline text-disabled">{{ $t('ui.fields.damageType') }}</div>
+        <div class="text-cc-overline text-disabled">{{ $t('common.damageType') }}</div>
         <v-select
           :model-value="d.DamageType"
           :items="damageOptions"
@@ -141,11 +141,11 @@
   })
 
   const damageOptions = [
-    { title: t('ui.titles.kinetic'), value: 'kinetic' },
-    { title: t('ui.titles.energy'), value: 'energy' },
-    { title: t('ui.titles.explosive'), value: 'explosive' },
-    { title: t('ui.titles.heat'), value: 'heat' },
-    { title: t('ui.titles.burn'), value: 'burn' },
+    { title: t('enums.damageType.kinetic'), value: 'kinetic' },
+    { title: t('enums.damageType.energy'), value: 'energy' },
+    { title: t('enums.damageType.explosive'), value: 'explosive' },
+    { title: t('enums.damageType.heat'), value: 'heat' },
+    { title: t('common.burnStatus'), value: 'burn' },
   ]
 
   function damageHints(d: DamageEvent) {

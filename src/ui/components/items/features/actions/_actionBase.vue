@@ -23,7 +23,7 @@
         class="text-cc-overline"
         style="opacity: 0.4"
       >
-        {{ $t('ui.action.frequency_action') }}
+        {{ $t('ui.action.frequency') }}
       </div>
       <div
         v-html-safe="action.Frequency.ToString()"

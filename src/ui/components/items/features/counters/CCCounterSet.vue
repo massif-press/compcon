@@ -13,7 +13,7 @@
       </v-col> -->
       <v-col
         v-for="cd in controller.CounterData"
-        :key="cd.id"
+        :key="`${cd.id}-${cd.max}`"
         cols="auto"
       >
         <counter-component

@@ -67,7 +67,7 @@
           <v-col>
             <div class="heading h3">
               <cc-slashes />
-              {{ $t('compendium.titles.reference') }}
+              {{ $t('compendium.shared.reference') }}
             </div>
           </v-col>
           <v-col cols="auto">

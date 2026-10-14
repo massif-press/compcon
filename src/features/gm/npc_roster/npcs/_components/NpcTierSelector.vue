@@ -29,63 +29,19 @@
       </v-col>
     </v-row>
 
-    <cc-dialog
+    <tier-change-dialog
       v-model="showConfirmation"
-      :title="$t('gm.titles.confirmTierChange')"
-      icon="mdi-alert"
-      min-width="600px"
-      :close-on-click="false"
-    >
-      <div class="heading h3">{{ $t('gm.tier.changeTo', { n: stagedTier }) }}</div>
-      <v-card-text>{{ $t('gm.tier.detectedEdits') }}</v-card-text>
-      <v-card-actions class="flex-column align-stretch pa-4 ga-2">
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-delta"
-          color="accent"
-          :tooltip="$t('gm.tooltips.changeTierAndAdjustEdited')"
-          @click="projectAndChange()"
-        >
-          {{ $t('gm.tier.projectEdits') }}
-        </cc-button>
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-pin"
-          color="primary"
-          :tooltip="$t('gm.tooltips.changeTierAndKeepEdited')"
-          @click="preserveAndChange()"
-        >
-          {{ $t('gm.tier.preserveEdits') }}
-        </cc-button>
-        <cc-button
-          block
-          size="small"
-          prepend-icon="mdi-refresh"
-          :tooltip="$t('gm.tooltips.changeTierAndDiscardAll')"
-          color="warning"
-          @click="resetAndChange()"
-        >
-          {{ $t('gm.tier.resetStats') }}
-        </cc-button>
-
-        <cc-button
-          block
-          size="small"
-          color="panel"
-          @click="cancel()"
-        >
-          {{ $t('common.cancel') }}
-        </cc-button>
-      </v-card-actions>
-    </cc-dialog>
+      :tier="stagedTier"
+      @keep="changeTier"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
   import type { Unit } from '@/classes/npc/unit/Unit'
   import { ref } from 'vue'
+  import TierChangeDialog from './TierChangeDialog.vue'
+  import { statEdits, restoreEdits, type StatTable, type TierEdits } from '@/classes/npc/tierChange'
 
   const props = withDefaults(
     defineProps<{
@@ -104,62 +60,25 @@
   const showConfirmation = ref(false)
   const stagedTier = ref(0)
 
-  function hasEditedStats() {
-    const maxStats = props.item.StatController.MaxStats
-    return (
-      props.item.NpcClassController.getClassStats?.().some(
-        ({ key, val }) => maxStats[key] !== undefined && maxStats[key] !== val
-      ) ?? false
+  function classStats(): StatTable {
+    return Object.fromEntries(
+      (props.item.NpcClassController.getClassStats?.() ?? []).map(({ key, val }) => [key, val])
     )
   }
   function updateTier(tier: number) {
     if (tier === props.item.NpcClassController.Tier) return
     stagedTier.value = tier
-    if (hasEditedStats()) {
+    if (statEdits(props.item.StatController, classStats()).length) {
       showConfirmation.value = true
     } else {
-      resetAndChange()
+      changeTier('reset')
     }
   }
-  function resetAndChange() {
+  function changeTier(keep: TierEdits) {
+    const edits = statEdits(props.item.StatController, classStats())
     props.item.NpcClassController.Tier = stagedTier.value
-    cancel()
-  }
-  function preserveAndChange() {
-    const oldDefaults: Record<string, any> = {}
-    props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
-      oldDefaults[key] = val
-    })
-    const snapshot = { ...props.item.StatController.MaxStats }
-    props.item.NpcClassController.Tier = stagedTier.value
-    Object.keys(snapshot).forEach(key => {
-      if (key in oldDefaults && snapshot[key] === oldDefaults[key]) return
-      props.item.StatController.setMax(key, snapshot[key])
-    })
+    restoreEdits(props.item.StatController, edits, keep)
     props.item.SaveController.save()
-    cancel()
-  }
-  function projectAndChange() {
-    const oldDefaults: Record<string, any> = {}
-    props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
-      oldDefaults[key] = val
-    })
-    const snapshot = { ...props.item.StatController.MaxStats }
-    props.item.NpcClassController.Tier = stagedTier.value
-    const newDefaults: Record<string, any> = {}
-    props.item.NpcClassController.getClassStats?.().forEach(({ key, val }) => {
-      newDefaults[key] = val
-    })
-    Object.keys(snapshot).forEach(key => {
-      if (!(key in oldDefaults) || snapshot[key] === oldDefaults[key]) return
-      const diff = snapshot[key] - oldDefaults[key]
-      props.item.StatController.setMax(key, (newDefaults[key] ?? snapshot[key]) + diff)
-    })
-    props.item.SaveController.save()
-    cancel()
-  }
-  function cancel() {
-    stagedTier.value = 0
     showConfirmation.value = false
   }
 </script>

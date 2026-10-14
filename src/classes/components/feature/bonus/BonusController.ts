@@ -1,9 +1,12 @@
 import { Bonus } from './Bonus'
 import { IFeatureController } from '../IFeatureController'
 import { StatController } from '../../combat/stats/StatController'
-import { Stats } from '../../combat/stats/Stats'
+import { StatKey, Stats } from '../../combat/stats/Stats'
+import coreEntries from './bonus_dictionary'
 
 const CHILD_PREFIXES = ['drone_', 'deployable_']
+const CORE_IDS = new Set(coreEntries.map(x => x.id))
+const UNSUMMED_IDS = ['overcharge', 'sizes']
 
 class BonusController {
   private readonly _parent: IFeatureController
@@ -23,27 +26,18 @@ class BonusController {
   }
 
   public evaluate(bonus: Bonus): number {
-    if (bonus.Condition) {
-      const result = this._parent.FeatureController.EvaluateSpecial(bonus.Condition)
-      if (!result) return 0
-    }
     return Bonus.Evaluate(bonus, this._parent)
   }
 
   public sum(statId: string, base: number = 0): number {
-    const all = this.getFor(statId)
+    return Bonus.Resolve(base, this.getFor(statId), b => this.evaluate(b))
+  }
 
-    const overwrites = all.filter(b => b.Overwrite && !b.Replace)
-    if (overwrites.length) {
-      return Math.max(...overwrites.map(b => this.evaluate(b)))
-    }
-
-    const replaces = all.filter(b => b.Replace)
-    const val = replaces.length ? replaces.reduce((s, b) => s + this.evaluate(b), 0) : base
-
-    return (
-      val + all.filter(b => !b.Overwrite && !b.Replace).reduce((s, b) => s + this.evaluate(b), 0)
-    )
+  public sizes(base: number | number[] = []): number[] {
+    const all = this.getFor(StatKey.SIZES)
+    const set = all.filter(b => b.Overwrite || b.Replace)
+    const vals = (set.length ? set : all).flatMap(b => [b.Value].flat().map(Number))
+    return [...new Set((set.length ? [] : [base].flat()).concat(vals))].sort((a, b) => a - b)
   }
 
   public contributors(statId: string): { name: string; val: number }[] {
@@ -55,11 +49,25 @@ class BonusController {
     encounter?: { Combatants: { type: string }[] }
   ): void {
     const bonuses = this.Bonuses
+    const pilot = !!(this._parent as any).PilotStatController
+
+    const isStat = (b: Bonus) => {
+      if (!CORE_IDS.has(b.ID)) return true
+      const key = Stats.cleanKey(b.ID)
+      return !pilot && (key in Stats.DefaultStats || statController.getMax(key) !== undefined)
+    }
 
     const statIds = [
       ...new Set(
         bonuses
-          .filter(b => !b.PerPc && !b.IsFlag && !CHILD_PREFIXES.some(p => b.ID.startsWith(p)))
+          .filter(
+            b =>
+              !b.PerPc &&
+              !b.IsFlag &&
+              !CHILD_PREFIXES.some(p => b.ID.startsWith(p)) &&
+              !UNSUMMED_IDS.includes(b.ID) &&
+              isStat(b)
+          )
           .map(b => Stats.cleanKey(b.ID))
       ),
     ]
@@ -68,6 +76,9 @@ class BonusController {
       const base = statController.getMax(statId) ?? 0
       statController.setMax(statId, this.sum(statId, base))
     }
+
+    if (bonuses.some(b => b.ID === StatKey.SIZES && isStat(b)))
+      statController.setMax(StatKey.SIZES, this.sizes(statController.getMax(StatKey.SIZES)))
 
     if (encounter) {
       const pcCount = encounter.Combatants.filter(c => c.type === 'pilot').length
@@ -85,7 +96,9 @@ class BonusController {
   }
 
   public applyChildBonuses(childStats: StatController, prefix: string): void {
-    const prefixed = this.Bonuses.filter(b => b.ID.startsWith(prefix) && !b.IsFlag)
+    const prefixed = this.Bonuses.filter(
+      b => b.ID.startsWith(prefix) && !b.IsFlag && !b.ID.endsWith('_resist')
+    )
     if (!prefixed.length) return
 
     const statIds = [...new Set(prefixed.map(b => b.ID.slice(prefix.length)))]
@@ -93,24 +106,10 @@ class BonusController {
     for (const statId of statIds) {
       const forStat = prefixed.filter(b => b.ID === prefix + statId)
       const base = childStats.getMax(statId) ?? 0
-
-      // Overwrite: ignore base, take highest overwrite value
-      const overwrites = forStat.filter(b => b.Overwrite && !b.Replace)
-      if (overwrites.length) {
-        childStats.setMax(statId, Math.max(...overwrites.map(b => this.evaluate(b))))
-        continue
-      }
-
-      const replaces = forStat.filter(b => b.Replace)
-      const effectiveBase = replaces.length
-        ? replaces.reduce((sum, b) => sum + this.evaluate(b), 0)
-        : base
-
-      const addVal = forStat
-        .filter(b => !b.Overwrite && !b.Replace)
-        .reduce((sum, b) => sum + this.evaluate(b), 0)
-
-      childStats.setMax(statId, effectiveBase + addVal)
+      childStats.setMax(
+        statId,
+        Bonus.Resolve(base, forStat, b => this.evaluate(b))
+      )
     }
   }
 

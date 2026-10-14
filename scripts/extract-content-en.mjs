@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-undef */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
@@ -6,6 +7,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 
 import {
   nestedEntries,
+  tableRowEntries,
   glossaryId,
   ALLOWLIST,
   normalizeMarkup,
@@ -48,6 +50,9 @@ export function buildContent() {
           if (str.trim()) catalog[`${prefix}.${field}`] = normalizeMarkup(str)
         }
       }
+
+      if (collection === 'tables')
+        for (const [key, val] of tableRowEntries(item)) catalog[key] = normalizeMarkup(val)
     }
 
     catalogs[collection] = {

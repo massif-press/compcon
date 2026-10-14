@@ -59,7 +59,7 @@
           start
           icon="mdi-check"
         />
-        {{ $t('pm.level.coreBonuses') }}
+        {{ $t('common.coreBonuses') }}
       </v-tab>
       <v-divider />
       <v-tab>{{ $t('common.confirm') }}</v-tab>

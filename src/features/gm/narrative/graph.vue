@@ -25,14 +25,14 @@
         start
         icon="mdi-download"
       />
-      {{ $t('common.import') }}
+      {{ $t('common.importAction') }}
     </v-btn>
     <cc-dialog
       ref="import"
       icon="mdi-download-multiple"
       no-confirm
       large
-      :title="$t('common.import')"
+      :title="$t('common.importAction')"
     >
       <importer @complete="($refs as any).import.hide()" />
     </cc-dialog>
@@ -45,7 +45,7 @@
         start
         icon="mdi-printer"
       />
-      {{ $t('common.print') }}
+      {{ $t('common.printAction') }}
     </v-btn>
   </v-footer>
 </template>

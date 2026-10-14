@@ -32,6 +32,10 @@
           <div class="text-center">
             {{ $t('ui.combat.d20Plus') }}
             {{ rollData.SaveBonus }} {{ $t('ui.combat.saveBonusVs') }} {{ rollData.SaveTarget }}
+            <div v-if="rollData.SaveAccuracy">
+              {{ Math.abs(rollData.SaveAccuracy) }}
+              {{ rollData.SaveAccuracy > 0 ? $t('common.accuracy') : $t('common.difficulty') }}
+            </div>
           </div>
 
           <accuracy-difficulty-row
@@ -48,7 +52,7 @@
             class="mt-1"
             @click="reset()"
           >
-            {{ $t('common.reset') }}
+            {{ $t('common.resetAction') }}
           </v-btn>
 
           <v-btn
@@ -60,7 +64,7 @@
             block
             @click="rollSave()"
           >
-            {{ $t('common.roll_verb') }}
+            {{ $t('common.rollVerb') }}
           </v-btn>
           <div class="pa-2 text-left text-cc-overline text-accent">
             <span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span>
@@ -94,7 +98,7 @@
   function rollSave() {
     const rollResult = DiceRoller.rollSkillCheck(
       props.rollData.SaveBonus,
-      props.rollData.AttackAccuracy
+      props.rollData.AttackAccuracy + props.rollData.SaveAccuracy
     )
     props.rollData.SaveRollResult = rollResult
     props.rollData.SaveRolledValue = rollResult.total

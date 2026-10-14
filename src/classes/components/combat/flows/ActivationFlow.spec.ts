@@ -122,6 +122,17 @@ describe('ActivationFlow', () => {
   })
 })
 
+describe('undoing a consumed activation', () => {
+  it('refunds nothing when forced with no slot left', () => {
+    cc().SetCombatAction('full', false)
+    cc().Activate('quick', { actionId: 'test_action', force: true })
+    cc().UndoActivation('quick', { actionId: 'test_action' })
+
+    expect(cc().CombatActions.Quick1).toBe(false)
+    expect(cc().CombatActions.Quick2).toBe(false)
+  })
+})
+
 describe('actor kind and counterpart', () => {
   it('answers what kind of actor it is from one place', () => {
     expect(cc().Kind).toBe('mech')

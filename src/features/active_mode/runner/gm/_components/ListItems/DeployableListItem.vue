@@ -193,7 +193,7 @@
                     style="margin-top: 2px"
                   >
                     <v-icon icon="cc:destroyed" />
-                    {{ $t('active.common.destroyed') }}
+                    {{ $t('common.destroyed') }}
                   </div>
                 </v-chip>
               </v-card>

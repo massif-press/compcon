@@ -38,7 +38,7 @@
       v-model="customName"
       color="primary"
       variant="outlined"
-      :label="$t('pm.fields.resourceName')"
+      :label="$t('pm.selectors.resourceName')"
     />
     <div class="mt-4" />
     <cc-text-area

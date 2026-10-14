@@ -38,10 +38,12 @@
               { 'combat-action-tile--spent': !action.available },
             ]"
             :height="layout.tileHeight"
-            :aria-pressed="action.readonly ? undefined : String(action.available)"
-            :aria-label="action.label"
+            :aria-pressed="
+              action.readonly || hasMenu(action) ? undefined : String(action.available)
+            "
+            :aria-label="tileLabel(action)"
             :readonly="action.readonly"
-            @click="action.readonly ? undefined : action.toggle?.()"
+            @click="action.readonly || hasMenu(action) ? undefined : action.toggle?.()"
           >
             <div
               class="d-flex flex-column align-center justify-center"
@@ -77,6 +79,43 @@
               location="top"
               :text="action.label"
             />
+            <v-menu
+              v-if="hasMenu(action)"
+              activator="parent"
+              :close-on-content-click="false"
+              location="bottom"
+            >
+              <v-card
+                tile
+                border
+                color="background"
+                class="pa-2"
+                style="width: min(360px, 95vw); max-height: 70vh; overflow-y: auto"
+              >
+                <cc-button
+                  v-if="action.toggle"
+                  size="x-small"
+                  block
+                  class="mb-2"
+                  :color="action.available ? action.color : 'primary'"
+                  :prepend-icon="action.available ? action.icon : 'mdi-undo'"
+                  @click="action.toggle()"
+                >
+                  {{
+                    $t(
+                      action.available
+                        ? 'active.actionPalette.markUsed'
+                        : 'active.actionPalette.markUnused',
+                      { type: action.pool ?? action.label }
+                    )
+                  }}
+                </cc-button>
+                <slot
+                  name="menu"
+                  :tile="action.tile!"
+                />
+              </v-card>
+            </v-menu>
           </v-btn>
         </v-col>
         <v-responsive
@@ -90,10 +129,13 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue'
+  import { computed, useSlots } from 'vue'
   import { useI18n } from 'vue-i18n'
   import type { CombatController } from '@/classes/components/combat/CombatController'
+  import { Action } from '@/classes/Action'
+  import { ActivationType } from '@/classes/enums'
   import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
+  import type { PaletteTile } from './actionPalette'
 
   defineOptions({ name: 'CombatActionPanel' })
 
@@ -105,8 +147,22 @@
     { hideOvercharge: false }
   )
 
+  defineSlots<{ menu?(props: { tile: PaletteTile }): any }>()
+
   const { t } = useI18n()
   const { layout } = useLayoutOptions()
+  const slots = useSlots()
+
+  const menus = computed(() => layout.value.actionGrouping === 'menus' && !!slots.menu)
+
+  function hasMenu(tile: Tile): boolean {
+    return menus.value && !!tile.tile
+  }
+
+  function tileLabel(tile: Tile): string | undefined {
+    if (!hasMenu(tile) || tile.available) return tile.label
+    return `${tile.label}, ${t('active.combatAction.spent')}`
+  }
 
   const movement = computed(() => props.controller.StatController?.CurrentStats['speed'] || 0)
   const inOvercharge = computed(() => props.controller.InOvercharge)
@@ -119,6 +175,8 @@
     available?: boolean
     readonly?: boolean
     value?: number
+    tile?: PaletteTile
+    pool?: string
     separator?: boolean
     breakAfter?: boolean
     toggle?: () => void
@@ -130,17 +188,19 @@
       {
         key: 'protocol',
         icon: 'cc:protocol',
-        label: t('active.combatAction.protocol'),
+        label: t('enums.activationType.protocol'),
         color: 'action--protocol',
         available: c.CanActivate('protocol'),
+        tile: 'protocol',
         toggle: () => c.toggleCombatAction('protocol'),
       },
       {
         key: 'full',
         icon: 'mdi-hexagon-slice-6',
-        label: t('active.combatAction.full'),
+        label: t('enums.activationType.full'),
         color: 'action--full',
         available: c.CanActivate('full'),
+        tile: 'full',
         toggle: () => c.toggleCombatAction('full'),
       },
       { key: 'sep', separator: true },
@@ -150,6 +210,8 @@
         label: t('active.combatAction.quickN', { n: 1 }),
         color: inOvercharge.value ? 'action--overcharge' : 'action--quick',
         available: c.CanActivate('quick1'),
+        tile: 'quick',
+        pool: t('enums.activationType.quick'),
         toggle: () => c.toggleCombatAction('quick1'),
       },
       {
@@ -158,19 +220,23 @@
         label: t('active.combatAction.quickN', { n: 2 }),
         color: inOvercharge.value ? 'action--overcharge' : 'action--quick',
         available: c.CanActivate('quick2'),
+        tile: 'quick',
+        pool: t('enums.activationType.quick'),
         toggle: () => c.toggleCombatAction('quick2'),
         breakAfter: true,
       },
-      {
+    ]
+    if (c.TracksMovement) {
+      tiles.push({
         key: 'move',
         icon: 'mdi-arrow-right-bold-hexagon-outline',
-        label: t('active.combatAction.move'),
+        label: t('enums.activationType.move'),
         color: 'action--move',
         available: c.CanActivate('move'),
         readonly: true,
         value: movement.value,
-      },
-    ]
+      })
+    }
     if (!props.hideOvercharge) {
       tiles.push({
         key: 'overcharge',
@@ -180,17 +246,34 @@
           : t('active.combatAction.overcharge'),
         color: 'overcharge',
         available: c.CanActivate('overcharge') || inOvercharge.value,
+        tile: 'overcharge',
+        pool: t('active.combatAction.overcharge'),
         toggle: () => c.toggleCombatAction('overcharge'),
       })
     }
     tiles.push({
       key: 'reaction',
       icon: 'cc:reaction',
-      label: t('active.combatAction.reaction'),
+      label:
+        t('enums.activationType.reaction') +
+        (c.ActionPoolController.ExtraActionsLeft('reaction') > 0
+          ? ` +${c.ActionPoolController.ExtraActionsLeft('reaction')}`
+          : ''),
       color: 'action--reaction',
       available: c.CanActivate('reaction'),
+      tile: 'reaction',
       toggle: () => c.toggleCombatAction('reaction'),
     })
+    if (menus.value && c.AllActions('Free').some(a => a.ID !== 'act_overcharge')) {
+      tiles.push({
+        key: 'free',
+        icon: Action.getIcon(ActivationType.Free),
+        label: t('enums.activationType.free'),
+        color: Action.colorFor('Free'),
+        available: true,
+        tile: 'free',
+      })
+    }
     return tiles
   })
 </script>

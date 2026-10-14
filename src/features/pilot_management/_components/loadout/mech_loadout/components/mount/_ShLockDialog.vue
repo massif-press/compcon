@@ -3,7 +3,7 @@
     v-model="dialog"
     width="50vw"
     icon="cc:role_striker"
-    :title="$t('pm.titles.selectBracingMount')"
+    :title="$t('pm.loadout.selectBracingMount')"
     :close-on-click="false"
     major
     max-width="90vw"
@@ -22,7 +22,7 @@
               <span class="text-accent">{{ $t('pm.loadout.bracingMount') }}</span>
             </template>
           </i18n-t>
-          {{ $t('pm.loadout.thisBracingMountWillBeNot') }}
+          {{ $t('pm.loadout.bracingMountUnavailable') }}
         </span>
       </div>
       <div class="heading">
@@ -40,7 +40,7 @@
         </cc-button>
       </div>
       <div v-if="superheavySelect">
-        <i>{{ $t('pm.loadout.theSUPERHEAVYMOUNTINGCoreBonusRequires') }}</i>
+        <i>{{ $t('pm.loadout.superheavyMountingRequiresBracing') }}</i>
       </div>
     </v-card-text>
   </cc-dialog>
@@ -49,7 +49,7 @@
 <script setup lang="ts">
   import type Mount from '@/classes/mech/components/mount/Mount'
   import type { Mech } from '@/classes/mech/Mech'
-  import { computed, ref } from 'vue'
+  import { computed, ref, toRaw } from 'vue'
   import EquippableMount from '@/classes/mech/components/mount/EquippableMount'
   import { MountType } from '@/classes/enums'
 
@@ -64,7 +64,7 @@
 
   const availableMounts = computed(() => {
     let candidates = props.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      props.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
       false
     ) as EquippableMount[]
     if (superheavySelect.value) {
@@ -72,11 +72,11 @@
         m => m.Type === MountType.Heavy
       ) as EquippableMount[]
     }
-    return candidates.filter(x => x.Name !== props.mount.Name)
+    return candidates.filter(x => toRaw(x) !== toRaw(props.mount))
   })
   const superheavySelect = computed(() => {
     return (
-      props.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting &&
       props.mech.MechLoadoutController.ActiveLoadout.Mounts.some(m => m.Type === MountType.Heavy) &&
       props.mount.Type !== MountType.Heavy
     )

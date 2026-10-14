@@ -1,4 +1,5 @@
 import * as _ from 'lodash-es'
+import { toRaw } from 'vue'
 import { MountType } from '../../../enums'
 import { IEquipmentData, MechEquipment } from '../equipment/MechEquipment'
 import { MechSystem } from '../equipment/MechSystem'
@@ -8,6 +9,7 @@ import EquippableMount from '../mount/EquippableMount'
 import IntegratedMount from '../mount/IntegratedMount'
 import Mount, { IMountData } from '../mount/Mount'
 import { Mech } from '../../Mech'
+import { Bonus } from '../../../components/feature/bonus/Bonus'
 import { LicensedItem } from '../../../pilot/components/license/LicensedItem'
 import Tag from '../../../Tag'
 import { CompendiumItem } from '@/classes/CompendiumItem'
@@ -24,6 +26,7 @@ interface IMechLoadoutData {
   improved_armament: IMountData
   integratedWeapon: IMountData
   superheavy_mounting: IMountData
+  bonus_mounts?: IMountData[]
 }
 
 const ordArr = [
@@ -48,6 +51,8 @@ class MechLoadout {
   private _improvedArmament: EquippableMount
   private _integratedWeapon: EquippableMount
   private _superheavyMounting: EquippableMount
+  private _bonusMounts: EquippableMount[] = []
+  private _shelvedMounts: EquippableMount[] = []
   private _systems: MechSystem[]
   private _integratedSystems: MechSystem[]
 
@@ -154,12 +159,67 @@ class MechLoadout {
     return this._superheavyMounting
   }
 
+  private get addedMountTypes(): MountType[] {
+    const key = (v: unknown) =>
+      String(v)
+        .toLowerCase()
+        .replace(/[^a-z]/g, '')
+    const types = Object.values(MountType).filter(t => t !== MountType.Integrated)
+    const dedicated = this.Parent.Pilot.CoreBonusController.CoreBonuses.filter(cb =>
+      ['cb_integrated_weapon', 'cb_improved_armament'].includes(cb.ID)
+    ).flatMap(cb => cb.Bonuses.map(b => toRaw(b)))
+    return this.Parent.FeatureController.Bonuses.filter(
+      b =>
+        b.ID === 'add_mount' &&
+        !dedicated.includes(toRaw(b)) &&
+        (!b.Max || this._equippableMounts.length < b.Max)
+    )
+      .map(b => types.find(t => key(t) === key(b.Value)))
+      .filter(t => !!t) as MountType[]
+  }
+
+  public get HasIntegratedWeapon(): boolean {
+    return this.Parent.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+  }
+
+  public get HasImprovedArmament(): boolean {
+    return (
+      this.Parent.Pilot.has('CoreBonus', 'cb_improved_armament') &&
+      this._equippableMounts.length < 3
+    )
+  }
+
+  public SyncBonusMounts(): EquippableMount[] {
+    if (!this.Parent.FeatureController.Containers.length) return this._bonusMounts
+    const pool = [...this._bonusMounts, ...this._shelvedMounts]
+    const active = this.addedMountTypes.map(type => {
+      const idx = pool.findIndex(m => m.Type === type)
+      return idx > -1 ? pool.splice(idx, 1)[0] : new EquippableMount(type, this)
+    })
+    const shelved = pool.filter(m => m.Weapons.length)
+    const same = (a: EquippableMount[], b: EquippableMount[]) =>
+      a.length === b.length && a.every((m, i) => m === b[i])
+    if (!same(active, this._bonusMounts)) this._bonusMounts = active
+    if (!same(shelved, this._shelvedMounts)) this._shelvedMounts = shelved
+    return this._bonusMounts
+  }
+
+  public get HasSuperheavyMounting(): boolean {
+    return (
+      this.Parent.Pilot.has('CoreBonus', 'cb_superheavy_mounting') ||
+      this.Parent.FeatureController.Bonuses.some(b => b.ID === 'superheavy_mounting')
+    )
+  }
+
   public AllMounts(improved?: boolean, integrated?: boolean, superheavy?: boolean): Mount[] {
     let ms = [] as EquippableMount[]
     if (integrated) ms.push(this._integratedWeapon)
-    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
+    if (improved) ms.push(this._improvedArmament)
     if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
-    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts as any)
+    ms = ms
+      .concat(this._equippableMounts)
+      .concat(this._bonusMounts)
+      .concat(this._integratedMounts as any)
 
     return ms
   }
@@ -171,20 +231,33 @@ class MechLoadout {
   ): EquippableMount[] {
     let ms = [] as EquippableMount[]
     if (integrated) ms.push(this._integratedWeapon)
-    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
+    if (improved) ms.push(this._improvedArmament)
     if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
-    ms = ms.concat(this._equippableMounts)
+    ms = ms.concat(this._equippableMounts).concat(this._bonusMounts)
     return ms
+  }
+
+  public MountAccuracy(weapon: MechWeapon): number {
+    const mounts = this.AllEquippableMounts(true, true, true)
+    const mount =
+      mounts.find(m => m.Weapons.includes(weapon)) ??
+      mounts.find(m => m.Weapons.some(w => w.InstanceID === weapon.InstanceID))
+    return (mount?.Bonuses ?? [])
+      .flatMap(cb => cb.Bonuses)
+      .filter(b => b.ID === 'mount_accuracy')
+      .reduce((sum, b) => sum + Bonus.Evaluate(b, this.Parent), 0)
   }
 
   public AllActiveMounts(m: Mech): Mount[] {
     let ms = [] as Mount[]
-    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount)
-    if (m.Pilot.has('CoreBonus', 'cb_improved_armament') && this.EquippableMounts.length < 3)
-      ms.push(this.ImprovedArmamentMount)
-    if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting') && this.EquippableMounts.length < 3)
+    if (this.HasIntegratedWeapon) ms.push(this.IntegratedWeaponMount)
+    if (this.HasImprovedArmament) ms.push(this.ImprovedArmamentMount)
+    if (this.HasSuperheavyMounting && this.EquippableMounts.length < 3)
       ms.push(this.SuperheavyMount)
-    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts)
+    ms = ms
+      .concat(this.EquippableMounts)
+      .concat(this.SyncBonusMounts())
+      .concat(this.IntegratedMounts)
     return ms.filter(x => x.Weapons.length)
   }
 
@@ -308,6 +381,7 @@ class MechLoadout {
   public get TotalSP(): number {
     const mountSP = [
       ...this._equippableMounts,
+      ...this._bonusMounts,
       this._improvedArmament,
       this._integratedWeapon,
       this._superheavyMounting,
@@ -364,6 +438,13 @@ class MechLoadout {
       improved_armament: EquippableMount.Serialize(ml._improvedArmament),
       integratedWeapon: EquippableMount.Serialize(ml._integratedWeapon),
       superheavy_mounting: EquippableMount.Serialize(ml._superheavyMounting),
+      ...(ml._bonusMounts.length || ml._shelvedMounts.length
+        ? {
+            bonus_mounts: [...ml._bonusMounts, ...ml._shelvedMounts].map(x =>
+              EquippableMount.Serialize(x)
+            ),
+          }
+        : {}),
     }
   }
 
@@ -383,6 +464,7 @@ class MechLoadout {
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux, ml)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml)
+    ml._bonusMounts = (loadoutData.bonus_mounts ?? []).map(x => EquippableMount.Deserialize(x, ml))
     ml.SetAllIntegrated()
     const seen = new Set<string>()
     const equipped: { InstanceID: string }[] = [

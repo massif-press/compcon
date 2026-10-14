@@ -15,7 +15,7 @@ class PendingCheckController {
   }
 
   public Add(kind: CheckKind): void {
-    if (this.SuppressChecks) return
+    if (this.SuppressChecks || !this._parent.Automated) return
     this.PendingChecks.push({ id: crypto.randomUUID(), kind })
   }
 
@@ -60,7 +60,7 @@ class PendingCheckController {
 
   private _checkDownAndOut(): void {
     const cc = this._parent
-    if (!cc.IsPilot) return
+    if (!cc.IsPilot || !cc.Automated) return
     if (cc.StatController.getCurrent(StatKey.HP) > 0) return
     if (cc.IsDead) return
     if (cc.HasStatus('downandout')) {

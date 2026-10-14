@@ -64,8 +64,12 @@
               >
                 {{ e.Encounter.Name }}
                 <cc-slashes class="mx-3" />
-                <span class="text-disabled mr-1">{{ $t('active.labels.round') }}</span>
+                <span class="text-disabled mr-1">{{ $t('active.charts.round') }}</span>
                 <b>{{ e.Round }}</b>
+                <play-mode-badge
+                  :mode="e.PlayMode"
+                  class="ml-3"
+                />
               </v-col>
               <v-col
                 cols="auto"
@@ -118,7 +122,7 @@
                 </div>
                 <div v-if="e.SaveController.LastModified">
                   <span class="text-disabled mr-1">
-                    {{ $t('active.labels.lastUpdate') }}
+                    {{ $t('common.lastUpdate') }}
                     <cc-slashes />
                   </span>
                   <b>{{ new Date(e.SaveController.LastModified).toLocaleDateString() }}</b>
@@ -256,13 +260,13 @@
               </v-card>
             </v-col>
             <v-col cols="auto">
-              {{ $t('active.encMgr.roundsCount', { n: e.Round }) }}
+              {{ $t('active.encMgr.roundsCount', { n: e.Round }, e.Round) }}
               <div>
                 <span class="text-disabled mr-1">{{ $t('common.created') }}</span>
                 <b>{{ new Date(e.Start).toLocaleDateString() }}</b>
               </div>
               <div>
-                <span class="text-disabled mr-1">{{ $t('active.labels.archived') }}</span>
+                <span class="text-disabled mr-1">{{ $t('active.shared.archived') }}</span>
                 <b>{{ new Date(e.End).toLocaleDateString() }}</b>
               </div>
             </v-col>
@@ -332,7 +336,7 @@
             <v-col cols="auto">
               <cc-dialog
                 :close-on-click="false"
-                :title="`${e.Name} - LOGS AND TELEMETRY`"
+                :title="$t('active.logsAndTelemetryTitle', { name: e.Name })"
               >
                 <template #activator="{ open }">
                   <cc-button
@@ -479,6 +483,7 @@
   import { EncounterArchive } from '@/classes/encounter/EncounterArchive'
   import { useI18n } from 'vue-i18n'
   import EncounterImportDialog from '@/features/active_mode/runner/_shared/_EncounterImportDialog.vue'
+  import PlayModeBadge from '../_components/PlayModeBadge.vue'
   const { t } = useI18n()
 
   const { smAndDown: mobile } = useDisplay()
@@ -489,7 +494,12 @@
   const asc = ref(true)
 
   const encounterOrganizerColumns = [
-    { key: 'Name', title: 'Name', sortable: true, value: (e: EncounterInstance) => e.Name },
+    {
+      key: 'Name',
+      title: t('common.name'),
+      sortable: true,
+      value: (e: EncounterInstance) => e.Name,
+    },
     {
       key: 'Environment',
       title: t('common.environment'),
@@ -497,18 +507,18 @@
     },
     {
       key: 'Sitrep',
-      title: t('active.titles.sitrep'),
+      title: t('common.sitrep'),
       value: (e: EncounterInstance) => e.Encounter?.Sitrep?.Name || '',
     },
     {
       key: 'Round',
-      title: t('active.titles.round'),
+      title: t('active.charts.round'),
       sortable: true,
       value: (e: EncounterInstance) => e.Round,
     },
     {
       key: 'Created',
-      title: 'Created',
+      title: t('common.created'),
       sortable: true,
       value: (e: EncounterInstance) => new Date(e.SaveController.Created).toLocaleDateString(),
     },

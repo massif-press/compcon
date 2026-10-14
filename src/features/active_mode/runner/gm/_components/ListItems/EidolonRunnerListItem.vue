@@ -15,7 +15,7 @@
       </span>
       <cc-slashes class="ml-2" />
       <span class="heading h4 px-2 mx-2 bg-primary">
-        {{ layer?.Name }}
+        {{ combatant.actor.ActiveLayerIndex }}: {{ layer?.Name }}
       </span>
     </div>
   </runner-list-item-base>
@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
   import type { CombatantData } from '@/classes/encounter/Encounter'
-  import type { EidolonLayerSaveData } from '@/classes/npc/eidolon/EidolonLayerSaveData'
+  import type { EidolonLayerInstance } from '@/classes/npc/eidolon/EidolonLayerInstance'
   import { computed } from 'vue'
   import RunnerListItemBase from './RunnerListItemBase.vue'
 
@@ -43,6 +43,6 @@
   }>()
 
   const layer = computed(() => {
-    return props.combatant.actor.ActiveLayer as EidolonLayerSaveData
+    return props.combatant.actor.ActiveLayer as EidolonLayerInstance
   })
 </script>

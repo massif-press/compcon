@@ -10,6 +10,7 @@ import { ActiveEffect } from '@/classes/components/feature/active_effects/Active
 import { ActiveEffectEvent } from '@/classes/components/feature/active_effects/ActiveEffectEvent'
 import { WeaponAttackFlow } from '@/classes/components/combat/flows/WeaponAttackFlow'
 import { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
+import { NpcWeapon } from '@/classes/npc/feature/NpcItem/NpcWeapon'
 import type { Mech } from '@/classes/mech/Mech'
 import type { Pilot } from '@/classes/pilot/Pilot'
 
@@ -296,6 +297,17 @@ describe('status and action corrections from the errata', () => {
 })
 
 describe('status rules reaching the attack path', () => {
+  const npcWeapon = (weaponType: string, ...ranges: string[]) =>
+    new NpcWeapon({
+      id: 'test_npc_weapon',
+      name: 'Test NPC Weapon',
+      origin: 'test_npc_class',
+      type: 'Weapon',
+      weapon_type: weaponType,
+      damage: [{ type: 'Kinetic', val: 3 }],
+      range: ranges.map(type => ({ type, val: 5 })),
+    } as any)
+
   const statusAccuracyAgainst = (target: any, attackType = 'ranged') =>
     new ActiveEventTarget(
       {
@@ -423,6 +435,25 @@ describe('status rules reaching the attack path', () => {
     expect(statusAccuracyAgainst(target, 'melee')).toBe(0)
   })
 
+  it('T-STATUS-engaged-01: an engaged NPC takes the difficulty with a ranged weapon and not a melee one', () => {
+    const target = mech().CombatController
+    cc().AddStatus('engaged')
+
+    expect(statusAccuracyAgainst(target, npcWeapon('Main Rifle', 'Range').Attack)).toBe(-1)
+    expect(statusAccuracyAgainst(target, npcWeapon('Heavy Cannon', 'Line').Attack)).toBe(-1)
+    expect(statusAccuracyAgainst(target, npcWeapon('Main CQB', 'Range', 'Threat').Attack)).toBe(-1)
+    expect(statusAccuracyAgainst(target, npcWeapon('Heavy Melee', 'Threat').Attack)).toBe(0)
+  })
+
+  it('T-STATUS-engaged-01: an untyped NPC weapon is melee only when it has no reach beyond threat', () => {
+    expect(npcWeapon('', 'Threat').Attack).toBe('melee')
+    expect(npcWeapon('', 'Range').Attack).toBe('ranged')
+  })
+
+  it('T-STATUS-engaged-01: a weapon usable at range or in melee attacks as ranged', () => {
+    expect(npcWeapon('Heavy Melee/Heavy Cannon', 'Range', 'Threat').Attack).toBe('ranged')
+  })
+
   it('T-STATUS-impaired-01: the impaired difficulty reaches every attack type', () => {
     const target = mech().CombatController
     cc().AddStatus('impaired')
@@ -438,6 +469,23 @@ describe('status rules reaching the attack path', () => {
 
     expect(statusAccuracyAgainst(target, 'ranged')).toBe(-2)
     expect(statusAccuracyAgainst(target, 'melee')).toBe(0)
+  })
+
+  it('T-MOVE-cover-01: cover applies against an NPC ranged weapon and not an NPC melee weapon', () => {
+    const target = mech().CombatController
+    target.Cover = 'soft' as any
+
+    expect(statusAccuracyAgainst(target, npcWeapon('Main Launcher', 'Range', 'Blast').Attack)).toBe(
+      -1
+    )
+    expect(statusAccuracyAgainst(target, npcWeapon('Main Melee', 'Threat').Attack)).toBe(0)
+  })
+
+  it('T-MOVE-cover-01: the kind an NPC weapon reports is the kind its attack is made with', () => {
+    const u = npc()
+
+    expect(npcWeapon('Main Rifle', 'Range').toActiveEffectData(u).attack).toBe('ranged')
+    expect(npcWeapon('Main Melee', 'Threat').toActiveEffectData(u).attack).toBe('melee')
   })
 })
 
@@ -468,7 +516,6 @@ describe('lock on across an attack', () => {
     event.Targets[0].ConsumingLockOn = true
     event.Targets[0].AttackRolledValue = 15
 
-    // the choice survives the roll, so a reroll keeps the accuracy it was made with
     expect(target.HasStatus('lockon')).toBe(true)
 
     event.ApplyAll()

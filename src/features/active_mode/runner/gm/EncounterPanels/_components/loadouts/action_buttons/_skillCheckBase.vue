@@ -109,7 +109,7 @@
     block
     @click="rollCheck()"
   >
-    {{ $t('common.roll_verb') }}
+    {{ $t('common.rollVerb') }}
   </v-btn>
 
   <div

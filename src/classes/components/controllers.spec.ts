@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { makePilot, makeNpc } from '@/__tests__/factories'
 import { FolderController } from './folder/FolderController'
 import { PortraitController } from './portrait/PortraitController'
@@ -26,7 +26,7 @@ describe('FolderController', () => {
 
   it('round-trips folder and sort index', () => {
     const npc = makeNpc()
-    npc.FolderController.Folder = 'Squad A'
+    npc.FolderController.Folder = 'TEST A'
     npc.FolderController.SortIndex = 3
 
     const target: any = {}
@@ -35,8 +35,40 @@ describe('FolderController', () => {
     const other = makeNpc()
     FolderController.Deserialize(other, target.folder)
 
-    expect(other.FolderController.Folder).toBe('Squad A')
+    expect(other.FolderController.Folder).toBe('TEST A')
     expect(other.FolderController.SortIndex).toBe(3)
+  })
+
+  it('saves nothing when the sort index or folder rank is set to its current value', () => {
+    const npc = makeNpc()
+    npc.FolderController.SortIndex = 3
+    npc.FolderController.FolderIndex = 2
+    const save = vi.spyOn(npc.SaveController, 'save')
+
+    npc.FolderController.SortIndex = 3
+    npc.FolderController.FolderIndex = 2
+
+    expect(save).not.toHaveBeenCalled()
+  })
+
+  it('forgets its folder rank when it moves to another folder', () => {
+    const npc = makeNpc()
+    npc.FolderController.Folder = 'TEST A'
+    npc.FolderController.FolderIndex = 2
+
+    npc.FolderController.Folder = 'TEST B'
+
+    expect(npc.FolderController.FolderIndex).toBe(-1)
+  })
+
+  it('keeps its folder rank when it is filed into the folder it is already in', () => {
+    const npc = makeNpc()
+    npc.FolderController.Folder = 'TEST A'
+    npc.FolderController.FolderIndex = 2
+
+    npc.FolderController.Folder = 'TEST A'
+
+    expect(npc.FolderController.FolderIndex).toBe(2)
   })
 
   it('loads an item that was never filed', () => {

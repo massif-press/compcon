@@ -38,9 +38,9 @@
           :item="item"
           color="accent"
         />
-        {{ item.Name }}&mdash; {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
+        {{ item.Name }}&mdash; {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
-        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
+        {{ $t('gm.itemCard.classLabel', { class: item.EidolonClass }) }}
       </template>
       <template v-else-if="type === 'Faction'">
         <div>
@@ -70,7 +70,7 @@
         />
         {{ item.Name }}
         <span v-if="item.NpcClassController.Class">
-          &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+          &mdash; {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
           {{ item.NpcClassController.Class.Name }}
         </span>
         <span class="px-4">
@@ -102,7 +102,7 @@
       <v-chip
         v-for="l in item.Layers"
         v-if="!item.BrewController.IsUnableToLoad"
-        :key="l.ID"
+        :key="l.Key"
         label
         prepend-icon="mdi-layers"
         class="mx-1 my-1"
@@ -133,13 +133,13 @@
     </template>
     <template v-else-if="type === 'Eidolon'">
       <div>
-        {{ $t('gm.itemCard.tierShort', { tier: item.Tier }) }}
+        {{ $t('common.tierShort', { n: item.Tier }) }}
         <cc-slashes />
-        {{ $t('gm.itemCard.classLabel', { class: item.Class }) }}
+        {{ $t('gm.itemCard.classLabel', { class: item.EidolonClass }) }}
       </div>
       <v-chip
         v-for="l in item.Layers"
-        :key="l.ID"
+        :key="l.Key"
         size="x-small"
         label
         prepend-icon="mdi-layers"
@@ -156,7 +156,7 @@
         v-if="item.NpcClassController.Class"
         class="my-1"
       >
-        {{ $t('gm.itemCard.tierShort', { tier: item.NpcClassController.Tier }) }}
+        {{ $t('common.tierShort', { n: item.NpcClassController.Tier }) }}
         {{ item.NpcClassController.Class.Name }}
       </div>
       <div class="my-1">

@@ -3,7 +3,7 @@
     <div id="cap" />
     <div class="d-inline">
       <v-tooltip
-        :text="$t('pm.tooltips.returnToPilotSheet')"
+        :text="$t('pm.mechNav.returnToPilotSheet')"
         location="top"
       >
         <template #activator="{ props }">
@@ -59,15 +59,15 @@
       >
         <v-list-item
           prepend-icon="mdi-printer"
-          :title="$t('common.print')"
-          :subtitle="$t('pm.subtitles.printATabletopreadyMechSheet')"
+          :title="$t('common.printAction')"
+          :subtitle="$t('pm.mechNav.printATabletopreadyMechSheet')"
           @click="$router.push(`/print/${pilot.ID}/${mech.ID}`)"
         />
 
         <v-list-item
           prepend-icon="mdi-file-document-outline"
           :title="$t('pm.sheet.generateStatblock')"
-          :subtitle="$t('pm.subtitles.getAPlaintextRepresentationOfThisMechConfiguration')"
+          :subtitle="$t('pm.mechNav.getAPlaintextRepresentationOfThisMechConfiguration')"
           @click="statblockDialog = true"
         />
 
@@ -77,8 +77,8 @@
           v-if="!pilot.IsRemote"
           class="text-error"
           prepend-icon="mdi-delete"
-          :title="$t('pm.titles.deleteMech')"
-          :subtitle="$t('pm.subtitles.removeMechFromTheHangar')"
+          :title="$t('pm.pilotSheet.deleteMech')"
+          :subtitle="$t('pm.mechNav.removeMechFromTheHangar')"
           @click="$emit('delete')"
         />
       </v-list>
@@ -89,7 +89,7 @@
       class="d-inline"
     >
       <cc-dialog
-        :title="$t('pm.titles.sharePilotData')"
+        :title="$t('pm.pilotSheet.sharePilotData')"
         icon="cc:pilot"
         :close-on-click="false"
       >
@@ -97,7 +97,9 @@
           <v-tooltip
             open-delay="300"
             location="top"
-            :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
+            :text="
+              isAuthed ? $t('pm.pilotSheet.sharePilotData') : $t('pm.sheet.requiresCloudAccount')
+            "
           >
             <template #activator="{ props }">
               <span v-bind="props">

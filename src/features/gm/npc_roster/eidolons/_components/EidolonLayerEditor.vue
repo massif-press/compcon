@@ -40,23 +40,7 @@
       </v-tooltip>
     </v-col>
   </v-row>
-  <v-card
-    v-if="!item.Layers.length"
-    variant="outlined"
-    color="primary"
-    class="pa-2"
-  >
-    {{ $t('gm.eidolon.noLayers') }}
-  </v-card>
-  <v-card
-    v-else-if="!item.Layers.some(x => x.Layer)"
-    variant="outlined"
-    color="primary"
-    class="pa-2"
-  >
-    {{ $t('gm.eidolon.noLayers') }}
-  </v-card>
-  <div v-else>
+  <div>
     <v-tabs
       v-model="tab"
       density="compact"
@@ -66,10 +50,10 @@
     >
       <v-tab
         v-for="(layer, idx) in item.Layers"
-        :key="layer.ID"
+        :key="layer.Key"
       >
         <v-tooltip
-          v-if="idx > 1"
+          v-if="!readonly && idx > 1"
           location="top"
         >
           <template #activator="{ props }">
@@ -87,9 +71,9 @@
           v-else
           class="mx-3"
         />
-        {{ layer.Layer?.Name }}
+        {{ idx }}: {{ layer.Layer?.Name }}
         <v-tooltip
-          v-if="idx && idx < item.Layers.length - 1"
+          v-if="!readonly && idx && idx < item.Layers.length - 1"
           location="top"
         >
           <template #activator="{ props }">
@@ -112,7 +96,7 @@
     <v-window v-model="tab">
       <v-window-item
         v-for="(layer, index) in item.Layers"
-        :key="layer.ID"
+        :key="layer.Key"
       >
         <v-card
           variant="outlined"
@@ -139,28 +123,31 @@
               :tier="item.Tier"
             >
               <template
-                v-if="layer.Layer?.Shards?.Count !== 0"
+                v-if="layer.Layer?.Shards?.Count"
                 #extra
               >
                 <v-card-text class="mt-n2 pt-0">
-                  <!-- <stat-editor
-                    :item="layer.Layer.Shards"
-                    :controller="layer.Layer.Shards.StatController"
-                    prefix="Shard"
-                    readonly /> -->
+                  <stat-editor
+                    :item="<any>shardStats[index]"
+                    prefix="shard"
+                    readonly
+                  />
                 </v-card-text>
               </template>
             </cc-dense-card>
           </v-card-text>
-          <v-divider />
-          <v-card-actions class="my-n2">
+          <v-divider v-if="!readonly" />
+          <v-card-actions
+            v-if="!readonly"
+            class="my-n2"
+          >
             <v-spacer />
             <cc-button
               size="small"
               variant="outlined"
               color="error"
               prepend-icon="mdi-delete"
-              :disabled="layer.ID === 'el_core' || index === 0"
+              :disabled="index === 0"
               @click="removeLayer(index)"
             >
               {{ $t('common.remove') }}
@@ -175,7 +162,7 @@
 
   <cc-dialog
     v-model="layerSelector"
-    :title="$t('gm.titles.selectLayer')"
+    :title="$t('gm.npcRoster.selectLayer')"
     icon="mdi-layers-triple"
     :close-on-click="false"
     major
@@ -191,7 +178,7 @@
 
 <script setup lang="ts">
   import type { Eidolon } from '@/classes/npc/eidolon/Eidolon'
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
   import StatEditor from '@/features/gm/_components/StatEditor.vue'
   import LayerSelector from './LayerSelector.vue'
 
@@ -209,6 +196,9 @@
 
   const tab = ref(0)
   const layerSelector = ref(false)
+  const shardStats = computed(() =>
+    props.item.Layers.map(l => l.Layer.Shards?.StatBlock(props.item.Tier))
+  )
 
   function removeLayer(index: number) {
     props.item.RemoveLayer(index)

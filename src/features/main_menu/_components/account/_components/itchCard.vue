@@ -43,7 +43,7 @@
 
   <cc-dialog
     v-if="itch && itch.hasItch"
-    :title="$t('mainMenu.titles.linkedMassifContent')"
+    :title="$t('mainMenu.account.linkedMassifContent')"
     max-width="800"
   >
     <template #activator="{ open }">
@@ -164,7 +164,7 @@
                 scope="global"
               >
                 <template #update>
-                  <b>{{ $t('common.update') }}</b>
+                  <b>{{ $t('common.updateAction') }}</b>
                 </template>
               </i18n-t>
             </div>
@@ -180,7 +180,7 @@
             :loading="loading"
             @click.stop="updateItch"
           >
-            {{ $t('common.update') }}
+            {{ $t('common.updateAction') }}
           </cc-button>
         </div>
       </v-card-text>

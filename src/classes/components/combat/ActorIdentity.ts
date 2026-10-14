@@ -8,7 +8,26 @@ import { ACTION_ID_ALIASES } from './actions/BaseActions'
 import type { CombatController } from './CombatController'
 
 export function rootActor(cc: CombatController): any {
-  return cc.IsMech ? (cc.Parent as Mech).Parent : cc.Parent
+  if (cc.IsMech) return (cc.Parent as Mech).Parent
+  return cc.Parent?.RootActor ?? cc.Parent
+}
+
+export function identityActor(cc: CombatController): any {
+  return cc.IsMech ? cc.Parent : rootActor(cc)
+}
+
+export function isOutOfAction(cc: CombatController): boolean {
+  return rootActor(cc)?.IsDefeated ?? cc.IsDestroyed
+}
+
+export function combatControllers(actor: any): CombatController[] {
+  return [
+    ...new Set<CombatController>([
+      actor?.CombatController,
+      actor?.ActiveMech?.CombatController,
+      ...(actor?.Layers ?? []).map((l: any) => l.CombatController),
+    ]),
+  ].filter(Boolean)
 }
 
 export function activeActor(cc: CombatController): any {
@@ -23,12 +42,12 @@ export function counterpart(cc: CombatController): CombatController | null {
 }
 
 export function combatName(cc: CombatController): string {
-  return cc.Parent.Callsign || cc.Parent.Name
+  const actor = identityActor(cc)
+  return actor.Callsign || actor.Name
 }
 
 export function tier(cc: CombatController): number {
-  if (cc.Parent.NpcClassController) return cc.Parent.NpcClassController.Tier
-  return 1
+  return cc.Parent.NpcClassController?.Tier ?? cc.Parent.Tier ?? 1
 }
 
 export function limitedBonus(cc: CombatController): number {

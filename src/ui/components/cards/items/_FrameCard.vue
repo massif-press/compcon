@@ -5,7 +5,8 @@
   >
     <v-col>
       <div class="heading h2">
-        {{ item.Source }} {{ $t('compendium.content.frameSuffix', { type: item.MechTypeString }) }}
+        {{ item.Source }}
+        {{ $t('compendium.content.frameTypeLabel', { type: item.MechTypeString }) }}
       </div>
       <div
         v-if="item.Variant"
@@ -20,7 +21,7 @@
         size="65"
       >
         <div class="heading h3">
-          <span class="text-uppercase">{{ $t('ui.fields.size') }}</span>
+          <span class="text-uppercase">{{ $t('stats.size') }}</span>
           {{ item.Size === 0.5 ? '½' : item.Size }}
         </div>
         <v-divider class="my-1" />
@@ -133,7 +134,7 @@
     }
     const key = `enums.mountType.${slug(m)}`
     const mountTypeName = te(key) ? t(key) : m
-    return `${mountTypeName} ${t('common.mount')}`
+    return `${mountTypeName} ${t('common.weaponMount')}`
   }
 
   const props = defineProps<{

@@ -22,6 +22,12 @@
           >
             {{ icon }}
           </v-icon>
+          <span
+            class="cc-fit-text"
+            :style="[fitText(title), { '--fit-width': '460px' }]"
+          >
+            {{ title }}
+          </span>
           <slot />
         </div>
       </div>
@@ -38,12 +44,14 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { useRouter } from 'vue-router'
+  import { fitText } from '@/util/fitText'
 
-  defineOptions({ name: 'main-btn' })
+  defineOptions({ name: 'MainBtn' })
 
   const props = withDefaults(
     defineProps<{
       to?: string
+      title: string
       help: string
       disabled?: boolean
       icon?: string

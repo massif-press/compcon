@@ -5,13 +5,13 @@
     @click.stop
   >
     <i18n-t
-      keypath="pm.loadout.walkingARMORY"
+      keypath="pm.loadout.walkingArmorySelection"
       tag="div"
       scope="global"
       class="caption text-stark px-2 py-1"
     >
       <template #selected>
-        <b>{{ $t('pm.loadout.selectedAMMUNITION') }}</b>
+        <b>{{ $t('pm.loadout.selectedAmmunition') }}</b>
       </template>
     </i18n-t>
     <v-row
@@ -38,7 +38,7 @@
         v-if="selected?.cost"
         class="ml-auto pl-4 pr-3 text-left"
       >
-        <div class="text-overline my-n2">{{ $t('pm.loadout.costAMMOCASE') }}</div>
+        <div class="text-overline my-n2">{{ $t('pm.loadout.ammoCaseCost') }}</div>
         <div>
           <v-icon
             v-for="(n, index) in selected?.cost"

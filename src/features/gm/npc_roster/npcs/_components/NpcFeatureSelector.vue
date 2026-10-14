@@ -6,7 +6,7 @@
       class="mt-2"
       @click="dialog = true"
     >
-      {{ $t('gm.titles.setNpcFeatures') }}
+      {{ $t('gm.npcRoster.setNpcFeatures') }}
     </cc-button>
     <v-row
       no-gutters
@@ -25,7 +25,7 @@
     </v-row>
     <cc-dialog
       v-model="dialog"
-      :title="$t('gm.titles.setNpcFeatures')"
+      :title="$t('gm.npcRoster.setNpcFeatures')"
       icon="cc:npc_feature"
       :close-on-click="false"
       major
@@ -190,7 +190,7 @@
               <cc-switch
                 v-if="featureSet === 'assigned'"
                 v-model="allowDupes"
-                :label="$t('gm.fields.allowDuplicates')"
+                :label="$t('gm.npcRoster.allowDuplicates')"
               />
               <cc-switch
                 v-else
@@ -270,7 +270,7 @@
               <div class="text-disabled text-cc-overline mt-n1">
                 {{
                   $t('gm.npcFeature.featureType', {
-                    type: item.Base ? $t('gm.npcFeature.base') : $t('gm.fields.optional'),
+                    type: item.Base ? $t('gm.npcFeature.base') : $t('gm.shared.optional'),
                   })
                 }}
               </div>
@@ -311,6 +311,9 @@
   import { CompendiumStore } from '@/stores'
   import NpcFeatureAlerts from './NpcFeatureAlerts.vue'
   import { NpcFeature } from '@/classes/npc/feature/NpcFeature'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
 
   defineOptions({ name: 'NpcFeatureSelectMenu' })
 
@@ -336,11 +339,11 @@
   const currentSelection = computed(() => {
     switch (featureSet.value) {
       case 'all':
-        return 'All Available'
+        return t('gm.npcFeatureSelector.allAvailable')
       case 'assigned':
-        return 'All Assigned'
+        return t('gm.npcFeatureSelector.allAssigned')
       case 'no-origin':
-        return 'Other'
+        return t('ui.widget.other')
       default:
         const selClass = allClasses.value.find(x => x.ID === featureSet.value)
         const selTemp = allTemplates.value.find(x => x.ID === featureSet.value)

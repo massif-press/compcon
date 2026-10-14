@@ -11,7 +11,7 @@
       prepend-icon="cc:protocol"
       variant="flat"
     >
-      {{ $t('active.actionChips.protocol') }}
+      {{ $t('enums.activationType.protocol') }}
     </v-chip>
   </v-col>
   <v-col

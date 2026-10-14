@@ -28,14 +28,14 @@
             </div>
           </div>
           <p v-html-safe="action.Detail" />
-          <div v-if="action.SubActions && action.SubActions.length">
+          <div v-if="subActions.length">
             <div class="text-overline text-disabled">{{ $t('common.options') }}</div>
             <v-row
               no-gutters
               justify="center"
             >
               <v-col
-                v-for="(a, index) in action.SubActions"
+                v-for="(a, index) in subActions"
                 :key="`sub-${index}`"
                 cols="auto"
               >
@@ -51,14 +51,14 @@
       </component>
     </template>
     <p v-html-safe="action.Detail" />
-    <div v-if="action.SubActions && action.SubActions.length">
+    <div v-if="subActions.length">
       <div class="text-overline text-disabled">{{ $t('common.options') }}</div>
       <v-row
         no-gutters
         justify="center"
       >
         <v-col
-          v-for="(a, index) in action.SubActions"
+          v-for="(a, index) in subActions"
           :key="`dialog-sub-${index}`"
           cols="auto"
         >
@@ -75,7 +75,17 @@
 
 <script setup lang="ts">
   import type { Action } from '@/classes/Action'
+  import { ActivationType } from '@/classes/enums'
+  import { CompendiumStore } from '@/stores'
   import { computed } from 'vue'
+  import { useI18n } from 'vue-i18n'
+
+  const { t } = useI18n()
+
+  const subActivations: Record<string, ActivationType> = {
+    act_jockey: ActivationType.Jockey,
+    act_invade: ActivationType.Invade,
+  }
 
   const props = withDefaults(
     defineProps<{
@@ -91,8 +101,14 @@
   const component = computed(() => {
     return props.clickable ? 'cc-clickable-panel' : 'cc-panel'
   })
+  const subActions = computed(() => {
+    if (props.action.SubActions?.length) return props.action.SubActions
+    const activation = subActivations[props.action.ID]
+    return activation ? CompendiumStore().Actions.filter(a => a.Activation === activation) : []
+  })
   const exclusive = computed(() => {
-    if (props.action.IsPilotAction && !props.action.IsMechAction) return ' (Pilot Only)'
+    if (props.action.IsPilotAction && !props.action.IsMechAction)
+      return ` (${t('pm.statblockDialog.pilotOnly')})`
     return ''
   })
 </script>

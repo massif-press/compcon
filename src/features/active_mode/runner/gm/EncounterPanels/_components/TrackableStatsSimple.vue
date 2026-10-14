@@ -31,7 +31,7 @@
       />
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['armor']"
-        title="armor"
+        :title="$t('stats.armor')"
         icon="mdi-shield-outline"
         color="armor"
         :base-value="item.StatController.MaxStats['armor']"
@@ -59,7 +59,7 @@
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['heatcap']"
         :max="item.StatController.MaxStats['heatcap']"
-        :title="$t('pm.sheet.heat')"
+        :title="$t('enums.damageType.heat')"
         :color="item.CombatController.IsInDangerZone ? 'dangerzone' : 'heat'"
         icon="cc:heat"
       />
@@ -82,7 +82,7 @@
     <v-col md="">
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['burn']"
-        :title="$t('active.titles.burn')"
+        :title="$t('common.burnStatus')"
         icon="cc:burn"
         color="damage--burn"
         :base-value="item.StatController.MaxStats['burn']"
@@ -142,13 +142,14 @@
     class="mb-3"
   >
     <v-col
+      v-if="item.CombatController.TracksMovement"
       cols="12"
       md=""
     >
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['speed']"
         :max="item.CombatController.BoostedSpeed"
-        :title="$t('active.titles.movement')"
+        :title="$t('active.runner.movement')"
         color="primary"
         icon="mdi-arrow-right-bold-hexagon-outline"
       />
@@ -161,7 +162,7 @@
       <simple-mini-panel
         v-model.number="item.StatController.CurrentStats['repairCapacity']"
         :max="item.StatController.MaxStats['repairCapacity']"
-        :title="$t('active.titles.repairCap')"
+        :title="$t('common.repairCap')"
         color="success"
         icon="cc:repair"
       />
@@ -170,7 +171,7 @@
   <simple-mini-panel
     v-if="!item.StatController.MaxStats['heatcap']"
     v-model.number="item.StatController.CurrentStats['burn']"
-    title="burn"
+    :title="$t('common.burnStatus')"
     icon="cc:burn"
     color="damage--burn"
   />

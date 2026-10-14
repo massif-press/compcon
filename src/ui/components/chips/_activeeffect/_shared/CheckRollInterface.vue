@@ -36,7 +36,7 @@
             {{ rollData.AttackAccuracy > 0 ? $t('common.accuracy') : $t('common.difficulty') }}
             <br />
             {{ $t('ui.combat.vsTarget') }}
-            {{ rollData.TargetDefense }}
+            {{ defenseLabel(rollData.TargetDefense) }}
           </div>
 
           <div class="text-center">
@@ -70,7 +70,7 @@
             class="mt-1"
             @click="reset()"
           >
-            {{ $t('common.reset') }}
+            {{ $t('common.resetAction') }}
           </v-btn>
 
           <v-btn
@@ -82,7 +82,7 @@
             block
             @click="rollAttack()"
           >
-            {{ $t('common.roll_verb') }}
+            {{ $t('common.rollVerb') }}
           </v-btn>
           <div class="pa-2 text-left text-cc-overline text-accent">
             <span class="text-lowercase">{{ $t('active.skillCheck.rollResults') }}</span>
@@ -102,6 +102,7 @@
 <script setup lang="ts">
   import type { ActiveEventTarget } from '@/classes/components/feature/active_effects/effect_events/eventTarget'
   import { computed, ref } from 'vue'
+  import { defenseLabel } from '@/i18n/enumLabel'
   import { useDisplay } from 'vuetify'
   import { DiceRoller } from '@/classes/dice/DiceRoller'
   import AccuracyDifficultyRow from './AccuracyDifficultyRow.vue'

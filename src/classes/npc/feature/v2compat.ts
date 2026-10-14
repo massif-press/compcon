@@ -65,7 +65,7 @@ export function transformV2NpcFeatureData(data: Record<string, any>): void {
   }
 
   if (data.override && typeof data.override === 'object' && !Array.isArray(data.override)) {
-    extra.push(...flatObjectToBonuses(data.override, { overwrite: true }))
+    extra.push(...flatObjectToBonuses(data.override, { overwrite: true, replace: true }))
     delete data.override
   }
 

@@ -152,7 +152,7 @@ function transformMechLoadout(loadout: any): any {
     integratedWeapon: loadout.integratedWeapon
       ? transformMount(loadout.integratedWeapon)
       : undefined,
-    extraMounts: [],
+    extraMounts: (loadout.bonus_mounts ?? []).map(transformMount),
     extraIntegratedMounts: [],
   }
 }
@@ -354,7 +354,7 @@ function applyNpcFeatureBonuses(
       const key = NPC_BONUS_ID_TO_V2_STAT[b.id] ?? b.id
       if (!(key in bonuses)) continue
       const value = evalNpcBonusValue(b.val, t)
-      if (b.overwrite || b.override || b.replace) {
+      if (b.override || b.replace) {
         overrides[key] = Math.max(overrides[key] ?? 0, value)
       } else {
         bonuses[key] = (bonuses[key] ?? 0) + value

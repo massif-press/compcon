@@ -158,7 +158,7 @@ class Range {
       const val = Bonus.Evaluate(b, mech.Pilot)
       const existingThreat = output.find(r => r.Type === RangeType.Threat)
       if (existingThreat) {
-        if (b.Replace || b.Overwrite) {
+        if (b.Replace) {
           existingThreat.Value = val
         } else {
           ;(existingThreat as any)._bonus += val
@@ -171,6 +171,27 @@ class Range {
           })
         )
       }
+    })
+
+    const floor = (type: RangeType, val: number, create: boolean) => {
+      const existing = output.find(r => r.Type === type)
+      if (!existing) {
+        if (create) output.push(new Range({ type, val }))
+      } else if (existing.Max < val) {
+        existing._value = val
+        existing._bonus = 0
+      }
+    }
+    mech.FeatureController.Bonuses.forEach(b => {
+      if (b.ID !== BonusId.THROWN && b.ID !== BonusId.MIN_RANGE) return
+      if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => itemTypes.includes(wt))) return
+      if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+      const val = Bonus.Evaluate(b, mech.Pilot)
+      if (b.ID === BonusId.THROWN) floor(RangeType.Thrown, val, true)
+      else
+        (b.RangeTypes.length ? b.RangeTypes : [RangeType.Range, RangeType.Threat]).forEach(t =>
+          floor(t, val, t === RangeType.Threat)
+        )
     })
 
     return output

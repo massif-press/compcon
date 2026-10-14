@@ -14,7 +14,7 @@
           icon="mdi-skull"
         />
       </template>
-      <div class="heading h1 text-center">{{ $t('pm.sheet.killedINACTION') }}</div>
+      <div class="heading h1 text-center">{{ $t('pm.pilotStatus.killedInAction') }}</div>
       <div
         v-if="!pilot.IsRemote"
         style="position: relative"
@@ -36,7 +36,7 @@
               </v-btn>
             </template>
             <cc-confirmation
-              :content="$t('pm.tooltips.thisWillCloneTheSelectedPilot')"
+              :content="$t('pm.pilotSheet.clonePilotHint')"
               @confirm="setQuirk"
             />
           </v-menu>
@@ -56,7 +56,7 @@
               </v-btn>
             </template>
             <cc-confirmation
-              :content="$t('pm.tooltips.thisWillRestoreTheSelectedPilot')"
+              :content="$t('pm.cloneBlock.restoreKiaPilotHint')"
               @confirm="pilot.Status = 'Active'"
             />
           </v-menu>
@@ -67,7 +67,7 @@
       v-if="pilot.Quirks.length && !hideQuirks"
       class="mb-3"
     >
-      <section-header :title="$t('pm.titles.cloneQuirks')" />
+      <section-header :title="$t('pm.cloneBlock.cloneQuirks')" />
 
       <v-row
         v-for="(q, i) in pilot.Quirks"
@@ -97,7 +97,7 @@
           </v-alert>
         </v-col>
         <v-col cols="auto">
-          <v-tooltip :text="$t('pm.tooltips.removeCloneQuirk')">
+          <v-tooltip :text="$t('pm.cloneBlock.removeCloneQuirk')">
             <template #activator="{ props }">
               <v-btn
                 icon

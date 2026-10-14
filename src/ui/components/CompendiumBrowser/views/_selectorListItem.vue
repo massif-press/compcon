@@ -117,7 +117,7 @@
         class="mx-4 mt-n1"
         @click="$emit('select', item)"
       >
-        {{ $t('ui.selector.select', { name: item.Name }) }}
+        {{ $t('compendium.selectItem', { name: item.Name }) }}
         <template #info>
           <v-icon icon="mdi-plus" />
         </template>

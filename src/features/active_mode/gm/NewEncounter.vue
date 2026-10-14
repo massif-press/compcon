@@ -11,6 +11,34 @@
         class="text-center"
       >
         <v-icon
+          icon="mdi-gamepad"
+          color="success"
+          size="50"
+        />
+      </v-col>
+      <v-col cols="11">
+        <div class="text-cc-overline mb-1">
+          <cc-slashes class="pr-1" />
+          <span class="text-disabled">{{ $t('active.playMode.label') }}</span>
+        </div>
+        <cc-panel>
+          <play-mode-select
+            v-model="playMode"
+            hide-label
+          />
+        </cc-panel>
+      </v-col>
+    </v-row>
+    <v-row
+      dense
+      class="mt-4"
+      align="center"
+    >
+      <v-col
+        cols="1"
+        class="text-center"
+      >
+        <v-icon
           icon="cc:encounter"
           :color="encounter ? 'success' : 'panel'"
           size="50"
@@ -19,7 +47,7 @@
       <v-col cols="11">
         <div class="text-cc-overline mb-1">
           <cc-slashes class="pr-1" />
-          <span class="text-disabled">{{ $t('active.newEnc.encounterData') }}</span>
+          <span class="text-disabled">{{ $t('common.encounterData') }}</span>
         </div>
         <cc-panel>
           <v-slide-x-transition leave-absolute>
@@ -189,6 +217,7 @@
       />
     </v-slide-y-transition>
 
+
     <v-slide-y-transition>
       <encounter-summary
         v-if="encounter"
@@ -215,6 +244,10 @@
   import EncounterPilotsPanel from './_components/EncounterPilotsPanel.vue'
   import EncounterSummary from './_components/EncounterSummary.vue'
   import { Pilot } from '@/classes/pilot/Pilot.js'
+  import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+  import PlayModeSelect from '../_components/PlayModeSelect.vue'
+  import { defaultPlayMode } from '../playMode'
+  import { seedActiveSettings } from '../layoutOptions'
 
   const router = useRouter()
 
@@ -229,6 +262,7 @@
   const selectedEncounter = ref<Encounter | null>(null) as Ref<Encounter | null>
   const pilots = ref<Pilot[]>([]) as Ref<Pilot[]>
   const placeholders = ref<Placeholder[]>([]) as Ref<Placeholder[]>
+  const playMode = ref<PlayMode>(defaultPlayMode())
 
   const encounter = computed<Encounter | null>(
     () => selectedEncounter.value || emptyEncounter.value
@@ -274,10 +308,10 @@
       pilots.value,
       placeholders.value
     )
-    instance.Combatants.forEach(c => {
-      c.actor.CombatController.ResetForEncounter()
-      c.actor.CombatController.StartEncounter()
-    })
+    instance.Combatants.forEach(c => c.actor.CombatController.ResetForEncounter())
+    instance.SetPlayMode(playMode.value)
+    seedActiveSettings(instance)
+    instance.Combatants.forEach(c => c.actor.CombatController.StartEncounter())
     instance.RecordEncounterStart()
     await EncounterStore().AddEncounterInstance(instance)
     await EncounterStore().SetActiveEncounter(instance.ID)

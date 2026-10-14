@@ -54,7 +54,7 @@
       size="x-small"
       @click="item.NarrativeController.AddTable()"
     >
-      {{ $t('active.fields.addTable') }}
+      {{ $t('common.addTable') }}
     </cc-button>
   </div>
 </template>

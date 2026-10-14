@@ -12,7 +12,7 @@
       v-if="item"
       #title-items
     >
-      <div class="text-cc-overline pt-1">{{ $t('pm.loadout.itemUSES') }}</div>
+      <div class="text-cc-overline pt-1">{{ $t('pm.loadout.itemUses') }}</div>
       <div class="text-right">
         <v-icon
           color="secondary"
@@ -60,7 +60,7 @@
             <span class="text-cc-overline">
               {{ $t('pm.loadout.gmsArmoryPrintid') }}: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                {{ $t('pm.loadout.pilotMATERIELREGISTRATIONVERIFIED') }}
+                [ {{ $t('pm.loadout.pilotMaterielVerified') }} ]
               </span>
             </span>
             <br />
@@ -72,12 +72,12 @@
               class="flavor-text text-cc-overline mt-n1"
               style="display: block"
             >
-              {{ $t('pm.loadout.currentlyEQUIPPED') }}
+              {{ $t('pm.loadout.currentlyEquipped') }}
             </div>
           </div>
           <div v-else>
             <span class="text-overline">
-              {{ $t('pm.loadout.gmsEQUIPMENTAUTHORIZATIONPILOTADDITIONALGEAR') }}
+              {{ $t('pm.loadout.pilotGearAuthorizationHeading') }}
             </span>
             <br />
             <span
@@ -90,7 +90,7 @@
               class="flavor-text text-cc-overline mt-n1 text-error"
               style="display: block"
             >
-              {{ $t('pm.loadout.equipmentIDINVALIDORMISSING') }}
+              [ {{ $t('pm.loadout.frameEquipmentInvalid') }} ]
             </span>
           </div>
         </template>
@@ -130,11 +130,11 @@
   const base = ref<InstanceType<typeof PlCardBase> | null>(null)
 
   const headers = ref([
-    { title: t('pm.titles.contentPack'), key: 'LcpName' },
+    { title: t('common.contentPack'), key: 'LcpName' },
     { title: t('common.type'), key: 'Type' },
     { title: t('common.item'), key: 'Name' },
-    { title: t('pm.titles.uses'), key: 'MaxUses' },
-    { title: t('pm.titles.tags'), align: 'center', key: 'Tags' },
+    { title: t('common.uses'), key: 'MaxUses' },
+    { title: t('common.tags'), align: 'center', key: 'Tags' },
   ])
 
   const options = ref({

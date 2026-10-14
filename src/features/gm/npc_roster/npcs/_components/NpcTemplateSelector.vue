@@ -62,7 +62,7 @@
 
   <cc-dialog
     v-model="dialog"
-    :title="$t('gm.titles.selectTemplate')"
+    :title="$t('gm.npcRoster.selectTemplate')"
     icon="cc:npc_template"
     :close-on-click="false"
     major
@@ -85,7 +85,7 @@
     >
       <template #header>
         <div class="heading h3 text-center text-accent">
-          {{ $t('gm.titles.selectTemplate') }}
+          {{ $t('gm.npcRoster.selectTemplate') }}
         </div>
       </template>
 

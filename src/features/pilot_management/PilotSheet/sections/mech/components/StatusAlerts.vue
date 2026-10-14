@@ -30,36 +30,36 @@
     const out: StatusAlert[] = []
     if (m.FreeSP < 0)
       out.push({
-        title: t('pm.titles.systemCapacityExceeded'),
-        text: t('pm.tooltips.loadoutConfigurationExceedsAvailableFrameSyste'),
+        title: t('pm.statusAlerts.systemCapacityExceeded'),
+        text: t('pm.statusAlerts.loadoutConfigurationExceedsAvailableFrameSyste'),
         icon: 'mdi-alert',
         color: 'error',
       })
     if (m.FreeSP > 0)
       out.push({
-        title: t('pm.titles.systemCapacityRemaining'),
-        text: t('pm.tooltips.operationalCapacitySignificantlyImpaired'),
+        title: t('pm.statusAlerts.systemCapacityRemaining'),
+        text: t('pm.statusAlerts.operationalCapacitySignificantlyImpaired'),
         icon: 'mdi-alert-decagram-outline',
         color: 'warning',
       })
     if (m.MechLoadoutController.ActiveLoadout.HasEmptyMounts)
       out.push({
-        title: t('pm.titles.emptyMountsDetected'),
-        text: t('pm.tooltips.operationalCapacitySignificantlyImpaired'),
+        title: t('pm.statusAlerts.emptyMountsDetected'),
+        text: t('pm.statusAlerts.operationalCapacitySignificantlyImpaired'),
         icon: 'mdi-alert-decagram-outline',
         color: 'warning',
       })
     if (m.RequiredLicenses.filter((x: any) => x.missing).length)
       out.push({
-        title: t('pm.titles.unlicensedEquipmentDetected'),
-        text: t('pm.tooltips.pilotIsMissingOneOrMore'),
+        title: t('pm.statusAlerts.unlicensedEquipmentDetected'),
+        text: t('pm.statusAlerts.missingLicensesWarning'),
         icon: 'mdi-alert',
         color: 'warning',
       })
     if (!m.HasCompatibleMods())
       out.push({
-        title: t('pm.titles.incompatibleWeaponMod'),
-        text: t('pm.tooltips.oneOrMoreWeaponModsAre'),
+        title: t('pm.statusAlerts.incompatibleWeaponMod'),
+        text: t('pm.statusAlerts.incompatibleModsWarning'),
         icon: 'mdi-cancel',
         color: 'warning',
       })

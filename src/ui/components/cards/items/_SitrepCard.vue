@@ -19,7 +19,7 @@
         <p v-html-safe="item.Deployment" />
       </v-col>
       <v-col v-if="item.Extraction">
-        <div class="heading h2 text-primary mb-2">{{ $t('gm.fields.extraction') }}</div>
+        <div class="heading h2 text-primary mb-2">{{ $t('common.extraction') }}</div>
         <p v-html-safe="item.Extraction" />
       </v-col>
     </v-row>

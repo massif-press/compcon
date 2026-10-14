@@ -123,7 +123,7 @@
               <b>{{ $t('nav.help.downloadDemo') }}</b>
             </template>
             <template #lcpDirectory>
-              <b>{{ $t('nav.help.lcpDirectory') }}</b>
+              <b>{{ $t('common.lcpDirectory') }}</b>
             </template>
           </i18n-t>
         </cc-panel>
@@ -141,10 +141,12 @@
             scope="global"
           >
             <template #options>
-              <b>{{ $t('nav.help.optionsLabel') }}</b>
+              <b>{{ $t('common.options') }}</b>
             </template>
             <template #showExoticsToggle>
-              <b>{{ $t('nav.help.showExoticsToggleLabel') }}</b>
+              <b>
+                <q>{{ $t('nav.settingsPage.showExoticsLabel') }}</q>
+              </b>
             </template>
           </i18n-t>
         </cc-panel>

@@ -33,7 +33,7 @@ export function useItemTransfer(opts: { refresh: () => void }) {
 
   async function forceSyncLocal(item: any) {
     try {
-      await CloudController.ForceUpload(item)
+      await CloudController.ForceUpload(item, true)
       vueNotify({
         title: t('notify.transfer.uploadCompleteTitle'),
         text: t('notify.transfer.itemUploaded', { type: item.ItemType, name: item.Name }),

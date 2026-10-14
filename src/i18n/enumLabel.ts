@@ -10,3 +10,9 @@ export function enumLabel(kind: string, value?: string | null): string {
   }
   return g.te(key) ? g.t(key) : value
 }
+
+export function defenseLabel(label?: string): string {
+  if (label === 'E-Defense') return i18n.global.t('stats.edefense')
+  if (label === 'Evasion') return i18n.global.t('stats.evasion')
+  return label ?? ''
+}

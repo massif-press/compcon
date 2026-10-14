@@ -133,7 +133,7 @@
   </div>
 
   <v-footer :app="density !== 'compact'">
-    <cc-dialog :title="$t('compendium.titles.notYetImplemented')">
+    <cc-dialog :title="$t('compendium.campaignBookshelf.notYetImplemented')">
       <template #activator="{ open }">
         <cc-button
           color="secondary"
@@ -156,7 +156,7 @@
 
     <cc-dialog
       v-model="importDialog"
-      :title="$t('compendium.titles.importLancerCampaignData')"
+      :title="$t('compendium.campaignBookshelf.importLancerCampaignData')"
       max-width="50vw"
       :close-on-click="false"
       major
@@ -183,7 +183,7 @@
             <v-file-input
               v-model="fileValue"
               variant="outlined"
-              :label="$t('compendium.fields.selectLcdFile')"
+              :label="$t('compendium.campaignBookshelf.selectLcdFile')"
               accept=".lcd"
               prepend-icon="mdi-paperclip"
               @change="stageImport"

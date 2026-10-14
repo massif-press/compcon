@@ -25,9 +25,11 @@ jobs:
 
       - name: Bundle standalone build-lcp.mjs
         run: |
-          npx --yes esbuild@0.25.12 scripts/build-llp.mjs \
+          # no yarn install in this job: fetch only the bundler + the one runtime dep to inline
+          npm install --prefix "$RUNNER_TEMP/bundle" esbuild@0.25.12 jszip@3.10.1
+          NODE_PATH="$RUNNER_TEMP/bundle/node_modules" "$RUNNER_TEMP/bundle/node_modules/.bin/esbuild" scripts/build-llp.mjs \
             --bundle --platform=node --format=esm \
-            --external:jszip --legal-comments=none \
+            --legal-comments=none \
             --banner:js="$(sed -n '/^\/\*!/,/^\*\//p' scripts/build-llp.mjs)" \
             --outfile=build-lcp.mjs
           node build-lcp.mjs 2>&1 | grep -q '^usage: build-lcp.mjs'
@@ -38,7 +40,7 @@ jobs:
         run: |
           gh auth setup-git
           gh repo clone massif-press/compcon-locales locales-repo
-          cp src/i18n/locales/en.json locales-repo/ui/en.json
+          node scripts/locale-plurals.mjs split src/i18n/locales/en.json locales-repo/ui/en.json
           mkdir -p locales-repo/content/lancer-data locales-repo/content/lancer-srd
           cp content/en/lancer-data.json locales-repo/content/lancer-data/en.json
           cp content/en/lancer-srd.json locales-repo/content/lancer-srd/en.json
@@ -63,5 +65,5 @@ jobs:
               --body 'Automated sync from massif-press/compcon dev.
 
           - English bases (UI + content): read-only in Weblate; merging refreshes the source strings translators work from.
-          - `build-lcp.mjs`: standalone bundle of `scripts/build-llp.mjs` with the content-key rules inlined, so third-party LCP authors can generate `.llp` patches without cloning compcon. Needs Node 18+; `bundle` mode additionally needs `npm i jszip`.'
+          - `build-lcp.mjs`: standalone bundle of `scripts/build-llp.mjs` with the content-key rules inlined, so third-party LCP authors can generate `.llp` patches without cloning compcon. Needs Node 18+, no install step.'
           fi

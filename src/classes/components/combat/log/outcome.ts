@@ -1,3 +1,4 @@
+import { isOutOfAction } from '../ActorIdentity'
 import { MechStatus, NpcStatus, PilotStatus } from '@/classes/enums'
 import { eventsFor } from './CombatLogRecorder'
 import type { ILogEvent } from './events'
@@ -77,7 +78,7 @@ function isPilotCombatant(c: any): boolean {
 function deriveOutcome(c: any): IOutcome {
   const cc = c.actor?.CombatController
   if (!isPilotCombatant(c)) {
-    if (cc?.IsDestroyed) return { status: NpcStatus.Destroyed }
+    if (cc && isOutOfAction(cc)) return { status: NpcStatus.Destroyed }
     return { status: c.status || NpcStatus.Operational }
   }
 

@@ -39,13 +39,13 @@
             slim
           >
             <v-list-item
-              :title="$t('common.print')"
+              :title="$t('common.printAction')"
               prepend-icon="mdi-printer"
               :subtitle="$t('pm.sheet.printTabletopReadyCharacterAndMech')"
               @click="$router.push(`/print/${pilot.ID}`)"
             />
             <cc-dialog
-              :title="$t('pm.titles.statblockGenerator')"
+              :title="$t('pm.pilotSheet.statblockGenerator')"
               icon="mdi-code-block-tags"
               :close-on-click="false"
               major
@@ -66,35 +66,35 @@
               v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
               :title="$t('pm.sheet.exportPilot')"
-              :subtitle="$t('pm.sheet.exportThisPilotAsAJSON')"
+              :subtitle="$t('pm.sheet.exportJsonDescription')"
               @click="exportPilot()"
             />
 
             <v-list-item
               v-if="!pilot.IsRemote"
               prepend-icon="mdi-export-variant"
-              :title="$t('pm.titles.exportV2Json')"
-              :subtitle="$t('pm.subtitles.exportALegacyFormatFor')"
+              :title="$t('pm.pilotSheet.exportV2Json')"
+              :subtitle="$t('pm.pilotSheet.exportALegacyFormatFor')"
               @click="exportPilot(true)"
             />
 
             <cc-dialog
               v-if="pilot.IsRemote"
               :close-on-click="false"
-              :title="$t('pm.titles.convertRemotePilot')"
+              :title="$t('pm.pilotSheet.convertRemotePilot')"
               icon="cc:pilot"
             >
               <template #activator="{ open }">
                 <v-list-item
                   prepend-icon="mdi-content-copy"
                   :title="$t('common.convertToLocal')"
-                  :subtitle="$t('pm.subtitles.convertThisPilotToAn')"
+                  :subtitle="$t('pm.pilotSheet.convertToLocalDescription')"
                   @click.stop="open"
                 />
               </template>
               <template #default="{ close }">
                 <cc-confirmation
-                  :content="$t('pm.tooltips.convertingThisPilotToLocalData')"
+                  :content="$t('pm.pilotSheet.convertToLocalWarning')"
                   cancellable
                   @confirm="convert()"
                   @cancel="close"
@@ -104,7 +104,7 @@
 
             <cc-dialog
               v-else
-              :title="$t('pm.titles.clonePilot')"
+              :title="$t('pm.pilotSheet.clonePilot')"
               icon="mdi-dna"
               :close-on-click="false"
               major
@@ -128,7 +128,7 @@
             </cc-dialog>
 
             <cc-dialog
-              :title="$t('pm.sheet.setLCPConfiguration')"
+              :title="$t('pm.sheet.setLcpConfiguration')"
               :close-on-click="false"
               icon="mdi-list-status"
             >
@@ -136,8 +136,8 @@
                 <v-list-item
                   v-if="!pilot.IsRemote"
                   prepend-icon="mdi-list-status"
-                  :title="$t('pm.sheet.setLCPConfiguration')"
-                  :subtitle="$t('pm.sheet.manageWhichContentPacksAreAccessible')"
+                  :title="$t('pm.sheet.setLcpConfiguration')"
+                  :subtitle="$t('pm.sheet.lcpConfigurationDescription')"
                   @click.stop="open"
                 />
               </template>
@@ -153,7 +153,7 @@
               :subtitle="
                 pilot.CloudController.isSynced
                   ? $t('pm.sheet.pilotIsUpToDateWith')
-                  : $t('pm.sheet.downloadAllRemoteChangesToThis')
+                  : $t('pm.sheet.downloadRemoteDescription')
               "
               @click="remoteUpdate()"
             />
@@ -161,7 +161,7 @@
             <v-divider />
             <cc-dialog
               :close-on-click="false"
-              :title="$t('pm.titles.confirmPilotDeletion')"
+              :title="$t('pm.pilotSheet.confirmPilotDeletion')"
               icon="cc:pilot"
             >
               <template #activator="{ open }">

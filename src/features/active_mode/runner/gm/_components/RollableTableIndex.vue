@@ -99,7 +99,7 @@
                 class="my-2"
                 @click="roll(selectedTable)"
               >
-                {{ $t('common.roll_verb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
+                {{ $t('common.rollVerb') }} {{ `${selectedTable.Mult}d${selectedTable.Die}` }}
               </cc-button>
             </div>
             <div
@@ -143,6 +143,7 @@
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
   import type { CombatantData } from '@/classes/encounter/Encounter'
   import { CompendiumStore } from '@/stores'
+  import { localizeTable } from '@/i18n/localize'
 
   const _display = useDisplay()
 
@@ -162,7 +163,7 @@
     return selectedTable.value && selectedTable.value.ID
   })
   const tables = computed(() => {
-    return CompendiumStore().Tables
+    return CompendiumStore().Tables.map(localizeTable)
   })
   const otherTables = computed(() => {
     return props.instance.Encounter.NarrativeController.Tables

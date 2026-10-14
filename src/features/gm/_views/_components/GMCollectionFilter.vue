@@ -82,7 +82,7 @@
             </v-col>
 
             <v-col v-if="items.length > 0 && (items as any)[0].NarrativeController">
-              <div class="heading h3">{{ $t('gm.labels.labels') }}</div>
+              <div class="heading h3">{{ $t('gm.shared.labels') }}</div>
               <v-divider />
               <v-row>
                 <v-col>

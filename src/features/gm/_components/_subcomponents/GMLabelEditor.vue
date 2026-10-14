@@ -4,7 +4,7 @@
       class="pb-2 px-2"
       style="position: relative"
     >
-      <legend class="text-caption text-left ml-2 px-2">{{ $t('gm.labels.heading') }}</legend>
+      <legend class="text-caption text-left ml-2 px-2">{{ $t('gm.shared.gmLabels') }}</legend>
       <v-dialog
         v-model="dialog"
         width="75vw"
@@ -26,7 +26,7 @@
             class="heading h3"
           >
             <v-toolbar-title>
-              {{ $t('gm.labels.labels') }}
+              {{ $t('gm.shared.labels') }}
               <cc-slashes class="px-2" />
               <span class="text-accent">{{ item.Name }}</span>
             </v-toolbar-title>
@@ -45,8 +45,8 @@
                   dense
                   class="mb-n4 text-caption"
                 >
-                  <v-col cols="9">{{ $t('gm.labels.label') }}</v-col>
-                  <v-col cols="3">{{ $t('gm.labels.valueOptional') }}</v-col>
+                  <v-col cols="9">{{ $t('common.label') }}</v-col>
+                  <v-col cols="3">{{ $t('gm.gmLabelEditor.valueOptional') }}</v-col>
                 </v-row>
                 <v-row
                   v-for="(label, index) in item.NarrativeController.Labels"
@@ -65,7 +65,7 @@
                       density="compact"
                       item-value="title"
                       :hide-details="!labelExists(label)"
-                      :placeholder="$t('gm.labels.label')"
+                      :placeholder="$t('common.label')"
                       class="mt-2"
                     />
                   </v-col>
@@ -76,7 +76,7 @@
                       density="compact"
                       :error="labelExists(label)"
                       item-value="value"
-                      :placeholder="$t('gm.fields.value')"
+                      :placeholder="$t('common.value')"
                       :hide-details="!labelExists(label)"
                       class="mt-2"
                     />
@@ -105,7 +105,7 @@
                     icon="mdi-plus"
                     start
                   />
-                  {{ $t('gm.labels.addLabel') }}
+                  {{ $t('gm.gmLabelEditor.addLabel') }}
                 </v-btn>
               </v-card-text>
             </v-col>
@@ -124,8 +124,8 @@
                   />
                 </template>
                 <div>
-                  {{ labelExpand ? $t('common.hide') : $t('common.show') }}
-                  {{ $t('gm.labels.labelPalette') }}
+                  {{ labelExpand ? $t('common.hideAction') : $t('common.showAction') }}
+                  {{ $t('gm.gmLabelEditor.labelPalette') }}
                 </div>
               </v-tooltip>
             </v-col>
@@ -141,7 +141,7 @@
               >
                 <div class="d-flex align-center">
                   <div class="text-caption text-text flex-grow-1">
-                    {{ $t('gm.labels.labelPalette') }}
+                    {{ $t('gm.gmLabelEditor.labelPalette') }}
                   </div>
                   <v-tooltip location="bottom">
                     <template #activator="{ props }">
@@ -155,7 +155,7 @@
                         <v-icon :color="alphaSortDir ? 'accent' : ''">{{ alphaSortIcon }}</v-icon>
                       </v-btn>
                     </template>
-                    <div>{{ $t('gm.labels.sortAlphabetically') }}</div>
+                    <div>{{ $t('gm.gmLabelEditor.sortAlphabetically') }}</div>
                   </v-tooltip>
                   <v-tooltip location="bottom">
                     <template #activator="{ props }">
@@ -169,7 +169,7 @@
                         <v-icon :color="freqSortDir ? 'accent' : ''">{{ freqSortIcon }}</v-icon>
                       </v-btn>
                     </template>
-                    <div>{{ $t('gm.labels.sortByUsage') }}</div>
+                    <div>{{ $t('gm.gmLabelEditor.sortByUsage') }}</div>
                   </v-tooltip>
                 </div>
                 <v-divider class="text-text" />
@@ -193,7 +193,7 @@
                     v-else
                     class="text-caption text-center pa-2"
                   >
-                    <i>{{ $t('gm.labels.noLabelsAvailable') }}</i>
+                    <i>{{ $t('gm.gmLabelEditor.noLabelsAvailable') }}</i>
                   </div>
                 </div>
               </v-card>
@@ -206,7 +206,7 @@
               text
               @click="dialog = false"
             >
-              {{ $t('common.close') }}
+              {{ $t('common.closeAction') }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -216,7 +216,7 @@
         v-if="item.NarrativeController.Labels.length === 0"
         class="text-caption text-center pa-1"
       >
-        <i style="opacity: 0.6">{{ $t('gm.labels.noLabels') }}</i>
+        <i style="opacity: 0.6">{{ $t('gm.gmLabelEditor.noLabels') }}</i>
       </div>
 
       <cc-split-chip

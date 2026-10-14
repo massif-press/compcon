@@ -3,7 +3,7 @@
     <div class="heading h2 pa-2">{{ $t('active.toolPalette.npcRef') }}</div>
     <cc-switch
       v-model="expanded"
-      :label="$t('compendium.fields.showFull')"
+      :label="$t('common.showFull')"
     />
 
     <v-card-text>

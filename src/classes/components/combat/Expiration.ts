@@ -34,15 +34,15 @@ class expiration {
       if (str.includes('target')) {
         this.ExpirationActorID = target.Parent.ID
         this.ExpirationActorTurn = target.Turn
-        text = i18n.global.t('active.expiration.endsOnSelfTurn', {
-          when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+        text = i18n.global.t('combat.expiration.endsOnSelfTurn', {
+          when: i18n.global.t(`combat.expiration.${this.EndsOn}`),
           name: target.CombatName,
         })
       } else if (source) {
         this.ExpirationActorID = source.Parent.ID
         this.ExpirationActorTurn = source.Turn
-        text = i18n.global.t('active.expiration.endsOnOtherTurn', {
-          when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+        text = i18n.global.t('combat.expiration.endsOnOtherTurn', {
+          when: i18n.global.t(`combat.expiration.${this.EndsOn}`),
           name: source.CombatName,
         })
       }
@@ -50,8 +50,8 @@ class expiration {
       const currentRound = encounter.Round
       const roundOffset = Number(str.split('_').pop() || '1')
       this.RoundEndNumber = currentRound + roundOffset
-      text = i18n.global.t('active.expiration.endsOnRound', {
-        when: i18n.global.t(`active.expiration.${this.EndsOn}`),
+      text = i18n.global.t('combat.expiration.endsOnRound', {
+        when: i18n.global.t(`combat.expiration.${this.EndsOn}`),
         round: this.RoundEndNumber,
       })
     }

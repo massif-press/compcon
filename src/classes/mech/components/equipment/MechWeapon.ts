@@ -13,7 +13,7 @@ import { Mech } from '../../Mech'
 import { IRangeData, Range } from '../../../Range'
 import Tag, { ITagCompendiumData } from '../../../Tag'
 import { IActionData } from '@/classes/Action'
-import { IBonusData } from '@/classes/components/feature/bonus/Bonus'
+import { Bonus, IBonusData } from '@/classes/components/feature/bonus/Bonus'
 import { BonusId } from '@/classes/components/feature/bonus/bonus_dictionary'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import {
@@ -168,7 +168,14 @@ class WeaponProfile extends CompendiumItem {
     return localize(this._lkey ?? this.ID, 'effect', this._effect)
   }
 
-  public toActiveEffectData(actor: Mech): IActiveEffectData {
+  public toActiveEffectData(actor: Mech, weapon: MechWeapon = this.Parent): IActiveEffectData {
+    const mech = (actor as any).ActiveMech ?? actor
+    const attack: Bonus[] = (mech.FeatureController?.Bonuses ?? []).filter(
+      (x: Bonus) =>
+        x.ID === BonusId.ATTACK &&
+        x.IsFiltered &&
+        x.MatchesWeapon(weapon.getWeaponTypes(mech), weapon.Size)
+    )
     return {
       id: this.ID,
       name: `${this.Name}`,
@@ -178,7 +185,11 @@ class WeaponProfile extends CompendiumItem {
       attack: this.Attack,
       target_defense: this.Parent.IsSmart ? 'edef' : undefined,
       can_crit: true,
-      accuracy: this.Accuracy,
+      accuracy:
+        this.Accuracy +
+        (mech.MechLoadoutController?.ActiveLoadout.MountAccuracy(weapon) ?? 0) +
+        attack.reduce((sum, x) => sum + x.Accuracy, 0),
+      attack_bonus: attack.reduce((sum, x) => sum + Bonus.Evaluate(x, mech), 0),
     }
   }
 }
@@ -240,6 +251,18 @@ class MechWeapon extends MechEquipment {
 
   public get Cost(): number {
     return this.SelectedProfile.Cost
+  }
+
+  public DisplayTags(mech: Mech): Tag[] {
+    if (this.NoBonuses || this.NoCoreBonus) return this.Tags
+    const bonus = mech.FeatureController.Bonuses.filter(
+      b => b.ID === 'knockback' && b.MatchesWeapon(this.getWeaponTypes(mech), this.Size)
+    ).reduce((sum, b) => sum + Bonus.Evaluate(b, mech), 0)
+    if (!bonus) return this.Tags
+    const base = this.Tags.find(t => t.ID === 'tg_knockback')
+    const [tag] = Tag.Deserialize([{ id: 'tg_knockback', val: (Number(base?.Value) || 0) + bonus }])
+    if (!tag) return this.Tags
+    return base ? this.Tags.map(t => (t === base ? tag : t)) : this.Tags.concat(tag)
   }
 
   public get ActiveTags(): Tag[] {

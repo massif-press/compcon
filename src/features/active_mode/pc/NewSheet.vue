@@ -19,7 +19,7 @@
       <v-col>
         <cc-panel>
           <cc-titled-divider
-            :title="$t('active.titles.selectPilot')"
+            :title="$t('active.newSheet.selectPilot')"
             color="accent"
           >
             <template
@@ -178,7 +178,7 @@
         <v-col>
           <cc-panel>
             <cc-titled-divider
-              :title="$t('active.titles.selectActiveMech')"
+              :title="$t('active.newSheet.selectActiveMech')"
               color="accent"
               class="mb-1"
             >
@@ -266,14 +266,14 @@
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('pm.sheet.heat') }}
+                              {{ $t('enums.damageType.heat') }}
                               <b>{{ mech.HeatCapacity }}</b>
                             </span>
                           </v-col>
 
                           <v-col cols="auto">
                             <span>
-                              {{ $t('pm.sheet.repcap') }}
+                              {{ $t('stats.repCap') }}
                               <b>{{ mech.RepairCapacity }}</b>
                             </span>
                           </v-col>
@@ -335,10 +335,15 @@
               <cc-text-field
                 v-model="campaign"
                 max-width="600px"
-                :tooltip="$t('active.tooltips.optionalForOrganizationalPurposes')"
+                :tooltip="$t('active.newSheet.optionalForOrganizationalPurposes')"
                 color="primary"
               />
             </div>
+
+            <play-mode-select
+              v-model="playMode"
+              class="mb-3"
+            />
 
             <cc-button
               block
@@ -398,6 +403,9 @@
   import { PilotStore, PilotGroupStore, PilotSheetStore } from '@/stores'
   import { useDisplay } from 'vuetify'
   import { useI18n } from 'vue-i18n'
+  import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+  import PlayModeSelect from '../_components/PlayModeSelect.vue'
+  import { defaultPlayMode } from '../playMode'
   const { t } = useI18n()
   const router = useRouter()
 
@@ -408,9 +416,10 @@
   const search = ref('')
   const group = ref(undefined)
   const campaign = ref('')
+  const playMode = ref<PlayMode>(defaultPlayMode())
 
   const groups = computed(() => {
-    const groups = [{ title: t('active.titles.allPilots'), value: null }]
+    const groups = [{ title: t('common.allPilots'), value: null }]
     return [
       ...groups,
       ...(PilotGroupStore().PilotGroups as PilotGroup[]).map((g: PilotGroup) => ({
@@ -469,7 +478,11 @@
     if (!selectedPilot.value || !selectedMech.value) return
     selectedPilot.value.ActiveMech = selectedMech.value
 
-    await PilotSheetStore().AddPilotSheet(selectedPilot.value as Pilot, campaign.value)
+    await PilotSheetStore().AddPilotSheet(
+      selectedPilot.value as Pilot,
+      campaign.value,
+      playMode.value
+    )
     if (launch) router.push(`pilot-runner/${PilotSheetStore().CurrentActiveID}`)
     else router.push('sheet-manager')
   }

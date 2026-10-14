@@ -5,15 +5,14 @@ import { updateItem } from '@/io/apis/account'
 import { type FieldTimestamps, type FieldHashMap } from './fieldMerge'
 import { assertController } from '../../utility/assertController'
 import { DbItemMetadata, type dbItemMeta, type ICloudData } from './CloudTypes'
-import { CloudMetadataController } from './CloudMetadataController'
 import { CloudSyncOrchestrator } from './CloudSyncOrchestrator'
 import { CloudTransferController } from './CloudTransferController'
 
 class CloudController {
   public readonly Parent: ICloudSyncable
 
-  public MetadataController: CloudMetadataController
   public TransferController: CloudTransferController
+  public _lastUploadedItemModified: number = 0
 
   private _metadata!: DbItemMetadata
 
@@ -45,16 +44,8 @@ class CloudController {
     this.TransferController._lastSyncedUpdated = v
   }
 
-  public get _lastUploadedItemModified(): number {
-    return this.MetadataController._lastUploadedItemModified
-  }
-  public set _lastUploadedItemModified(val: number) {
-    this.MetadataController._lastUploadedItemModified = val
-  }
-
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent
-    this.MetadataController = new CloudMetadataController(this)
     this.TransferController = new CloudTransferController(this)
     this.GenerateMetadata()
   }
@@ -68,9 +59,11 @@ class CloudController {
   }
 
   public static prepareUpload(
-    item: ICloudSyncable
+    item: ICloudSyncable,
+    force = false,
+    authoritative = false
   ): { savedata: any; newTs: FieldTimestamps; hash: string } | null {
-    return CloudTransferController.prepareUpload(item.CloudController)
+    return CloudTransferController.prepareUpload(item.CloudController, force, authoritative)
   }
 
   public static commitUpload(
@@ -85,10 +78,6 @@ class CloudController {
 
   public GenerateSortKey(): string {
     return `${this.Parent.DataType}_${this.Parent.ItemType}_${this.Parent.ID}`
-  }
-
-  public SetItemSize(data: any) {
-    if (this.Metadata) this.Metadata.Size = CloudTransferController.stringifySafe(data).length
   }
 
   public stampTombstone(key: string): void {
@@ -143,7 +132,7 @@ class CloudController {
     this.TransferController._lastFieldHashes = null
     this.TransferController._fieldTs = {}
     this.TransferController._lastSyncedUpdated = 0
-    this.MetadataController._lastUploadedItemModified = 0
+    this._lastUploadedItemModified = 0
   }
 
   public static GenerateMetadata(controller: CloudController) {
@@ -158,16 +147,16 @@ class CloudController {
     }
   }
 
-  public async UpdateCloud(scope = 'item') {
-    return this.TransferController.UpdateCloud(scope)
+  public async UpdateCloud(scope = 'item', force = false, authoritative = false) {
+    return this.TransferController.UpdateCloud(scope, force, authoritative)
   }
 
   public async syncFromCloud(): Promise<void> {
     return this.TransferController.syncFromCloud()
   }
 
-  public static async BatchUpdateCloud(items: ICloudSyncable[]): Promise<any[]> {
-    return CloudSyncOrchestrator.BatchUpdateCloud(items)
+  public static async BatchUpdateCloud(items: ICloudSyncable[], force = false): Promise<any[]> {
+    return CloudSyncOrchestrator.BatchUpdateCloud(items, force)
   }
 
   public static async MarkCloudDeleted(metadata: DbItemMetadata) {
@@ -196,10 +185,6 @@ class CloudController {
 
   public get ShareCode(): string {
     return this.Metadata?.Code || ''
-  }
-
-  public get LastUpdateLocal(): number {
-    return this.Parent.SaveController.LastModified
   }
 
   public static Serialize(parent: ICloudSyncable, target: any) {
@@ -259,8 +244,8 @@ class CloudController {
     return CloudSyncOrchestrator.ForceDownload(item)
   }
 
-  public static async ForceUpload(item: ICloudSyncable): Promise<void> {
-    return CloudSyncOrchestrator.ForceUpload(item)
+  public static async ForceUpload(item: ICloudSyncable, authoritative = false): Promise<void> {
+    return CloudSyncOrchestrator.ForceUpload(item, authoritative)
   }
 
   public static ImageMetadata(filename: string, fileExt: string, size: number): any {

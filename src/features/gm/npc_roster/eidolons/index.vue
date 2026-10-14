@@ -1,7 +1,7 @@
 <template>
   <gm-split-view
     ref="viewRef"
-    :title="$t('gm.titles.eidolons')"
+    :title="$t('gm.shared.eidolons')"
     item-type="Eidolon"
     :items="eidolons"
     :selected="<any>selected"

@@ -58,7 +58,7 @@
       <v-col cols="auto">
         <cc-tags
           v-if="item.Tags"
-          :tags="item.Tags"
+          :tags="item.DisplayTags ? item.DisplayTags(mech) : item.Tags"
           :color="color"
           :bonus="mech.LimitedBonus"
         />

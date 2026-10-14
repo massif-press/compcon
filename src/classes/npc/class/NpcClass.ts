@@ -4,7 +4,9 @@ import { INpcClassStats, NpcClassStats } from './NpcClassStats'
 import * as _ from 'lodash-es'
 import { ContentPack } from '../../ContentPack'
 import { ItemType } from '../../enums'
+import { i18n } from '@/i18n'
 import { applyLcpTracking, type ILcpTracked } from '@/classes/LcpItemMixin'
+import { localize } from '@/i18n/localize'
 
 interface INpcClassData {
   id: string
@@ -110,7 +112,7 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Name(): string {
-    return this._name
+    return localize(this._id, 'name', this._name)
   }
 
   public get Role(): string {
@@ -128,15 +130,15 @@ class NpcClass implements ILcpTracked {
   }
 
   public get Flavor(): string {
-    return this._info.flavor
+    return localize(this._id, 'flavor', this._info.flavor)
   }
 
   public get Tactics(): string {
-    return this._info.tactics
+    return localize(this._id, 'tactics', this._info.tactics)
   }
 
   public get Terse(): string {
-    if (this._info.terse) return this._info.terse
+    if (this._info.terse) return localize(this._id, 'terse', this._info.terse)
     return this._role || ''
   }
 
@@ -189,13 +191,13 @@ class NpcClass implements ILcpTracked {
 
   public get ClassFeatureSelectionInfo(): string {
     if (!this.OptionalClassMin) return ''
-    let out = `The ${this.Name} chooses `
-    if (this.OptionalClassMin === this.OptionalClassMax) out += `${this.OptionalClassMin} `
-    else out += `between ${this.OptionalClassMin} and ${this.OptionalClassMax} `
-    out += `additional optional feature${this.OptionalClassMax > 1 ? 's' : ''} from the ${
-      this.Name
-    } Class Optional Features list ${this.OptionalClassPerTier ? 'per NPC Tier' : ''}`
-    return out
+    const exact = this.OptionalClassMin === this.OptionalClassMax
+    const key = `gm.npcSelection.class${exact ? 'Exact' : 'Range'}${this.OptionalClassPerTier ? 'PerTier' : ''}`
+    return i18n.global.t(
+      key,
+      { name: this.Name, min: this.OptionalClassMin, max: this.OptionalClassMax },
+      this.OptionalClassMax
+    )
   }
 
   public NormalizedStats() {

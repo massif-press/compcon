@@ -24,8 +24,16 @@
         </div>
         <div v-if="!blank">
           <div class="text-caption">
-            {{ pilot.Name }}{{ $t('pm.common.commaLl') }}
-            <b>{{ pilot.Level }}</b>
+            <i18n-t
+              keypath="pm.common.nameWithLicenseLevel"
+              tag="span"
+              scope="global"
+            >
+              <template #name>{{ pilot.Name }}</template>
+              <template #level>
+                <b>{{ pilot.Level }}</b>
+              </template>
+            </i18n-t>
           </div>
         </div>
       </v-col>
@@ -166,7 +174,7 @@
       class="mt-n3 print-section"
     >
       <v-col>
-        <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
+        <div class="text-caption text-primary">{{ $t('common.skillTriggers') }}</div>
         <div class="text-left">
           <v-row
             v-if="blank"
@@ -221,7 +229,7 @@
         <v-row class="mt-0 text-right mt-n2 pr-2">
           <v-col>
             <div class="font-weight-bold caption">
-              <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+              <span class="text-uppercase">{{ $t('stats.hull') }}</span>
             </div>
             <v-icon
               v-if="blank"
@@ -447,7 +455,7 @@
       v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 text-primary"
     >
-      {{ $t('pm.level.coreBonuses') }}
+      {{ $t('common.coreBonuses') }}
     </div>
     <v-row
       v-if="blank"
@@ -653,7 +661,7 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
+              <span class="text-caption flavor-text text-uppercase">//{{ $t('common.gear') }}</span>
             </span>
             <span
               v-else

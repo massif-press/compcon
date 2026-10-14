@@ -11,8 +11,8 @@
       <v-toolbar-title>
         <cc-heading
           is-title
-          :text="$t('mainMenu.actions.dataViewer')"
-          :tooltip="$t('mainMenu.tooltips.thisIsAViewOf')"
+          :text="$t('mainMenu.cloudDataViewer.dataViewer')"
+          :tooltip="$t('mainMenu.cloudDataViewer.thisIsAViewOf')"
         />
       </v-toolbar-title>
       <v-spacer />
@@ -66,8 +66,8 @@
           max="4"
           select-all
           icon="mdi-filter-variant"
-          all-text="All Item Types"
-          none-text="No Item Types"
+          :all-text="$t('mainMenu.syncSettings.allItemTypes')"
+          :none-text="$t('mainMenu.syncSettings.noItemTypes')"
           class="mx-2 mb-1"
         />
         <v-spacer />
@@ -129,7 +129,7 @@
           density="compact"
           variant="outlined"
           hide-details
-          :placeholder="$t('mainMenu.fields.filter')"
+          :placeholder="$t('mainMenu.cloudDataViewer.filter')"
         />
       </v-col>
     </v-row>
@@ -178,12 +178,12 @@
   ])
 
   const syncableItemTypes = [
-    { title: t('mainMenu.titles.pilot'), value: 'pilot' },
-    { title: t('mainMenu.titles.pilotGroups'), value: 'pilotgroup' },
-    { title: t('mainMenu.titles.npc'), value: 'npc' },
-    { title: t('mainMenu.titles.narrativeElement'), value: 'collectionItem' },
-    { title: t('mainMenu.titles.encounter'), value: 'encounter' },
-    // { title: t('mainMenu.titles.campaign'), value: 'campaign' },
+    { title: t('common.pilot'), value: 'pilot' },
+    { title: t('mainMenu.account.pilotGroups'), value: 'pilotgroup' },
+    { title: t('common.npc'), value: 'npc' },
+    { title: t('common.narrativeElement'), value: 'collectionItem' },
+    { title: t('common.encounter'), value: 'encounter' },
+    // { title: t('common.campaign'), value: 'campaign' },
   ]
 
   watch(itemTypeFilter, val => {

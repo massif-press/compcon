@@ -23,9 +23,9 @@
   const { t } = useI18n()
 
   const headers = ref([
-    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-    { title: t('compendium.titles.icon'), key: 'Icon', sortable: false },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.contentPack'), key: 'LcpName' },
+    { title: t('compendium.categoryView.icon'), key: 'Icon', sortable: false },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.type'), key: 'StatusType' },
     { title: '', key: 'Terse' },
   ])

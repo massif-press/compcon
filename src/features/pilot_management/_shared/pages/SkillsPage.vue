@@ -21,7 +21,7 @@
         v-if="context === 'new'"
         class="heading h2"
       >
-        {{ $t('pm.new.uadIDENTService') }}
+        {{ $t('pm.new.identServiceName') }}
         <cc-slashes />
         {{ $t('pm.shared.rm4bPilotSelfAssessment1') }}
       </div>
@@ -39,10 +39,10 @@
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theRM4bPILOTSELFASSESSMENT2') }}
+        {{ $t('pm.shared.skillsAssessmentIntro') }}
         <br />
         <b>{{ $t('pm.shared.nb') }}:</b>
-        {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
+        {{ $t('pm.shared.nhpOutputDisclaimer') }}
       </p>
       <p
         v-else
@@ -52,7 +52,7 @@
         {{ $t('pm.shared.theMV2APilotSelfAssessment') }}
         <br />
         <b>{{ $t('pm.shared.nb') }}:</b>
-        {{ $t('pm.shared.theFollowingFormIsComprisedOf') }}
+        {{ $t('pm.shared.nhpOutputDisclaimer') }}
       </p>
 
       <v-alert
@@ -70,7 +70,7 @@
           }}
         </div>
         <p class="text-cc-overline">
-          {{ $t('pm.new.bySubmittingThisFormYouAttest') }}
+          {{ $t('pm.new.attestation') }}
         </p>
       </v-alert>
     </div>
@@ -80,10 +80,10 @@
         v-if="pilot.Background && !pilot.SkillsController.HasFullSkills"
         class="my-2"
         icon="mdi-orbit"
-        :title="$t('pm.titles.skillSuggestionsAvailable')"
+        :title="$t('pm.skillsPage.skillSuggestionsAvailable')"
       >
         <p class="text-cc-overline text-disabled">
-          {{ $t('pm.shared.identSERVICEPRIMARYHasGeneratedA') }}
+          {{ $t('pm.shared.suggestedSkillTriggersNotice') }}
         </p>
         <div class="mx-3 mt-2">
           <cc-button

@@ -19,7 +19,7 @@
         v-if="context === 'new'"
         class="heading h2"
       >
-        {{ $t('pm.new.uadIDENTService') }}
+        {{ $t('pm.new.identServiceName') }}
         <cc-slashes />
         &nbsp;{{ $t('pm.shared.rm4cS1LicensingAuthorization') }}
       </div>
@@ -37,7 +37,7 @@
         class="flavor-text px-6"
         style="font-size: 14px"
       >
-        {{ $t('pm.shared.theRM4SupplementalILicensing') }}
+        {{ $t('pm.shared.licensingSupplementalIntro') }}
       </p>
       <p
         v-else
@@ -62,7 +62,7 @@
           }}
         </div>
         <p class="text-cc-overline">
-          {{ $t('pm.shared.unionAndItsRepresentativesAreNot') }}
+          {{ $t('pm.shared.printingLiabilityDisclaimer') }}
         </p>
       </v-alert>
     </div>

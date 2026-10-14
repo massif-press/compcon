@@ -9,7 +9,7 @@
         color="warning"
         prominent
         icon="mdi-apple"
-        :title="$t('mainMenu.titles.installCompconForReliableStorage')"
+        :title="$t('mainMenu.storageWarning.installCompconForReliableStorage')"
       >
         <div>
           <i18n-t
@@ -31,7 +31,7 @@
               scope="global"
             >
               <template #share>
-                <b>{{ $t('mainMenu.storage.shareLabel') }}</b>
+                <b>{{ $t('mainMenu.storage.iosShareButton') }}</b>
               </template>
               <template #icon>
                 <v-icon
@@ -88,7 +88,7 @@
         color="error"
         prominent
         icon="mdi-database-alert"
-        :title="$t('mainMenu.titles.storagePermissionRequired')"
+        :title="$t('mainMenu.storageWarning.storagePermissionRequired')"
       >
         <div v-if="!hasStorage">
           <i18n-t

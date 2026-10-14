@@ -24,11 +24,32 @@ export function isSupportedLocale(code: string): code is LocaleCode {
   return SUPPORTED_LOCALES.some(l => l.code === code)
 }
 
+const CLDR_ORDER: Intl.LDMLPluralRule[] = ['zero', 'one', 'two', 'few', 'many', 'other']
+
+const pluralRules = Object.fromEntries(
+  SUPPORTED_LOCALES.map(({ code }) => {
+    const rules = new Intl.PluralRules(code)
+    const categories = CLDR_ORDER.filter(c => rules.resolvedOptions().pluralCategories.includes(c))
+    return [
+      code,
+      (choice: number, choicesLength: number) => {
+        const category = rules.select(Math.abs(choice))
+        const index =
+          choicesLength === categories.length
+            ? categories.indexOf(category)
+            : Number(category !== 'one')
+        return Math.min(index, choicesLength - 1)
+      },
+    ]
+  })
+)
+
 export const i18n = createI18n({
   legacy: false,
   globalInjection: true,
   locale: DEFAULT_LOCALE,
   fallbackLocale: DEFAULT_LOCALE,
+  pluralRules,
   messages: { en } as Record<LocaleCode, typeof en>,
   missingWarn: import.meta.env.DEV,
   fallbackWarn: import.meta.env.DEV,

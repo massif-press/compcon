@@ -81,7 +81,7 @@
       <v-card-text v-if="item.actor.Layers">
         <cc-item-chip
           v-for="l in item.actor.Layers"
-          :key="l.ID"
+          :key="l.Key"
           :item="l"
         />
       </v-card-text>

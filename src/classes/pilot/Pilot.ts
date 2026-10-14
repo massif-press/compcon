@@ -747,6 +747,12 @@ class Pilot
     return new Pilot(pilotData)
   }
 
+  public static SerializeWithStats(p: Pilot): PilotData {
+    const copy = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(p))))
+    copy.SetStats()
+    return Pilot.Serialize(copy)
+  }
+
   public Clone(setName = true): Pilot {
     const newPilot = Pilot.Deserialize(JSON.parse(JSON.stringify(Pilot.Serialize(this))))
     newPilot.RenewID()

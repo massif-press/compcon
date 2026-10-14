@@ -26,7 +26,7 @@
           </v-col>
           <v-col cols="auto"><cc-slashes /></v-col>
           <v-col :cols="blank ? '' : 'auto'">
-            <div class="text-caption text-primary h0">{{ $t('pm.new.pilot') }}</div>
+            <div class="text-caption text-primary h0">{{ $t('common.pilot') }}</div>
             <blank-line
               v-if="blank"
               :height="32"
@@ -51,7 +51,7 @@
             cols="auto"
             class="ml-auto"
           >
-            <div class="text-caption text-primary h0">{{ $t('ui.fields.licenseLevel') }}</div>
+            <div class="text-caption text-primary h0">{{ $t('common.licenseLevel') }}</div>
             <blank-line
               v-if="blank"
               :height="32"
@@ -235,7 +235,7 @@
             <v-row class="text-center">
               <v-col>
                 <div class="text-uppercase font-weight-bold text-primary mb-n2">
-                  <span class="text-uppercase">{{ $t('pm.link.hull') }}</span>
+                  <span class="text-uppercase">{{ $t('stats.hull') }}</span>
                 </div>
                 <blank-line
                   v-if="blank"
@@ -311,7 +311,7 @@
           class="mt-n3"
         >
           <v-col>
-            <div class="text-caption text-primary">{{ $t('pm.titles.skillTriggers') }}</div>
+            <div class="text-caption text-primary">{{ $t('common.skillTriggers') }}</div>
             <div class="text-left">
               <v-row
                 v-if="blank"
@@ -538,7 +538,7 @@
       v-if="pilot.CoreBonusController.CoreBonuses.length || blank"
       class="text-caption mb-n2 mt-2 text-primary"
     >
-      {{ $t('pm.level.coreBonuses') }}
+      {{ $t('common.coreBonuses') }}
     </div>
     <v-row
       v-if="blank"
@@ -704,7 +704,7 @@
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
-              <span class="text-caption flavor-text">{{ $t('pm.print.gear') }}</span>
+              <span class="text-caption flavor-text text-uppercase">//{{ $t('common.gear') }}</span>
             </span>
             <span
               v-else

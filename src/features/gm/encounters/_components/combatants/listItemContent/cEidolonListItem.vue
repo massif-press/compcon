@@ -9,14 +9,14 @@
         :icon="item.actor.Icon"
         class="mt-n1"
       />
-      {{ item.actor.Name }} &mdash; {{ $t('gm.itemCard.tierShort', { tier: item.actor.Tier }) }}
+      {{ item.actor.Name }} &mdash; {{ $t('common.tierShort', { n: item.actor.Tier }) }}
       <cc-slashes />
       {{ $t('gm.itemCard.classLabel', { class: item.actor.Class }) }}
     </template>
 
     <v-chip
       v-for="l in item.actor.Layers"
-      :key="l.ID"
+      :key="l.Key"
       label
       prepend-icon="mdi-layers"
       class="mx-1 my-1"

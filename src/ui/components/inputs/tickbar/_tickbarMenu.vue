@@ -10,7 +10,7 @@
         :icon="icon"
         class="mt-n1"
       />
-      <span class="heading">{{ label }}</span>
+      <span class="heading">{{ label ?? $t('common.value') }}</span>
     </div>
 
     <slot />
@@ -27,7 +27,7 @@
           tile
           @click="$emit('reset')"
         >
-          {{ $t('common.reset') }}
+          {{ $t('common.resetAction') }}
         </v-btn>
       </v-col>
       <v-col>
@@ -39,7 +39,7 @@
           tile
           @click="$emit('set', 0)"
         >
-          {{ $t('common.clear') }}
+          {{ $t('common.clearAction') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -58,7 +58,6 @@
     {
       modelValue: 0,
       icon: 'mdi-keyboard-variant',
-      label: 'Value',
     }
   )
 

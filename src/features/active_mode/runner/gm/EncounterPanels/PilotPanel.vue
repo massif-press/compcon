@@ -1,7 +1,7 @@
 <template>
   <cc-alert
     v-if="pilot.CombatController.IsDead"
-    :title="$t('active.titles.pilotKia')"
+    :title="$t('active.pilotPanel.pilotKia')"
     icon="mdi-skull"
     color="error"
     variant="outlined"
@@ -26,6 +26,7 @@
   <panel-base
     v-else
     :item="<ICombatant>pilot"
+    :no-actions="layout.actionGrouping === 'byType'"
   >
     <template #name-block>
       <div class="heading h2">{{ pilot.Callsign }}</div>
@@ -33,7 +34,7 @@
 
       <cc-alert
         v-if="pilot.CombatController.HasStatus('downandout')"
-        :title="$t('active.titles.downAndOut')"
+        :title="$t('active.pilotPanel.downAndOut')"
         icon="mdi-medical-bag"
         color="primary"
         class="mr-6"
@@ -48,6 +49,13 @@
 
     <template #actions>
       <pilot-actions-panel @deploy="deploy($event)" />
+    </template>
+
+    <template #action-menu="{ tile }">
+      <pilot-actions-panel
+        :tile="tile"
+        @deploy="deploy($event)"
+      />
     </template>
 
     <v-expansion-panels
@@ -162,8 +170,10 @@
   import { ICombatant } from '@/classes/components/combat/ICombatant'
   import { useI18n } from 'vue-i18n'
   import TurnStateToggles from './_components/TurnStateToggles.vue'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   const { t } = useI18n()
+  const { layout } = useLayoutOptions()
 
   const props = defineProps<{
     combatant: CombatantData
@@ -193,13 +203,13 @@
     return [
       {
         key: 'mounted',
-        label: t('active.actions.mounted'),
+        label: t('active.shared.mounted'),
         active: !!pilot.value.ActiveMech?.CombatController.Mounted,
         toggle: setMounted,
       },
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),

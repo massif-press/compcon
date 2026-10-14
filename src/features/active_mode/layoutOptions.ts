@@ -1,23 +1,62 @@
-import { computed, type WritableComputedRef } from 'vue'
+import {
+  computed,
+  inject,
+  type ComputedRef,
+  type InjectionKey,
+  type Ref,
+  type WritableComputedRef,
+} from 'vue'
 import { useDisplay } from 'vuetify'
 import { UserStore } from '@/stores'
+import { notifySuccess } from '@/util/notify'
+import { i18n } from '@/i18n'
+import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+import { turnWizardClosePolicy, type TurnWizardClosePolicy } from './turnWizard'
 
 export type LabelMode = 'icon' | 'icon+text' | 'text'
 export type Density = 'compact' | 'default' | 'comfortable'
 export type TickbarMode = 'auto' | 'simple' | 'standard'
+export type ActionGrouping = 'none' | 'standard' | 'byType' | 'menus'
+export type ScrollOnSelect = 'top' | 'keep'
 
 export type ActiveModeLayoutOptions = {
+  v: number
   labels: LabelMode
+  sidebarLabels: LabelMode
   density: Density
   tickbars: TickbarMode
+  actionGrouping: ActionGrouping
   columns: boolean
   maxColumns: number
   coreStatsOnly: boolean
   showPortraits: boolean
   showFlavor: boolean
+  showTurnStates: boolean
+  showCover: boolean
+  showActiveEffects: boolean
+  showActionDetails: boolean
+  trackMovement: boolean
+  scrollOnSelect: ScrollOnSelect
 }
 
-const LAYOUT_VIEW_KEY = 'activeModeLayout'
+const LAYOUT_VIEW_KEYS: Record<PlayMode, string> = {
+  full: 'activeModeLayout',
+  simple: 'activeModeLayoutSimple',
+}
+
+export const LayoutModeKey: InjectionKey<ComputedRef<PlayMode>> = Symbol('ActiveModeLayoutMode')
+
+export type InstanceLayouts = Partial<Record<PlayMode, ActiveModeLayoutOptions>>
+
+type SettingsTarget = {
+  Layout?: InstanceLayouts
+  TurnWizardClose?: TurnWizardClosePolicy
+  PlayMode?: PlayMode
+  SetPlayMode?: (mode: PlayMode) => void
+}
+
+export const LayoutTargetKey: InjectionKey<Ref<SettingsTarget | null | undefined>> =
+  Symbol('ActiveModeLayoutTarget')
 
 const CORE_STATS = [
   'hp',
@@ -33,14 +72,41 @@ const CORE_STATS = [
 ]
 
 export const DEFAULTS: ActiveModeLayoutOptions = {
+  v: 2,
   labels: 'icon',
+  sidebarLabels: 'icon',
   density: 'default',
   tickbars: 'auto',
+  actionGrouping: 'menus',
   columns: false,
   maxColumns: 1,
   coreStatsOnly: false,
   showPortraits: true,
   showFlavor: true,
+  showTurnStates: true,
+  showCover: true,
+  showActiveEffects: true,
+  showActionDetails: false,
+  trackMovement: true,
+  scrollOnSelect: 'top',
+}
+
+export const SIMPLE_DEFAULTS: ActiveModeLayoutOptions = {
+  ...DEFAULTS,
+  labels: 'icon+text',
+  density: 'comfortable',
+  tickbars: 'simple',
+  maxColumns: 2,
+  showTurnStates: false,
+  showCover: false,
+  showActiveEffects: false,
+}
+
+const OLD_ACTION_GROUPING: Record<PlayMode, ActionGrouping> = { full: 'standard', simple: 'none' }
+
+const MODE_DEFAULTS: Record<PlayMode, ActiveModeLayoutOptions> = {
+  full: DEFAULTS,
+  simple: SIMPLE_DEFAULTS,
 }
 
 const DENSITY: Record<
@@ -72,7 +138,7 @@ const DENSITY: Record<
 
 export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
   default: {},
-  textFirst: { labels: 'text', showPortraits: false },
+  textFirst: { labels: 'text', sidebarLabels: 'text', showPortraits: false },
   dense: { labels: 'icon', density: 'compact', maxColumns: 3 },
   phone: {
     labels: 'icon+text',
@@ -81,24 +147,61 @@ export const PRESETS: Record<string, Partial<ActiveModeLayoutOptions>> = {
     coreStatsOnly: true,
     showPortraits: false,
     showFlavor: false,
+    showTurnStates: false,
+    showCover: false,
+    showActiveEffects: false,
   },
 }
 
 export const PRESET_KEYS = Object.keys(PRESETS)
 
-function readLayoutOptions(): ActiveModeLayoutOptions {
-  const { statSet, ...stored } = (UserStore().User.View(LAYOUT_VIEW_KEY, null) || {}) as any
+const PRESET_KEEPS = ['trackMovement', 'scrollOnSelect', 'showActionDetails'] as const
+
+function kept(opts: ActiveModeLayoutOptions): Partial<ActiveModeLayoutOptions> {
+  return Object.fromEntries(PRESET_KEEPS.map(k => [k, opts[k]]))
+}
+
+function normalize(raw: any, mode: PlayMode): ActiveModeLayoutOptions {
+  const { statSet, v, ...stored } = raw || {}
   if (statSet !== undefined) stored.coreStatsOnly = statSet !== 'all'
-  return { ...DEFAULTS, ...stored }
+  if (!v && stored.actionGrouping === OLD_ACTION_GROUPING[mode]) delete stored.actionGrouping
+  if (!v && stored.labels === 'text') stored.sidebarLabels ??= 'text'
+  return { ...MODE_DEFAULTS[mode], ...stored }
 }
 
-export function applyPreset(name: string): void {
-  UserStore().User.SetView(LAYOUT_VIEW_KEY, { ...DEFAULTS, ...(PRESETS[name] || {}) })
+function readLayoutOptions(mode: PlayMode): ActiveModeLayoutOptions {
+  return normalize(UserStore().User.View(LAYOUT_VIEW_KEYS[mode], null), mode)
 }
 
-export function matchedPreset(opts: ActiveModeLayoutOptions): string | null {
+export function targetLayout(
+  target: SettingsTarget | null | undefined,
+  mode: PlayMode
+): ActiveModeLayoutOptions {
+  const stored = target?.Layout?.[mode]
+  return stored ? normalize(stored, mode) : readLayoutOptions(mode)
+}
+
+export function seedActiveSettings(target: SettingsTarget): void {
+  if (!target.Layout) {
+    target.Layout = { full: readLayoutOptions('full'), simple: readLayoutOptions('simple') }
+    if (target.PlayMode) target.SetPlayMode?.(target.PlayMode)
+  }
+  target.TurnWizardClose ??= turnWizardClosePolicy()
+}
+
+export function applyPreset(name: string, mode: PlayMode = 'full'): void {
+  UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode], {
+    ...MODE_DEFAULTS[mode],
+    ...(PRESETS[name] || {}),
+  })
+}
+
+export function matchedPreset(
+  opts: ActiveModeLayoutOptions,
+  base: ActiveModeLayoutOptions = DEFAULTS
+): string | null {
   for (const [name, partial] of Object.entries(PRESETS)) {
-    const candidate = { ...DEFAULTS, ...partial }
+    const candidate = { ...base, ...partial, ...kept(opts) }
     if (JSON.stringify(candidate) === JSON.stringify(opts)) return name
   }
   return null
@@ -109,6 +212,8 @@ export type ResolvedLayout = ActiveModeLayoutOptions & {
   simpleTickbars: boolean
   showLabel: boolean
   showIcon: boolean
+  sidebarShowLabel: boolean
+  sidebarShowIcon: boolean
   btnSize: string
   iconSize: string | number
   tileHeight: number
@@ -131,6 +236,8 @@ export function resolveLayout(opts: ActiveModeLayoutOptions, mobile: boolean): R
     simpleTickbars,
     showLabel,
     showIcon: opts.labels !== 'text',
+    sidebarShowLabel: opts.sidebarLabels !== 'icon',
+    sidebarShowIcon: opts.sidebarLabels !== 'text',
     btnSize: d.btnSize,
     iconSize: mobile ? 20 : d.iconSize,
     tileHeight: d.tile[showLabel ? 1 : 0],
@@ -142,10 +249,20 @@ export function resolveLayout(opts: ActiveModeLayoutOptions, mobile: boolean): R
 
 export function useLayoutOptions() {
   const { mdAndDown } = useDisplay()
+  const mode = inject(LayoutModeKey, () => computed<PlayMode>(() => 'full'), true)
+
+  const target = inject(LayoutTargetKey, undefined)
 
   const options: WritableComputedRef<ActiveModeLayoutOptions> = computed({
-    get: () => readLayoutOptions(),
-    set: v => UserStore().User.SetView(LAYOUT_VIEW_KEY, { ...DEFAULTS, ...v }),
+    get: () => targetLayout(target?.value, mode.value),
+    set: v => {
+      const next = { ...MODE_DEFAULTS[mode.value], ...v }
+      if (target?.value) {
+        const reapply = next.trackMovement !== options.value.trackMovement
+        target.value.Layout = { ...target.value.Layout, [mode.value]: next }
+        if (reapply && target.value.PlayMode) target.value.SetPlayMode?.(target.value.PlayMode)
+      } else UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode.value], next)
+    },
   })
 
   const layout = computed(() => resolveLayout(options.value, mdAndDown.value))
@@ -159,7 +276,29 @@ export function useLayoutOptions() {
     })
   }
 
-  return { options, layout, field }
+  const isInstance = computed(() => !!target?.value)
+
+  function saveAsDefault() {
+    UserStore().User.SetView(LAYOUT_VIEW_KEYS[mode.value], options.value)
+    notifySuccess(i18n.global.t('active.layout.savedAsDefault'))
+  }
+
+  return {
+    options,
+    layout,
+    field,
+    isInstance,
+    saveAsDefault,
+    applyPreset: (name: string) => {
+      options.value = {
+        ...MODE_DEFAULTS[mode.value],
+        ...(PRESETS[name] || {}),
+        ...kept(options.value),
+      }
+    },
+    matchedPreset: (opts: ActiveModeLayoutOptions) =>
+      matchedPreset(opts, MODE_DEFAULTS[mode.value]),
+  }
 }
 
 export function filterStats(stats: any[], coreStatsOnly: boolean): any[] {

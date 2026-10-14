@@ -25,6 +25,7 @@ class TimedEffectController {
   }
 
   public ApplyInitialSelfEffects(matches: (duration?: string) => boolean): void {
+    if (!this._parent.Automated) return
     this._parent.ActiveEffects.filter(ae => ae.InitialSelfApplied && matches(ae.Duration)).forEach(
       ae => this._setFromActiveEffect(ae)
     )
@@ -85,8 +86,8 @@ class TimedEffectController {
       this.TimedEffects.splice(this.TimedEffects.indexOf(pending), 1)
     }
     this.Push({
-      nameKey: 'active.timedEffect.reactorMeltdownName',
-      detailKey: 'active.timedEffect.reactorMeltdownDetail',
+      nameKey: 'combat.timedEffect.reactorMeltdownName',
+      detailKey: 'combat.timedEffect.reactorMeltdownDetail',
       round: this._parent.Round + turns,
       apply: { other: 'reactor_meltdown' },
     })
@@ -106,9 +107,9 @@ class TimedEffectController {
   public get MeltdownAction(): Action {
     return new Action({
       id: 'self_destruct_internal',
-      name: i18n.global.t('active.timedEffect.meltdownDamageName'),
+      name: i18n.global.t('combat.timedEffect.meltdownDamageName'),
       activation: ActivationType.None,
-      detail: i18n.global.t('active.timedEffect.meltdownDamageDetail'),
+      detail: i18n.global.t('combat.timedEffect.meltdownDamageDetail'),
       damage: [
         {
           type: DamageType.Explosive,

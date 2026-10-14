@@ -24,13 +24,13 @@
             min-width="11vw"
           />
           <print-stat-box
-            :label="$t('common.techAttack')"
+            :label="$t('stats.techAttack')"
             :value="signed(mech.TechAttack)"
             :blank="blank"
             min-width="11vw"
           />
           <print-stat-box
-            :label="$t('common.save').toUpperCase()"
+            :label="$t('common.saveAction').toUpperCase()"
             :value="mech.SaveTarget"
             :blank="blank"
             min-width="11vw"
@@ -42,7 +42,7 @@
             min-width="11vw"
           />
           <print-stat-box
-            label="E-DEFENSE"
+            :label="$t('stats.edefense')"
             :value="mech.EDefense"
             :blank="blank"
             min-width="12vw"
@@ -129,7 +129,7 @@
             <span class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.PassiveName
-                  ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
+                  ? $t('pm.print.corePassiveNamed', { name: mech.Frame.CoreSystem.PassiveName })
                   : $t('pm.print.corePassive')
               }}
             </span>
@@ -143,7 +143,7 @@
             <div class="heading ml-4">
               {{
                 mech.Frame.CoreSystem.ActiveName
-                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  ? $t('pm.print.coreActiveNamed', { name: mech.Frame.CoreSystem.ActiveName })
                   : $t('pm.print.coreActive')
               }}
             </div>
@@ -245,9 +245,9 @@
         v-if="m.IsLocked"
         class="text-center flavor-text"
       >
-        {{ $t('pm.print.mountLOCKED') }}
+        {{ $t('pm.print.mountLocked') }}
         <br />
-        <span class="text-overline">// {{ $t('pm.loadout.superheavyWEAPONBRACING') }} //</span>
+        <span class="text-overline">// {{ $t('pm.loadout.superheavyWeaponBracing') }} //</span>
       </div>
       <div
         v-for="w in m.Weapons.filter(Boolean)"
@@ -346,28 +346,28 @@
                 v-if="p.OnMiss"
                 class="caption"
               >
-                <b>{{ $t('pm.print.onMISS') }}:</b>
+                <b>{{ $t('pm.print.onMiss') }}:</b>
                 {{ p.OnMiss.Detail }}
               </div>
               <div
                 v-if="p.OnAttack"
                 class="caption"
               >
-                <b>{{ $t('pm.print.onATTACK') }}:</b>
+                <b>{{ $t('pm.print.onAttack') }}:</b>
                 {{ p.OnAttack.Detail }}
               </div>
               <div
                 v-if="p.OnHit"
                 class="caption"
               >
-                <b>{{ $t('pm.print.onHIT') }}:</b>
+                <b>{{ $t('pm.print.onHit') }}:</b>
                 {{ p.OnHit.Detail }}
               </div>
               <div
                 v-if="p.OnCrit"
                 class="caption"
               >
-                <b>{{ $t('pm.print.onCRIT') }}:</b>
+                <b>{{ $t('pm.print.onCrit') }}:</b>
                 {{ p.OnCrit.Detail }}
               </div>
               <print-action :actions="p.Actions" />
@@ -387,7 +387,7 @@
             <span class="heading">
               {{ w.Mod.Name }}
             </span>
-            <span class="text-overline">&nbsp;{{ $t('pm.print.appliedMOD') }}</span>
+            <span class="text-overline">&nbsp;//{{ $t('pm.print.appliedMod') }}</span>
             <br />
             <p
               v-if="w.Mod.Effect"
@@ -462,9 +462,9 @@
 
   const mounts = computed(() => {
     return props.mech.MechLoadoutController.ActiveLoadout.AllMounts(
-      props.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      props.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
-      props.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
+      props.mech.MechLoadoutController.ActiveLoadout.HasImprovedArmament,
+      props.mech.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon,
+      props.mech.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
     )
   })
 </script>

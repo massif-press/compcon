@@ -5,7 +5,7 @@
   >
     <v-alert
       icon="mdi-vector-link"
-      :title="$t('compendium.titles.noBondData')"
+      :title="$t('compendium.categoryView.noBondData')"
       variant="tonal"
     >
       <!-- eslint-disable @intlify/vue-i18n/no-raw-text -->

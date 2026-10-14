@@ -1,7 +1,7 @@
 <template>
   <cc-dialog
     ref="modal"
-    :title="$t('active.titles.addFromShareCode').toLowerCase()"
+    :title="$t('ui.shared.addFromShareCode').toLowerCase()"
     icon="mdi-code-block-brackets"
     :close-on-click="false"
     major
@@ -16,7 +16,7 @@
         prepend-icon="mdi-code-block-brackets"
         @click="open"
       >
-        {{ title }}
+        {{ title ?? $t('ui.shared.addFromShareCode') }}
         <template
           v-if="subtitle"
           #subtitle
@@ -113,7 +113,7 @@
               prominent
               density="compact"
               icon="mdi-information-outline"
-              title="error"
+              :title="$t('common.error')"
             >
               {{ $t('ui.shareImport.noItemFound', { code: formatCode(badCode) }) }}
             </cc-alert>
@@ -124,7 +124,7 @@
         <div v-if="queryResult">
           <v-divider class="my-4" />
           <span class="flavor-text">
-            {{ $t('ui.shareImport.dataFound', { type: importType.toUpperCase() }) }}
+            // {{ $t('ui.shareImport.dataFound', { type: importType.toUpperCase() }) }}
           </span>
           <slot name="result" />
           <cc-alert
@@ -135,7 +135,7 @@
             density="compact"
             class="my-2"
             icon="mdi-information-outline"
-            title="error"
+            :title="$t('common.error')"
           >
             <span v-if="isUserOwned">
               {{ $t('ui.shareImport.userOwned') }}
@@ -150,7 +150,7 @@
             density="compact"
             class="my-2"
             icon="mdi-information-outline"
-            title="warning"
+            :title="$t('common.warning')"
           >
             <i18n-t
               keypath="ui.shareImport.qrTypeHelp"
@@ -193,7 +193,6 @@
       remoteItems?: string[]
     }>(),
     {
-      title: 'Add from Share Code',
       color: 'primary',
       fullWidth: false,
       subtitle: '',

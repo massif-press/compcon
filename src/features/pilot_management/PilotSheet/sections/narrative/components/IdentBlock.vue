@@ -81,12 +81,12 @@
   }>()
 
   const pilotStatuses = ref([
-    { title: t('pm.titles.active'), value: 'ACTIVE' },
-    { title: t('pm.titles.inactive'), value: 'INACTIVE' },
-    { title: t('pm.titles.retired'), value: 'RET' },
-    { title: t('pm.titles.missingInAction'), value: 'MIA' },
-    { title: t('pm.titles.killedInAction'), value: 'KIA' },
-    { title: t('pm.titles.unknown'), value: 'UNKNOWN' },
+    { title: t('pm.pilotStatus.active'), value: 'ACTIVE' },
+    { title: t('pm.pilotStatus.inactive'), value: 'INACTIVE' },
+    { title: t('pm.pilotStatus.retired'), value: 'RET' },
+    { title: t('pm.pilotStatus.missingInAction'), value: 'MIA' },
+    { title: t('pm.pilotStatus.killedInAction'), value: 'KIA' },
+    { title: t('common.unknown'), value: 'UNKNOWN' },
   ])
   const noteColor = ref('')
   const notification = ref('')

@@ -12,6 +12,7 @@ import type { WeaponUseMode } from '../AttackRules'
 import { consumeWeaponUses, applicationGuard } from './WeaponAttackFlow'
 import type { BlockedReason } from '../log/events'
 import { combatLogHooks } from './logHooks'
+import { i18n } from '@/i18n'
 
 interface IWeaponUseEntry {
   weapon: any
@@ -37,7 +38,11 @@ export interface IWeaponUseState {
   blockedBy?: BlockedReason
 }
 
-const AUX_LABEL = 'Additional Aux Attack'
+function additionalAuxEvent(s: IWeaponUseState, weapon: any): any {
+  const event = s.makeEvent(weapon, i18n.global.t('combat.weaponUse.additionalAux'))
+  event.IsAdditional = true
+  return event
+}
 
 function offered(state: IWeaponUseState, slot = 0): any[] {
   const taken = state.selected.filter(Boolean).map((w: any) => w.InstanceID)
@@ -107,10 +112,17 @@ const buildEvents = step<IWeaponUseState>('build-events', s => {
 
     return {
       weapon,
-      event: prior?.event ?? s.makeEvent(weapon, s.mode === 'barrage' ? 'Barrage' : 'Skirmish'),
+      event:
+        prior?.event ??
+        s.makeEvent(
+          weapon,
+          i18n.global.t(
+            s.mode === 'barrage' ? 'combat.weaponUse.barrage' : 'combat.weaponUse.skirmish'
+          )
+        ),
       auxes,
       auxEvents: reused.map((at, i) =>
-        at === -1 ? suppressBonusDamage(s.makeEvent(auxes[i], AUX_LABEL)) : prior!.auxEvents[at]
+        at === -1 ? suppressBonusDamage(additionalAuxEvent(s, auxes[i])) : prior!.auxEvents[at]
       ),
       include: reused.map(at => (at === -1 ? true : prior!.include[at])),
     }

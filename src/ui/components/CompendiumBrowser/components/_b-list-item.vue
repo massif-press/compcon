@@ -42,7 +42,7 @@
       #append
     >
       <cc-button
-        :title="`Select ${item.Name}`"
+        :title="$t('ui.compendiumBrowser.selectItem', { item: item.Name })"
         icon="mdi-plus"
         size="small"
         variant="outlined"

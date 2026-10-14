@@ -106,7 +106,7 @@
 
     <cc-dialog
       :close-on-click="false"
-      :title="$t('pm.titles.deleteMech')"
+      :title="$t('pm.pilotSheet.deleteMech')"
       color="error"
       icon="mdi-delete"
     >
@@ -141,7 +141,7 @@
             class="mb-3 mt-2"
           />
 
-          <section-header :title="$t('pm.titles.licensesRequired')" />
+          <section-header :title="$t('pm.pilotSheet.licensesRequired')" />
           <div class="pt-1">
             <requirement-item
               v-for="l in reqLicenses.filter(x => x.source)"
@@ -153,7 +153,9 @@
           <status-alerts :mech="mech" />
 
           <section-header
-            :title="`${mech.Frame.Source} ${mech.Frame.Name} Frame Traits`"
+            :title="
+              $t('pm.sheet.frameTraitsTitle', { source: mech.Frame.Source, frame: mech.Frame.Name })
+            "
             class="mt-2"
           />
           <cc-trait-item
@@ -213,7 +215,9 @@
       />
 
       <section-header
-        :title="`${mech.Frame.Source} ${mech.Frame.Name} Core System`"
+        :title="
+          $t('pm.sheet.coreSystemTitle', { source: mech.Frame.Source, frame: mech.Frame.Name })
+        "
         class="mt-6 mb-1"
       />
       <cc-core-system-panel

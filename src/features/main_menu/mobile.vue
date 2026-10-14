@@ -39,15 +39,15 @@
         />
         <mobile-btn
           icon="cc:pilot"
-          :title="$t('mainMenu.titles.roster')"
-          :text="$t('mainMenu.actions.managePilots')"
+          :title="$t('mainMenu.mobile.roster')"
+          :text="$t('mainMenu.mobile.managePilots')"
           :to="'/pilot_management'"
         />
         <mobile-btn
           v-if="landscape"
           icon="cc:encounter"
-          :title="$t('gm.landing.toolkit')"
-          :text="$t('mainMenu.actions.managePilots')"
+          :title="$t('common.gmToolkit')"
+          :text="$t('mainMenu.mobile.managePilots')"
           :to="'/gm'"
         />
         <mobile-btn
@@ -80,6 +80,18 @@
         no-gutters
         align="center"
         justify="space-around"
+        class="flex-nowrap"
+        style="container-type: inline-size; --fit-width: 80cqw; --fit-k: 0.95"
+        :style="
+          fitText(
+            [
+              $t('common.options'),
+              $t('common.about'),
+              $t('common.credits'),
+              $t('common.help'),
+            ].join(' ')
+          )
+        "
       >
         <v-col cols="auto">
           <cc-dialog
@@ -93,7 +105,7 @@
             <template #activator="{ open }">
               <cc-button
                 v-if="landscape"
-                :loading="startingUp"
+                :loading="cloudBusy"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
@@ -105,7 +117,7 @@
 
               <cc-button
                 v-else
-                :loading="startingUp"
+                :loading="cloudBusy"
                 size="small"
                 class="mx-2"
                 :variant="isLoggedIn ? '' : 'outlined'"
@@ -139,7 +151,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.options') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.options') }}
+                </span>
               </cc-button>
             </template>
             <options-page />
@@ -162,7 +176,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.about') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.about') }}
+                </span>
               </cc-button>
             </template>
             <about-page />
@@ -185,7 +201,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.credits') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.credits') }}
+                </span>
               </cc-button>
             </template>
             <credits-page />
@@ -208,7 +226,9 @@
                 variant="text"
                 @click="open"
               >
-                {{ $t('common.help') }}
+                <span class="cc-fit-text">
+                  {{ $t('common.help') }}
+                </span>
               </cc-button>
             </template>
             <help-page />
@@ -222,6 +242,7 @@
 <script setup lang="ts">
   import { computed, ref } from 'vue'
   import { useDisplay } from 'vuetify'
+  import { fitText } from '@/util/fitText'
   import MobileBtn from './_components/MobileBtn.vue'
   import ExtraContent from '../nav/pages/ExtraContent/index.vue'
   import CreditsPage from '../nav/pages/Credits.vue'
@@ -244,8 +265,8 @@
   const isLoggedIn = computed(() => {
     return UserStore().IsLoggedIn
   })
-  const startingUp = computed(() => {
-    return UserStore().IsLoading
+  const cloudBusy = computed(() => {
+    return UserStore().IsLoading || UserStore().IsSyncing
   })
   const appVersion = computed(() => {
     return APP_VERSION || 'dev'

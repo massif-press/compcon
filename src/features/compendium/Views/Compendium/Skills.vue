@@ -21,8 +21,8 @@
   const { t } = useI18n()
 
   const headers = ref([
-    { title: t('compendium.titles.contentPack'), key: 'LcpName' },
-    { title: 'Name', key: 'Name' },
+    { title: t('common.contentPack'), key: 'LcpName' },
+    { title: t('common.name'), key: 'Name' },
     { title: t('common.description'), key: 'Description' },
   ])
   const options = ref({

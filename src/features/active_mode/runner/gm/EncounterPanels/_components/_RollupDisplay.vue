@@ -41,7 +41,7 @@
       </v-row>
       <v-divider class="my-2" />
       <div class="text-caption text-disabled">
-        {{ $t('active.telemetry.damageDealt') }}
+        {{ $t('active.telemetry.rollup.damageDealt') }}
         <b class="text-accent">{{ rollup.totalDealt }}</b>
       </div>
       <div
@@ -75,7 +75,7 @@
       :title="$t('active.telemetry.defense')"
     >
       <div class="text-caption text-disabled">
-        {{ $t('active.telemetry.damageTaken') }}
+        {{ $t('active.telemetry.rollup.damageTaken') }}
         <b class="text-accent">{{ rollup.totalTaken }}</b>
       </div>
       <div
@@ -162,7 +162,7 @@
     <cc-panel
       color="background"
       class="mb-2"
-      :title="$t('active.telemetry.unmounted')"
+      :title="$t('active.sheetItem.unmounted')"
     >
       <v-row dense>
         <v-col
@@ -253,9 +253,9 @@
   const takenBars = computed(() => bars(props.rollup.damageTaken))
 
   const headline = computed(() => [
-    { label: t('active.telemetry.rounds'), value: props.rollup.rounds },
-    { label: t('active.telemetry.turns'), value: props.rollup.turns },
-    { label: t('active.telemetry.movementSpent'), value: props.rollup.movementSpent },
+    { label: t('active.telemetry.rollup.rounds'), value: props.rollup.rounds },
+    { label: t('active.telemetry.rollup.turns'), value: props.rollup.turns },
+    { label: t('active.telemetry.rollup.movementSpent'), value: props.rollup.movementSpent },
   ])
 
   const offense = computed(() => [
@@ -266,7 +266,7 @@
     { label: t('active.telemetry.crits'), value: props.rollup.attacks.crit },
     { label: t('active.telemetry.misses'), value: props.rollup.attacks.missed },
     {
-      label: t('active.telemetry.kills'),
+      label: t('active.telemetry.rollup.kills'),
       value: props.rollup.killsSelfReported
         ? `${props.rollup.killsConfirmed} (+${props.rollup.killsSelfReported})`
         : props.rollup.killsConfirmed,
@@ -274,9 +274,9 @@
   ])
 
   const defense = computed(() => [
-    { label: t('active.telemetry.reducedByArmor'), value: props.rollup.damageArmorReduced },
-    { label: t('active.telemetry.structureChecks'), value: props.rollup.structureChecks },
-    { label: t('active.telemetry.stressChecks'), value: props.rollup.stressChecks },
+    { label: t('active.telemetry.rollup.reducedByArmor'), value: props.rollup.damageArmorReduced },
+    { label: t('active.telemetry.rollup.structureChecks'), value: props.rollup.structureChecks },
+    { label: t('active.telemetry.rollup.stressChecks'), value: props.rollup.stressChecks },
     { label: t('active.telemetry.mechsLost'), value: props.rollup.mechsLost },
   ])
 
@@ -294,22 +294,34 @@
     },
     { label: t('active.telemetry.deployablesLaunched'), value: props.rollup.deployablesLaunched },
     { label: t('active.telemetry.deployablesDestroyed'), value: props.rollup.deployablesDestroyed },
-    { label: t('active.telemetry.equipmentDestroyed'), value: props.rollup.equipmentDestroyed },
-    { label: t('active.telemetry.coreEnergySpent'), value: props.rollup.coreEnergySpent },
+    {
+      label: t('active.telemetry.rollup.equipmentDestroyed'),
+      value: props.rollup.equipmentDestroyed,
+    },
+    { label: t('active.telemetry.rollup.coreEnergySpent'), value: props.rollup.coreEnergySpent },
   ])
 
   const unmounted = computed(() => [
-    { label: t('active.telemetry.roundsUnmounted'), value: props.rollup.roundsUnmounted ?? 0 },
-    { label: t('active.telemetry.actionsUnmounted'), value: props.rollup.actionsUnmounted ?? 0 },
     {
-      label: t('active.telemetry.damageDealtUnmounted'),
+      label: t('active.telemetry.rollup.roundsUnmounted'),
+      value: props.rollup.roundsUnmounted ?? 0,
+    },
+    {
+      label: t('active.telemetry.rollup.actionsUnmounted'),
+      value: props.rollup.actionsUnmounted ?? 0,
+    },
+    {
+      label: t('active.telemetry.rollup.damageDealtUnmounted'),
       value: props.rollup.damageDealtUnmounted ?? 0,
     },
     {
-      label: t('active.telemetry.damageTakenUnmounted'),
+      label: t('active.telemetry.rollup.damageTakenUnmounted'),
       value: props.rollup.damageTakenUnmounted ?? 0,
     },
-    { label: t('active.telemetry.movementUnmounted'), value: props.rollup.movementUnmounted ?? 0 },
+    {
+      label: t('active.telemetry.rollup.movementUnmounted'),
+      value: props.rollup.movementUnmounted ?? 0,
+    },
   ])
 
   const statuses = computed(() =>

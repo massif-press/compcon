@@ -1,7 +1,10 @@
 <template>
   <scan-menu :item="actor" />
 
-  <panel-base :item="actor">
+  <panel-base
+    :item="actor"
+    :no-actions="layout.actionGrouping === 'byType'"
+  >
     <template #name-block>
       <div class="heading h2">
         <cc-short-string-editor
@@ -36,6 +39,13 @@
     <template #actions>
       <npc-actions-panel @deploy="deploy($event)" />
     </template>
+
+    <template #action-menu="{ tile }">
+      <npc-actions-panel
+        :tile="tile"
+        @deploy="deploy($event)"
+      />
+    </template>
   </panel-base>
 </template>
 
@@ -51,8 +61,10 @@
   import PanelBase from './_PanelBase.vue'
   import { useI18n } from 'vue-i18n'
   import TurnStateToggles from './_components/TurnStateToggles.vue'
+  import { useLayoutOptions } from '@/features/active_mode/layoutOptions'
 
   const { t } = useI18n()
+  const { layout } = useLayoutOptions()
 
   const props = defineProps<{
     combatant: CombatantData
@@ -81,7 +93,7 @@
     return [
       {
         key: 'overwatch',
-        label: t('active.actions.overwatch'),
+        label: t('active.runner.overwatch'),
         active: cc.Overwatch,
         reason: cc.BlockedReasonFor('overwatch'),
         toggle: () => cc.SetOverwatch(!cc.Overwatch),

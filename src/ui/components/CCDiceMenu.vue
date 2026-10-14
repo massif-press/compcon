@@ -33,13 +33,13 @@
           v-if="critical"
           class="flavor-text text-white text--secondary"
         >
-          {{ $t('ui.dice.critical') }}
+          // {{ $t('ui.dice.criticalHit') }}
         </span>
         <span
           v-if="overkill"
           class="flavor-text text-white text--secondary"
         >
-          // {{ $t('active.fields.overkill') }}
+          // {{ $t('common.overkill') }}
         </span>
       </v-toolbar>
       <v-row
@@ -58,7 +58,7 @@
                 v-show="moreDice"
                 cols="auto"
               >
-                <cc-tooltip :content="$t('ui.tooltips.addCoinFlipD2')">
+                <cc-tooltip :content="$t('ui.diceMenu.addCoinFlipD2')">
                   <v-btn
                     icon
                     color="accent"
@@ -72,7 +72,7 @@
                 v-show="moreDice"
                 cols="auto"
               >
-                <cc-tooltip :content="$t('ui.tooltips.addD4Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD4Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -83,7 +83,7 @@
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip :content="$t('ui.tooltips.addD6Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD6Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -97,7 +97,7 @@
                 v-show="moreDice"
                 cols="auto"
               >
-                <cc-tooltip :content="$t('ui.tooltips.addD8Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD8Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -111,7 +111,7 @@
                 v-show="moreDice"
                 cols="auto"
               >
-                <cc-tooltip :content="$t('ui.tooltips.addD10Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD10Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -125,7 +125,7 @@
                 v-show="moreDice"
                 cols="auto"
               >
-                <cc-tooltip :content="$t('ui.tooltips.addD12Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD12Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -136,7 +136,7 @@
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip :content="$t('ui.tooltips.addD20Roll')">
+                <cc-tooltip :content="$t('ui.diceMenu.addD20Roll')">
                   <v-btn
                     icon
                     color="accent"
@@ -157,7 +157,7 @@
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip :content="$t('ui.tooltips.addAccuracy')">
+                <cc-tooltip :content="$t('ui.diceMenu.addAccuracy')">
                   <v-btn
                     icon
                     color="accent"
@@ -168,7 +168,7 @@
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <cc-tooltip :content="$t('ui.tooltips.addDifficulty')">
+                <cc-tooltip :content="$t('ui.diceMenu.addDifficulty')">
                   <v-btn
                     icon
                     color="accent"
@@ -251,7 +251,7 @@
               class="my-3"
               @click="roll"
             >
-              {{ $t('common.roll_verb') }}
+              {{ $t('common.rollVerb') }}
             </v-btn>
             <v-divider v-if="result" />
             <div style="min-height: 20px">
@@ -374,7 +374,7 @@
                     cols="auto"
                     class="ml-auto text-stark text-right"
                   >
-                    <div class="caption">// {{ $t('active.fields.overkill') }} //</div>
+                    <div class="caption">// {{ $t('common.overkill') }} //</div>
                     <v-chip
                       v-for="(n, index) in overkillRolls"
                       :key="`overkill-${index}`"

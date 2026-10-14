@@ -83,7 +83,7 @@
                   </template>
                   <cc-confirmation
                     cancellable
-                    :content="`Confirm deletion of ${item.actor.Name} from the encounter`"
+                    :content="$t('gm.encounters.confirmRemoveCombatant', { name: item.actor.Name })"
                     @confirm="removeItem"
                     @cancel="deleteMenu = false"
                   />
@@ -117,7 +117,7 @@
               <b class="text-accent">{{ item.actor.GetLinkedItem().Name }}</b>
             </template>
           </i18n-t>
-          <span v-else>{{ $t('gm.combatant.notLinkedSourceDot') }}</span>
+          <span v-else>{{ $t('gm.combatant.notLinkedToSource') }}</span>
         </v-tooltip>
       </v-row>
     </template>

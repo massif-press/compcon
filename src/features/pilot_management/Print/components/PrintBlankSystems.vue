@@ -9,11 +9,11 @@
       >
         <v-row dense>
           <v-col>
-            <div class="caption text-grey">{{ $t('pm.print.system') }}</div>
+            <div class="caption text-grey">{{ $t('enums.systemType.system') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">
-            <div class="caption text-grey">{{ $t('pm.print.uses') }}</div>
+            <div class="caption text-grey">{{ $t('common.uses') }}</div>
             <blank-line :height="lineHeight" />
           </v-col>
           <v-col cols="1">

@@ -127,7 +127,7 @@
                 <template #icon>
                   <v-tooltip
                     location="top"
-                    :text="$t('active.tooltips.equipmentAction')"
+                    :text="$t('active.runner.equipmentAction')"
                   >
                     <template #activator="{ props }">
                       <v-icon
@@ -218,7 +218,7 @@
             <v-col cols="auto">
               <cc-tags
                 v-if="item.Tags"
-                :tags="item.Tags"
+                :tags="item.DisplayTags(mech)"
                 color="pilot"
                 :bonus="mech.LimitedBonus"
               />

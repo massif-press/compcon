@@ -87,7 +87,7 @@
       })
     })
 
-    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
+    if (m.MechLoadoutController.ActiveLoadout.HasIntegratedWeapon)
       items.push({
         mount: m.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount,
         isIntegrated: false,
@@ -96,26 +96,30 @@
         isSuperheavy: false,
       })
 
-    if (m.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3) {
-      if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting'))
-        items.push({
-          mount: m.MechLoadoutController.ActiveLoadout.SuperheavyMount,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: false,
-          isSuperheavy: true,
-        })
-      if (m.Pilot.has('CoreBonus', 'cb_improved_armament'))
-        items.push({
-          mount: m.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
-          isIntegrated: false,
-          isIntWeapon: false,
-          isImpArm: true,
-          isSuperheavy: false,
-        })
-    }
+    if (
+      m.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3 &&
+      m.MechLoadoutController.ActiveLoadout.HasSuperheavyMounting
+    )
+      items.push({
+        mount: m.MechLoadoutController.ActiveLoadout.SuperheavyMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: false,
+        isSuperheavy: true,
+      })
+    if (m.MechLoadoutController.ActiveLoadout.HasImprovedArmament)
+      items.push({
+        mount: m.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount,
+        isIntegrated: false,
+        isIntWeapon: false,
+        isImpArm: true,
+        isSuperheavy: false,
+      })
 
-    for (const mount of m.MechLoadoutController.ActiveLoadout.EquippableMounts) {
+    for (const mount of [
+      ...m.MechLoadoutController.ActiveLoadout.EquippableMounts,
+      ...m.MechLoadoutController.ActiveLoadout.SyncBonusMounts(),
+    ]) {
       items.push({
         mount,
         isIntegrated: false,

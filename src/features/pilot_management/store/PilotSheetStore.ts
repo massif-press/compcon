@@ -3,6 +3,9 @@ import { GetAll, RemoveItem, SetItem, SetValue, GetValue } from '@/io/Storage'
 import logger from '@/user/logger'
 import PilotSheet from './PilotSheet'
 import type { Pilot } from '@/classes/pilot/Pilot'
+import type { PlayMode } from '@/classes/encounter/EncounterInstance'
+import { clearUndoStack } from '@/classes/encounter/EncounterUndoStack'
+import { seedActiveSettings } from '@/features/active_mode/layoutOptions'
 
 export const PilotSheetStore = defineStore('pilot_sheet', {
   state: () => ({
@@ -25,14 +28,15 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
       )
       await this.LoadSheetId()
     },
-    async AddPilotSheet(pilot: Pilot, campaign?: string): Promise<void> {
-      const newSheet = PilotSheet.FromPilot(pilot, campaign)
+    async AddPilotSheet(pilot: Pilot, campaign?: string, playMode?: PlayMode): Promise<void> {
+      const newSheet = PilotSheet.FromPilot(pilot, campaign, playMode)
+      seedActiveSettings(newSheet)
       newSheet.Combatants[0].actor.CombatController.Reset()
       this.PilotSheets.push(newSheet)
       await SetItem('pilot_sheets', PilotSheet.Serialize(newSheet))
       await this.SetActiveSheet(newSheet.ID)
     },
-    async ImportPilotSheet(pilotSheet: PilotSheet): Promise<void> {
+    async ImportPilotSheet(pilotSheet: PilotSheet, activate = true): Promise<void> {
       const idx = this.PilotSheets.findIndex(x => x.ID === pilotSheet.ID)
       if (idx !== -1) {
         logger.info(`Pilot sheet ${pilotSheet.Name} already exists`)
@@ -41,12 +45,18 @@ export const PilotSheetStore = defineStore('pilot_sheet', {
         this.PilotSheets.push(pilotSheet)
       }
       await SetItem('pilot_sheets', PilotSheet.Serialize(pilotSheet))
-      await this.SetActiveSheet(pilotSheet.ID)
+      if (activate) await this.SetActiveSheet(pilotSheet.ID)
+    },
+    ReplaceSheet(pilotSheet: PilotSheet): void {
+      const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
+      if (idx === -1) return
+      this.PilotSheets.splice(idx, 1, pilotSheet)
     },
     async RemovePilotSheet(pilotSheet: PilotSheet): Promise<void> {
       const idx = this.PilotSheets.findIndex(ps => ps.ID === pilotSheet.ID)
       if (idx === -1) return
-      this.PilotSheets.splice(idx)
+      this.PilotSheets.splice(idx, 1)
+      clearUndoStack(pilotSheet.ID)
       await RemoveItem('pilot_sheets', pilotSheet.ID)
       if (this.CurrentActiveID === pilotSheet.ID) {
         await this.SetActiveSheet('')

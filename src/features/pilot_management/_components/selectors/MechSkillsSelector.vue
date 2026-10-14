@@ -87,15 +87,15 @@
     {
       val: 'Hull',
       icon: 'mdi-alpha-h-box-outline',
-      text: t('pm.tooltips.hull'),
-      description: t('pm.subtitles.yourHullSkillDescribesYourAbility'),
+      text: t('stats.hull'),
+      description: t('pm.mechSkillsSelector.hullSkillDescription'),
       bonuses: [
         {
-          text: t('pm.tooltips.mechHp'),
+          text: t('pm.mechSkillsSelector.mechHp'),
           value: props.pilot.MechSkillsController.MechSkills.Hull * 2,
         },
         {
-          text: t('pm.tooltips.repairCapacity'),
+          text: t('common.repairCapacity'),
           value: Math.floor(props.pilot.MechSkillsController.MechSkills.Hull / 2),
         },
       ],
@@ -104,11 +104,11 @@
       val: 'Agi',
       icon: 'mdi-alpha-a-box-outline',
       text: t('stats.agility'),
-      description: t('pm.subtitles.yourAgilitySkillDescribesYourAbility'),
+      description: t('pm.mechSkillsSelector.agilitySkillDescription'),
       bonuses: [
-        { text: t('pm.tooltips.evasion'), value: props.pilot.MechSkillsController.MechSkills.Agi },
+        { text: t('stats.evasion'), value: props.pilot.MechSkillsController.MechSkills.Agi },
         {
-          text: t('pm.tooltips.speed'),
+          text: t('stats.speed'),
           value: Math.floor(props.pilot.MechSkillsController.MechSkills.Agi / 2),
         },
       ],
@@ -117,14 +117,14 @@
       val: 'Sys',
       icon: 'mdi-alpha-s-box-outline',
       text: t('stats.systems'),
-      description: t('pm.subtitles.yourSystemsSkillDescribesYourAbility'),
+      description: t('pm.mechSkillsSelector.systemsSkillDescription'),
       bonuses: [
         {
-          text: t('pm.tooltips.electronicDefense'),
+          text: t('common.electronicDefense'),
           value: props.pilot.MechSkillsController.MechSkills.Sys,
         },
         {
-          text: t('pm.tooltips.techAttack'),
+          text: t('stats.techAttack'),
           value: props.pilot.MechSkillsController.MechSkills.Sys,
         },
         {
@@ -137,14 +137,14 @@
       val: 'Eng',
       icon: 'mdi-alpha-e-box-outline',
       text: t('stats.engineering'),
-      description: t('pm.subtitles.yourEngineeringSkillDescribesYourAbility'),
+      description: t('pm.mechSkillsSelector.engineeringSkillDescription'),
       bonuses: [
         {
-          text: t('pm.tooltips.heatCapacity'),
+          text: t('common.heatCapacity'),
           value: props.pilot.MechSkillsController.MechSkills.Eng,
         },
         {
-          text: t('pm.tooltips.limitedSystemsBonus'),
+          text: t('pm.mechSkillsSelector.limitedSystemsBonus'),
           value: Math.floor(props.pilot.MechSkillsController.MechSkills.Eng / 2),
         },
       ],

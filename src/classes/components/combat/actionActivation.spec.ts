@@ -15,7 +15,6 @@ beforeEach(() => {
 describe('an action button that already spent its activation', () => {
   it('still runs the rule, instead of being refused as insufficient', () => {
     const action = cc().FindAction('act_overcharge')!
-    // what the Apply control does before the button's own handler fires
     expect(cc().Activate(action.Activation, { actionId: 'act_overcharge' })).toBe(true)
 
     expect(cc().RunAction('act_overcharge', { value: 1 })).toBe(true)

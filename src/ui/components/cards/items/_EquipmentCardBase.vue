@@ -209,7 +209,7 @@
       density="compact"
       hide-details
       prepend-icon="mdi-note"
-      :label="$t('ui.fields.equipmentNotes')"
+      :label="$t('common.equipmentNotes')"
       class="mt-2"
     />
   </div>

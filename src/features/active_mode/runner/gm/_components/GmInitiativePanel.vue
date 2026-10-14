@@ -64,7 +64,10 @@
     item-key="index"
   >
     <template #item="{ element }">
-      <div class="mb-1">
+      <div
+        class="mb-1"
+        :data-combatant="element.id"
+      >
         <component
           :is="getComponent(element)"
           :combatant="element"
@@ -103,6 +106,7 @@
         <reinforcement-list-item
           v-for="r in reinforcements"
           :key="r.id"
+          :data-combatant="r.id"
           :combatant="r"
           :collapsed="!expanded"
           :selected="selected && selected.id === r.id"
@@ -150,6 +154,7 @@
         <destroyed-list-item
           v-for="r in group.combatants"
           :key="r.id"
+          :data-combatant="r.id"
           :combatant="r"
           :collapsed="!expanded"
           :selected="selected && selected.id === r.id"
@@ -222,7 +227,7 @@
 
 <script setup lang="ts">
   import type { EncounterInstance } from '@/classes/encounter/EncounterInstance'
-  import { computed, ref } from 'vue'
+  import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
   import { Sortable } from 'sortablejs-vue3'
   import UnitRunnerListItem from './ListItems/UnitRunnerListItem.vue'
   import PilotRunnerListItem from './ListItems/PilotRunnerListItem.vue'
@@ -322,6 +327,37 @@
         icon: label === NpcStatus.Destroyed ? 'cc:destroyed_outline' : 'mdi-exit-run',
       }))
   })
+
+  watch(
+    () => props.selected?.id,
+    id => {
+      if (!id) return
+      nextTick(() =>
+        document
+          .querySelector(`[data-combatant="${CSS.escape(id)}"]`)
+          ?.scrollIntoView({ block: 'nearest' })
+      )
+    }
+  )
+
+  function stepSelection(e: KeyboardEvent) {
+    if (e.key !== '[' && e.key !== ']') return
+    if (e.ctrlKey || e.metaKey || e.altKey) return
+    const target = e.target as HTMLElement | null
+    if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
+    if (target?.isContentEditable) return
+    if (document.querySelector('.v-overlay--active.v-dialog, .v-overlay--active.v-menu')) return
+    const list = activeCombatants.value
+    if (!list.length) return
+    const at = list.findIndex(c => c.id === props.selected?.id)
+    const step = e.key === ']' ? 1 : -1
+    const next = at < 0 ? (step > 0 ? 0 : list.length - 1) : (at + step + list.length) % list.length
+    e.preventDefault()
+    emit('select', list[next])
+  }
+
+  onMounted(() => window.addEventListener('keydown', stepSelection))
+  onBeforeUnmount(() => window.removeEventListener('keydown', stepSelection))
 
   function itemSort(key) {
     if (sort.value === key) {

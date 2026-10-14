@@ -126,7 +126,7 @@
     </v-row>
     <v-row dense>
       <v-col cols="12">
-        <div class="text-cc-overline ml-n2">{{ $t('nav.achievements.display') }}</div>
+        <div class="text-cc-overline ml-n2">{{ $t('nav.achievements.displayOptions') }}</div>
         <v-row
           justify="space-between"
           dense
@@ -158,7 +158,7 @@
               class="py-1"
             >
               <v-btn size="small">{{ $t('nav.achievements.locked') }}</v-btn>
-              <v-btn size="small">{{ $t('nav.achievements.unlocked') }}</v-btn>
+              <v-btn size="small">{{ $t('common.unlocked') }}</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto">
@@ -171,7 +171,7 @@
               density="compact"
               class="py-1"
             >
-              <v-btn size="small">{{ $t('nav.achievements.hidden') }}</v-btn>
+              <v-btn size="small">{{ $t('common.hidden') }}</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -224,7 +224,7 @@
         cols="12"
         md="8"
       >
-        <div class="text-cc-overline ml-n2">{{ $t('nav.achievements.sort') }}</div>
+        <div class="text-cc-overline ml-n2">{{ $t('common.sortOrder') }}</div>
         <v-btn
           color="primary"
           size="x-small"
@@ -232,7 +232,7 @@
           tile
           @click="sort = 'none'"
         >
-          {{ $t('nav.achievements.none') }}
+          {{ $t('common.none') }}
         </v-btn>
         <v-btn
           color="primary"
@@ -241,7 +241,7 @@
           tile
           @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'"
         >
-          {{ $t('nav.achievements.name') }}
+          {{ $t('common.name') }}
         </v-btn>
         <v-btn
           color="primary"

@@ -50,7 +50,7 @@
     </div>
     <v-text-field
       v-model="confirm"
-      :placeholder="$t('mainMenu.fields.deleteAccount')"
+      :placeholder="$t('mainMenu.deleteAccount.deleteAccount')"
       type="text"
       required
       hide-details
@@ -65,7 +65,7 @@
       :disabled="!confirmValid"
       @click="handleDeleteUser"
     >
-      {{ $t('mainMenu.fields.deleteAccount') }}
+      {{ $t('mainMenu.deleteAccount.deleteAccount') }}
     </cc-button>
     <v-fade-transition>
       <div

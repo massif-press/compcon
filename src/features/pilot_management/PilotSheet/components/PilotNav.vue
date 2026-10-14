@@ -39,7 +39,7 @@
         :selected="selected === 2"
         @click="$emit('to', 2)"
       >
-        {{ $t('pm.sheet.bonds') }}
+        {{ $t('common.bonds') }}
       </v-tab>
       <v-tab
         variant="text"
@@ -85,10 +85,10 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="$t('pm.actions.pilotSkillTriggersReservesAnd')"
+          :text="$t('pm.pilotNav.pilotSectionsSummary')"
         >
           <template #activator="{ props }">
-            <span v-bind="props">{{ $t('pm.sheet.narrativePROFILE') }}</span>
+            <span v-bind="props">{{ $t('pm.sheet.narrativeProfile') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -103,7 +103,7 @@
           :text="$t('common.pilotBonds')"
         >
           <template #activator="{ props }">
-            <span v-bind="props">{{ $t('pm.sheet.bonds') }}</span>
+            <span v-bind="props">{{ $t('common.bonds') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -114,10 +114,10 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="$t('pm.actions.pilotLicensesMechSkillsCore')"
+          :text="$t('pm.pilotNav.progressionSectionsSummary')"
         >
           <template #activator="{ props }">
-            <span v-bind="props">{{ $t('pm.sheet.tacticalPROFILE') }}</span>
+            <span v-bind="props">{{ $t('pm.sheet.tacticalProfile') }}</span>
           </template>
         </v-tooltip>
       </nav-item>
@@ -128,7 +128,7 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="$t('pm.actions.createAndModifyMechsAndTheirLoadouts')"
+          :text="$t('pm.pilotNav.createAndModifyMechsAndTheirLoadouts')"
         >
           <template #activator="{ props }">
             <span v-bind="props">{{ $t('pm.sheet.mechHangar') }}</span>
@@ -147,7 +147,7 @@
         isAuthed
           ? pilot.CloudController.isSynced
             ? $t('pm.sheet.pilotIsUpToDateWith')
-            : $t('pm.sheet.downloadAllRemoteChangesToThis')
+            : $t('pm.sheet.downloadRemoteDescription')
           : $t('gm.editorFooter.mustLogin')
       "
     >
@@ -171,7 +171,7 @@
 
     <cc-dialog
       v-else
-      :title="$t('pm.titles.sharePilotData')"
+      :title="$t('pm.pilotSheet.sharePilotData')"
       icon="cc:pilot"
       :close-on-click="false"
     >
@@ -179,7 +179,9 @@
         <v-tooltip
           open-delay="300"
           location="top"
-          :text="isAuthed ? $t('pm.titles.sharePilotData') : $t('pm.sheet.requiresCloudAccount')"
+          :text="
+            isAuthed ? $t('pm.pilotSheet.sharePilotData') : $t('pm.sheet.requiresCloudAccount')
+          "
         >
           <template #activator="{ props }">
             <span v-bind="props">

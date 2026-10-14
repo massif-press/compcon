@@ -26,7 +26,7 @@
           <v-combobox
             v-model="stagedName"
             :items="allFolders"
-            :label="$t('gm.fields.folder')"
+            :label="$t('common.folder')"
             outlined
             dense
             clearable
@@ -47,7 +47,7 @@
             color="accent"
             @click="set"
           >
-            {{ $t('common.set') }}
+            {{ $t('common.setAction') }}
           </v-btn>
         </v-card-actions>
       </v-card>

@@ -7,6 +7,7 @@ import type { IControllerStatic } from '@/classes/ISerializable'
 interface IPortraitData {
   portrait: string
   avatar?: any
+  combat_image_crop?: any
   cloud_portrait: string
 }
 
@@ -20,6 +21,7 @@ class PortraitController {
 
   private _portrait: string
   private _avatar?: any
+  private _combat_image_crop?: any
   private _cloud_portrait: string
 
   public constructor(parent: IPortraitContainer) {
@@ -32,6 +34,7 @@ class PortraitController {
     return {
       portrait: '',
       avatar: undefined,
+      combat_image_crop: undefined,
       cloud_portrait: '',
     }
   }
@@ -51,6 +54,14 @@ class PortraitController {
   public set Avatar(data: any) {
     this._avatar = data
     this.Parent.SaveController.save()
+  }
+
+  public get CombatImageCrop(): any {
+    return this._combat_image_crop
+  }
+
+  public set CombatImageCrop(data: any) {
+    this._combat_image_crop = data
   }
 
   public get Portrait(): string {
@@ -80,6 +91,7 @@ class PortraitController {
     this._portrait = ''
     this._cloud_portrait = ''
     this._avatar = undefined
+    this._combat_image_crop = undefined
     this.Parent.SaveController.save()
   }
 
@@ -87,6 +99,7 @@ class PortraitController {
     if (!target.img) target.img = {}
     target.img.portrait = parent.PortraitController._portrait
     target.img.avatar = parent.PortraitController._avatar
+    target.img.combat_image_crop = parent.PortraitController._combat_image_crop
     target.img.cloud_portrait = parent.PortraitController._cloud_portrait
   }
 
@@ -97,6 +110,7 @@ class PortraitController {
 
     parent.PortraitController._portrait = data.portrait || ''
     parent.PortraitController._avatar = data.avatar ? data.avatar : undefined
+    parent.PortraitController._combat_image_crop = data.combat_image_crop || undefined
     parent.PortraitController._cloud_portrait = data.cloud_portrait || ''
   }
 }
