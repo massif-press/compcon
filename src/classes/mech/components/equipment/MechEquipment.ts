@@ -2,6 +2,7 @@ import { ITagData } from '@/classes/Tag'
 import { ContentPack } from '../../../ContentPack'
 import { ILicensedItemData, LicensedItem } from '../../../pilot/components/license/LicensedItem'
 import { localize, localizeNested } from '@/i18n/localize'
+import { slug, keyPrefixes } from '@/i18n/contentKeys'
 import { TAG, hasTag, findTag } from '@/classes/TagRules'
 
 export interface IEquipmentData {
@@ -84,11 +85,14 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get Ammo(): any[] {
-    return this._ammo.map(a => ({
-      ...a,
-      name: localizeNested(a, 'name', a.name),
-      detail: localizeNested(a, 'detail', a.detail),
-    }))
+    return this._ammo.map(a => {
+      const prefix = keyPrefixes.get(a) ?? `${this.ID}.ammo_${slug(a.name)}`
+      return {
+        ...a,
+        name: localize(prefix, 'name', localizeNested(a, 'name', a.name)),
+        detail: localize(prefix, 'detail', localizeNested(a, 'detail', a.detail)),
+      }
+    })
   }
 
   public getTotalUses(bonus?: number): number {
