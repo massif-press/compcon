@@ -188,7 +188,7 @@
               <component :is="trackableStatsComponent"
                 :item="item">
                 <template #dmg>
-                  <damage-menu v-if="!simple && item.CombatController.StatController.MaxStats['hp']"
+                  <damage-menu v-if="item.CombatController.StatController.MaxStats['hp']"
                     :encounter="encounterInstance.Encounter"
                     :controller="item.CombatController" />
                 </template>
