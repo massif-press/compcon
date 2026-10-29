@@ -1,3 +1,12 @@
+#app.v-application {
+  display: block;
+}
+#app.v-application .v-application__wrap {
+  display: block;
+}
+#main-content .cc-fill {
+  display: block;
+}
 .v-application .caption {
   line-height: normal !important;
 }
