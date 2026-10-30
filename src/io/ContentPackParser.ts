@@ -132,7 +132,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
           e.source = addFrame.source
           e.license = addFrame.name
           e.origin = addFrame.id
-          if (e.data_type === 'weapon' || e.mount || e.type) weapons.push(e)
+          if (e.data_type === 'weapon' || e.mount) weapons.push(e)
           else if (e.data_type === 'mod' || e.allowed_types) mods.push(e)
           else systems.push(e)
         })
