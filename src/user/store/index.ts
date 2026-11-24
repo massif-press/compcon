@@ -24,6 +24,7 @@ export const UserStore = defineStore('cloud', {
   state: () => ({
     User: {} as Client.UserProfile,
     IsLoading: false,
+    StartupComplete: false,
     StorageWarning: false,
     LocalStorageFull: false,
   }),

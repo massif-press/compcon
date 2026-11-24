@@ -5,7 +5,13 @@ import { join } from 'node:path'
 import console from 'node:console'
 import process from 'node:process'
 
-const DYNAMIC_NAMESPACES = ['nav.', 'language.components.', 'enums.', 'bonuses.']
+const DYNAMIC_NAMESPACES = [
+  'nav.',
+  'language.components.',
+  'enums.',
+  'bonuses.',
+  'mainMenu.coreBookLcp.',
+]
 
 const selectorCodes = [
   ...readFileSync('src/i18n/index.ts', 'utf8').matchAll(/code:\s*'([^']+)'/g),

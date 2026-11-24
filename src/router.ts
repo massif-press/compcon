@@ -10,6 +10,8 @@ const UITestv3 = () => import('./features/ui_test/index.vue')
 const ItemLink = () => import('./features/main_menu/itemLink.vue')
 const PilotLink = () => import('./features/pilot_management/link/index.vue')
 
+const CoreBookLcp = () => import('./features/core_book_lcp/index.vue')
+
 const Redirect = () => import('./features/main_menu/_components/oauth/Redirect.vue')
 
 const router = createRouter({
@@ -31,6 +33,12 @@ const router = createRouter({
       name: 'pilot_link',
       component: PilotLink,
       props: true,
+    },
+    {
+      path: '/core-book-lcp',
+      name: 'core-book-lcp',
+      component: CoreBookLcp,
+      meta: { title: 'mainMenu.coreBookLcp.pageTitle' },
     },
     {
       path: '/ui-test-new',

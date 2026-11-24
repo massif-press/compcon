@@ -62,6 +62,7 @@
         </v-row>
       </v-col>
     </v-row>
+    <core-book-lcp-prompt />
   </v-container>
 </template>
 
@@ -69,6 +70,7 @@
   import { computed } from 'vue'
   import { useDisplay } from 'vuetify'
   import LandingCard from './_components/LandingCard.vue'
+  import CoreBookLcpPrompt from '@/features/core_book_lcp/CoreBookLcpPrompt.vue'
 
   const { smAndDown: mobile, xs: portrait } = useDisplay()
 

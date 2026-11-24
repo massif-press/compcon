@@ -151,4 +151,5 @@ export default async function (skipSync = false): Promise<void> {
       window.addEventListener('pagehide', () => UserStore().OnUnload())
     }
   }
+  UserStore().StartupComplete = true
 }
