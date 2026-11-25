@@ -224,11 +224,11 @@
     "damage": "Danno",
     "pilots": "Piloti",
     "bonds": "Legami",
-    "gear": "ATTREZZATURA",
+    "gear": "Attrezzatura",
     "tags": "Tag",
     "origin": "Origine",
     "resolutionOutcome": "Risoluzione",
-    "uses": "USI",
+    "uses": "Usi",
     "latestVersion": "Ultima versione",
     "installedVersion": "Versione installata",
     "narrativeElement": "Elemento Narrativo",
@@ -249,7 +249,7 @@
     "encounterData": "Dati scontro",
     "skillTriggers": "Impulsi",
     "coreBonuses": "Bonus Licenza",
-    "mechSystems": "SISTEMI mech",
+    "mechSystems": "Sistemi Mech",
     "showFull": "Mostra Tutto",
     "gmOnly": "Solo GM",
     "equipmentNotes": "Note Equipaggiamento",
@@ -916,7 +916,13 @@
       "showDesktopTablesLabel": "Forza tabelle complete del Compendio",
       "showDesktopTablesTooltip": "Per impostazione predefinita, @:{'common.appName'} mostra una vista semplificata delle tabelle del Compendio sui dispositivi mobili per migliorare leggibilità e prestazioni. Attivando questa opzione verrà mostrata la versione desktop completa delle tabelle su tutti i dispositivi. Questo potrebbe rendere alcune tabelle difficili da leggere o causare problemi di prestazioni sui dispositivi mobili.",
       "logLevel": "@:{'common.logLevel'}",
-      "errorReportingStatus": "Segnalazione errori {status}"
+      "errorReportingStatus": "Segnalazione errori {status}",
+      "turnWizardClosePolicyLabel": "Alla chiusura della Procedura di Turno",
+      "turnWizardClosePolicy": {
+        "ask": "Chiedi se mantenere o annullare le azioni",
+        "keep": "Mantieni le azioni",
+        "undo": "Annulla le azioni"
+      }
     },
     "storage": {
       "storageUsageFull": "@:{'common.appName'} sta attualmente usando {used} di {total}, ovvero il {percent} dello spazio disponibile. Questo include lo spazio riservato da @:{'common.appName'} per la gestione dell'app.",
@@ -984,7 +990,8 @@
       "communityContribute": "Se ti interessa creare i tuoi contenuti homebrew per @:{'common.gameName'}, o proporre i tuoi contenuti per questa directory,",
       "clickHere": "clicca qui.",
       "communityNotice": "Il download in-app e l'iscrizione automatica agli aggiornamenti degli LCP della community non sono ancora supportati. Una volta disponibili gli strumenti di supporto per gli autori, gli LCP della community verranno migrati alla v3 e potranno sfruttare gli stessi meccanismi di aggiornamento e iscrizione dei pacchetti ufficiali di Massif Press. Segui il {blog} per restare aggiornato sui progressi.",
-      "developmentBlog": "blog di sviluppo"
+      "developmentBlog": "blog di sviluppo",
+      "officialContentHeading": "Contenuti Ufficiali di {publisher}"
     },
     "packConfig": {
       "title": "Configurazioni di Contenuto",
@@ -3432,8 +3439,8 @@
       "ignore": "Ignora"
     },
     "layout": {
-      "title": "Layout Modalità Attiva",
-      "description": "Controlla la disposizione delle finestre combattente, statistiche e azioni durante uno scontro. Queste impostazioni sono personali e non influenzano gli altri giocatori al tavolo.",
+      "title": "Layout Predefinito della Modalità Attiva",
+      "description": "Controlla la disposizione delle finestre dei combattenti, delle statistiche e dei comandi delle azioni durante uno scontro. Queste sono le impostazioni di partenza di nuovi scontri e schede pilota; quelli già esistenti mantengono il proprio layout, modificabile nelle opzioni di ciascuno scontro.",
       "preset": "Preset",
       "presets": {
         "default": "Default",
@@ -3720,6 +3727,20 @@
       "hidingUnavailable": "Le armi che non possono sparare sono nascoste. Clicca per mostrarle.",
       "showingUnavailable": "Le armi che non possono sparare sono visibili. Clicca per nasconderle.",
       "unavailableCount": "non disponibili"
+    },
+    "turnWizard": {
+      "title": "Procedura di Turno",
+      "moveRemaining": "(rimanenti: {n})",
+      "moveSpaces": "Spazi da percorrere",
+      "commitMove": "Conferma Movimento",
+      "completeTurn": "Completa il Turno",
+      "turnComplete": "Turno Completato",
+      "closePromptTitle": "Mantenere le azioni della Procedura di Turno?",
+      "closePromptText": "Le azioni effettuate nella Procedura di Turno dall'ultimo turno completato possono essere mantenute o annullate.",
+      "keepActions": "Mantieni",
+      "dontAskAgain": "Non chiedere più",
+      "undoLabel": "azioni della Procedura di Turno",
+      "weaponAction": "{action}: {weapon}"
     }
   },
   "pm": {
@@ -3771,7 +3792,7 @@
       "synergyWarning": "Le regole in questi suggerimenti di sinergia {not} vengono applicate automaticamente da @:{'common.appName'}. Assicurati di applicare manualmente eventuali effetti rilevanti durante il gioco.",
       "tap": "TOCCA",
       "click": "Clicca",
-      "tapToAdd": "TOCCA Per aggiungere",
+      "tapToAdd": "Tocca per aggiungere",
       "clickToAdd": "Clicca Per aggiungere",
       "addNewLoadout": "Aggiungi Nuovo Equipaggiamento",
       "changeItem": "Cambia Elemento",

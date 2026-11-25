@@ -54,7 +54,7 @@
     "effect": "Effet",
     "tierN": "Échelon {n}",
     "tierShort": "É{n}",
-    "lcpDirectory": "Répertoire des LCP",
+    "lcpDirectory": "Répertoire de modules",
     "addContent": "Ajouter un contenu",
     "updateAll": "Tout mettre à jour",
     "deletePilot": "Supprimer le pilote",
@@ -74,10 +74,10 @@
     "tables": "Tables",
     "repairs": "Réparations",
     "remove": "Retirer",
-    "manageContent": "Gérer le contenu",
+    "manageContent": "Gestion de contenu",
     "fileImport": "Importer un fichier",
-    "saveAndExit": "Sauvegarder et quitter",
-    "saveAndClose": "Sauvegarder et fermer",
+    "saveAndExit": "Enregistrer et quitter",
+    "saveAndClose": "Enregistrer et fermer",
     "importCampaign": "Importer une campagne",
     "website": "Site web",
     "offline": "Hors-ligne",
@@ -87,7 +87,7 @@
     "settings": "Paramètres",
     "deployment": "Déploiement",
     "objective": "Objectif",
-    "reinforcement": "Renforts",
+    "reinforcement": "Renfort",
     "clearAllData": "Effacer toutes les données",
     "encounters": "Rencontres",
     "activeMode": "Mode actif",
@@ -154,7 +154,7 @@
     "pilotSkillTriggers": "Spécialités de pilote",
     "pilotTalent": "Talent de pilote",
     "all": "Tout",
-    "pilotGear": "Équipement de pilote",
+    "pilotGear": "Équipements de pilote",
     "pilotDisplayName": "{callsign} // {name}",
     "unknown": "Inconnu",
     "sortOrder": "Trier",
@@ -165,7 +165,7 @@
     "success": "Réussite",
     "log": "Journal",
     "activated": "activé",
-    "author": "Auteur",
+    "author": "Auteur·rice",
     "lcp": "LCP",
     "never": "Jamais",
     "collection": "Collection",
@@ -189,7 +189,7 @@
     "latestVersion": "Dernière version",
     "installedVersion": "Version installée",
     "narrativeElement": "Élément narratif",
-    "gmToolkit": "Boîte à outil du Maître de Jeu",
+    "gmToolkit": "Outils du MJ",
     "npcRoster": "Roster de PNJ",
     "extraction": "Extraction",
     "groupBy": "Grouper par",
@@ -214,16 +214,19 @@
     "selectTarget": "Sélectionner une cible",
     "deselectAll": "Tout déselectionner",
     "updated": "Mis à jour",
-    "none": "Aucun"
+    "none": "Aucun",
+    "campaignLibrary": "Bibliothèque de campagne",
+    "dismiss": "Masquer"
   },
   "gm": {
     "import": {
       "readyForImport": "L'élément est prêt à l'importation",
       "completeImport": "Importation complète ({n} élément)",
       "importErrorTitle": "Importation échoué",
-      "encounterImportErrorText": "Échec de l'importation d'une rencontre: {error}",
+      "encounterImportErrorText": "Échec de l'importation d'un engagement: {error}",
       "v2BackupTitle": "Importé vers une sauvegarde de données V2",
-      "v2BackupText": "{count} rencontre sauvegardée vers une importation V2 pour importation ultérieure. | {count} rencontres sauvegardées vers une importation V2 pour importation ultérieure. | {count} rencontres sauvegardées vers une importation V2 pour importation ultérieure."
+      "v2BackupText": "{count} engagement enregistré vers les importations V2 pour importation ultérieure. | {count} engagements enregistrés vers les importations V2 pour importation ultérieure. | {count} engagements enregistrés vers les importations V2 pour importation ultérieure.",
+      "stagedItems": "Éléments sélectionnés"
     },
     "sync": {
       "syncCompleteText": "{itemType} {name} synchronisé.",
@@ -238,39 +241,42 @@
       "permanentlyDeleted": "supprimé définitivement",
       "deletePermanently": "Supprimer la campagne définitivement",
       "importJsonTitle": "Importer les données JSON de la campagne",
-      "importHelp": "Cet outil importera un {jsonFile} de campagne modifiable et non publiée depuis votre appareil.{br} Pour importer un fichier de campagne publiée avec l'extension {lcd} dans votre collection, utilisez l'outil d'importation de fichier dans le menu {campaignCollection}, ou l'outil d'importation de campagne dans le {manageContent} en dessous du menu principal.",
-      "jsonFile": "Fichier JSON",
-      "campaignCollection": "Collection de campagne",
+      "importHelp": "Cette fonction permet l'import d'un {jsonFile} de campagne modifiable et non publiée depuis votre appareil.{br} Pour importer un fichier de campagne publiée avec l'extension {lcd} dans votre collection, utilisez l'outil d'importation de fichier dans le menu {campaignCollection}, ou l'outil d'importation de campagne dans le {manageContent} en dessous du menu principal.",
+      "jsonFile": "fichier JSON",
+      "campaignCollection": "Collection de Campagne",
       "addSectionBtn": "Ajouter une section",
       "campaignInfo": "Information de la campagne",
-      "saveCampaign": "Sauvegarder la campagne",
+      "saveCampaign": "Enregistrer la campagne",
       "exportCampaign": "Exporter la campagne",
       "currentPublishedVersion": "Version publiée actuelle",
       "exportEditableHelp": "Vous pouvez exporter cette campagne modifiable comme un fichier JSON pour la sauvegarder, la transférer ou la modifier collaborativement.",
       "publishCampaign": "Publier la campagne",
       "exportCampaignJson": "Exporter le JSON de campagne",
       "returnToIndex": "Retour à l'index",
-      "major": "Majeur",
-      "minor": "Mineur",
+      "major": "Génération",
+      "minor": "Révision",
       "patch": "Correctif",
       "versionExists": "La version {version} existe déjà!",
       "publishNewVersion": "Publier une nouvelle version",
       "latestChanges": "Dernières modifications",
       "exportLcdHelp": "Télécharger un fichier de distribution de campagne Lancer (.lcd) qui peut être importé dans le @:{'common.appName'} d'un autre utilisateur",
-      "saveLocal": "Sauvegarder vers une collection locale",
-      "saveLocalHelp": "Sauvegarder comme une copie en lecture seule de cette campagne dans votre bibliothèque locale de campagne pour utilisation en mode actif ou en jeu en ligne",
-      "copyShareCodeHelp": "Copiez le code de partage de cette campagne dans votre presse-papier. Les codes de partage peuvent être utilisées pour importer cette campagne dans une autre instance @:{'common.appName'} compcon.",
+      "saveLocal": "Enregistrer vers une collection locale",
+      "saveLocalHelp": "Enregistrer comme une copie en lecture seule de cette campagne dans votre bibliothèque locale de campagne pour une utilisation en mode actif ou en jeu en ligne",
+      "copyShareCodeHelp": "Copiez le code de partage de cette campagne dans le presse-papier. Les codes de partage peuvent être utilisées pour importer cette campagne dans une autre instance @:{'common.appName'}.",
       "generateShareCode": "Générer un code de partage",
-      "generateShareCodeHelp": "Téléverser cette campagne dans le dépôt en ligne pour générer un code de partage permettant aux autres utilisateurs d'importer cette campagne dans leur instance @:{'common.appName'}. Générer un code de partage mettra automatiquement à jour le dépôt avec la dernière version de cette campagne chaque d'une nouvelle version est publiée.",
+      "generateShareCodeHelp": "Téléverser cette campagne dans le dépôt en ligne pour générer un code de partage permettant aux autres utilisateurs d'importer cette campagne dans leur instance @:{'common.appName'}. Générer un code de partage mettra automatiquement à jour le dépôt avec la dernière version de cette campagne chaque publication d'une nouvelle version.",
       "changeSectionType": "Changer le type de section",
-      "movePage": "Déplacer page",
+      "movePage": "Déplacer la page",
       "moveToTop": "déplacer au sommet",
       "moveUp": "déplacer vers le haut",
       "moveDown": "déplacer vers le bas",
       "moveToBottom": "déplacer au fond",
       "deletePageConfirm": "Voulez vous supprimer le {type} \"{title}\" ? Cette action ne peut pas être annulée.",
-      "selectEncounter": "Sélectionner rencontre",
-      "deleteWarning": "Cette campagne sera {strong}. Cette action ne peut pas être annulée. Si vous êtes certain de vouloir supprimer {title} saisissez le titre de la campagne dans le champ textuel ci-dessous et cliquez {confirm}."
+      "selectEncounter": "Sélectionner un engagement",
+      "deleteWarning": "Cette campagne sera {strong}. Cette action ne peut pas être annulée. Si vous êtes certain de vouloir supprimer {title} Saisissez le titre de la campagne dans le champ textuel ci-dessous et cliquez {confirm}.",
+      "releaseFor": "Publication le",
+      "releaseNotes": "Notes de publication et nouveautés",
+      "currentlyViewing": "Aperçu"
     },
     "encounter": {
       "combatantAddedTitle": "{name} ajouté",
@@ -286,7 +292,9 @@
     },
     "editorFooter": {
       "mustLogin": "Vous devez être connecté pour mettre à jour",
-      "deleteNpcConfirm": "Cela supprimera ce PNJ de votre roster de PNJ. Les PNJs de ce type ajouté à des rencontres ne seront pas affectés. Êtes vous sûr?"
+      "deleteNpcConfirm": "Cela supprimera ce PNJ de votre roster de PNJ. Les PNJs de ce type ajouté à des rencontres ne seront pas affectés. Êtes vous sûr?",
+      "upToDate": "L'élément est à jour avec les modifications externes",
+      "downloadRemote": "Télécharger toutes les modifications externes vers cet élément, écrasant toutes les données locales."
     },
     "sectionEditor": {
       "confirmDelete": "Voulez vous supprimer l'élément de texte \"{title}\"? Cette action ne peut pas être annulée.",
@@ -299,12 +307,14 @@
     },
     "relationships": {
       "addRelationship": "Ajouter une relation",
-      "linkedEntities": "Entité liée",
+      "linkedEntities": "Entité associée",
       "label": "Relations"
     },
     "folder": {
       "collectionFolder": "Dossier de collection",
-      "noFolder": "Pas de dossier"
+      "noFolder": "Pas de dossier",
+      "setFolder": "Choisir un dossier",
+      "deleteFolderWarning": "Cela supprimer le dossier '{folder}'. Tous ses éléments seront déplacés dans le groupe '{noFolder}'"
     },
     "filter": {
       "filters": "Filtres",
@@ -315,7 +325,7 @@
       "clearAllFilters": "Retirer tous les filtres"
     },
     "split": {
-      "itemsHidden": "{n} éléments masqués par les filtres | {n} éléments masqués par les filtres | {n} éléments masqués par les filtres",
+      "itemsHidden": "{n} élément masqué par le filtrage | {n} éléments masqués par le filtrage | {n} éléments masqués par le filtrage",
       "addType": "Ajouter {type}",
       "createNewType": "Créer un nouveau {type}"
     },
@@ -327,9 +337,14 @@
       "noItemSelected": "Aucun élément sélectionné"
     },
     "narrative": {
-      "additionalDetail": "Détail additionnel",
+      "additionalDetail": "Informations supplémentaires",
       "viewCollections": "Afficher les collections",
-      "clocks": "Compteurs"
+      "clocks": "Compteurs",
+      "collectionTitle": {
+        "character": "Personnages",
+        "location": "Lieux",
+        "faction": "Factions"
+      }
     },
     "print": {
       "othersCount": "(+{n} autres)"
@@ -340,8 +355,8 @@
       "imagesMustLink": "Les images de la campagne doivent provenir d'un lien, et ne peuvent pas provenir de données @:{'common.appName'} locales.",
       "recommendedFor": "Recommandé pour",
       "to": "vers",
-      "authorContact": "Information de contact de l'auteur (optionnel)",
-      "addContact": "Ajouter nouveau contact",
+      "authorContact": "Information de contact de l'auteur·rice (optionnel)",
+      "addContact": "Ajouter un nouveau contact",
       "coverImage": "Image de couverture de la campagne",
       "setCoverImage": "Insérer une image de couverture",
       "deleteHistory": "Supprimer l'historique (v.{ver})",
@@ -360,51 +375,59 @@
       "themeAwareColors": "Couleurs adaptées au thème",
       "palette": "Palette",
       "themeColorsHelp": "Ces couleurs changeront en fonction du thème de @:{'common.appName'} sélectionné par l'utilisateur",
-      "paletteColorsHelp": "Ces couleurs changent {strong} en fonction du thème de @:{'common.appName'} sélectionné par l'utilisateur",
+      "paletteColorsHelp": "Ces couleurs ne changent {strong} en fonction du thème de @:{'common.appName'} sélectionné par l'utilisateur",
       "deleteItemConfirm": "Voulez vous supprimer cet élément? Cette action ne peut pas être annulée.",
-      "noImage": "Pas d'image"
+      "noImage": "Pas d'image",
+      "outlined": "Contouré",
+      "clippedBlock": "Sectionné",
+      "tonal": "Tonal"
     },
     "narrativeLink": {
       "noElementSelected": "Aucun élément sélectionné",
-      "noEncounterSelected": "Aucune rencontre sélectionnée",
-      "linkedHelp": "Cet élément est actuellement liée à un élément narratif de votre collection de MJ. Lorsque des modifications sont faites sur l'élément liée, cet élément recevra des mises à jour automatiquement. Cliquez sur le bouton pour délier cet élément de la collection de MJ et le garder comme un élément instancié dans vos données de campagne.",
-      "relinkHelp": "Pour relier cet élément, sélectionnez-le dans le menu \"Insérer un élément narratif\".",
-      "notLinkedHelp": "Cet élément n'est pas lié à un élément narratif dans votre collection de MJ et ne recevra pas de mise à jour automatique, mais il sera sauvegardé comme un élément instancié dans les données de campagne.",
-      "linkHelp": "Pour lier cet élément à un élément narratif, sélectionnez le dans le menu \"Insérer un élément narratif\".",
-      "unlinkElement": "Délier l'élément",
-      "setNarrativeElement": "Insérer un élément narratif"
+      "noEncounterSelected": "Aucun engagement sélectionné",
+      "linkedHelp": "Cet élément est actuellement associé à un élément narratif de votre collection de MJ. Lorsque des modifications sont faites sur l'élément associé, cet élément recevra des mises à jour automatiquement. Cliquez sur le bouton pour dissocier cet élément de la collection de MJ et le garder comme un élément instancié dans vos données de campagne.",
+      "relinkHelp": "Pour réassocier cet élément, sélectionnez-le dans le menu \"Insérer un élément narratif\".",
+      "notLinkedHelp": "Cet élément n'est pas associé à un élément narratif de votre collection de MJ et ne recevra pas de mise à jour automatique, mais il sera enregistré comme un élément instancié dans les données de campagne.",
+      "linkHelp": "Pour associer cet élément à un élément narratif, sélectionnez le dans le menu \"Insérer un élément narratif\".",
+      "unlinkElement": "Dissocier l'élément",
+      "setNarrativeElement": "[PH] Insérer un élément narratif",
+      "setEncounter": "[PH] Insérer un engagament"
     },
     "encounterContent": {
       "map": "Carte"
     },
     "combatant": {
       "combatants": "Combattants",
-      "addNpc": "Ajouter PNJ",
-      "selectNpc": "Sélectionner PNJ",
-      "currentlyEditing": "En cours d'édition",
-      "uniqueInstanceHelp": "Ceci est une instance unique de ce PNJ lié aux données de cette rencontre. Modifier ce PNJ n'affectera les données de PNJ originales.",
-      "linkedSource": "La source de l'instance de ce PNJ est présent dans votre roster de PNJ ({name}) et peut recevoir des mises à jour depuis l'original",
-      "notLinkedToSource": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ.",
-      "sourceLinked": "Source liée",
-      "sourceUnavailable": "Source non disponible",
+      "addNpc": "Ajouter un PNJ",
+      "selectNpc": "Sélectionner un PNJ",
+      "currentlyEditing": "Actuellement en modification",
+      "uniqueInstanceHelp": "Ceci est l'instance unique de ce PNJ associé aux données de cet engagement. Modifier ce PNJ n'affectera pas les données du PNJ d'origine.",
+      "linkedSource": "L'instance de ce PNJ provient de votre roster de PNJ ({name}) et peut être mis à jour depuis sa source",
+      "notLinkedToSource": "L'instance de ce PNJ n'est pas associé à une source valide dans votre roster de PNJ.",
+      "sourceLinked": "Source associée",
+      "sourceUnavailable": "Source indisponible",
       "instanceSource": "Source de l'instance",
-      "change": "Modification",
+      "change": "Modifications",
       "thisInstance": "Cette instance",
-      "updateInstanceTooltip": "Mettez à jour cette propriété d'instance à la source",
-      "updateAllTooltip": "Mettez à jour toutes les propriétés d'instance à la source",
+      "updateInstanceTooltip": "Mettez à jour cette propriété de cette instance depuis la source",
+      "updateAllTooltip": "Mettez à jour toutes les propriétés de cette instance depuis la source",
       "noChanges": "Aucune modification",
-      "pcsCount": "({n}+ Pjs)",
+      "pcsCount": "({n} PJs ou +)",
       "clickToEdit": "Cliquez pour modifier",
-      "atPcCountHelp": "Ce PNJ sera marqué comme faisant parti de la rencontre seulement il y a au moins autant de personnages joueurs qu'indiqué. Laissez cette section vide indiquera qu'il fera parti de la rencontre quelque soit le nombre de PJs.",
+      "atPcCountHelp": "Ce PNJ sera ajouté à l'engagement si il y a autant de personnages joueurs qu'indiqué. Laisser cette section vide l'ajoutera à l'engagement qu'importe le nombre de PJs présents.",
       "addToRoster": "Copier vers le roster",
-      "addToRosterTooltip": "Ajouter une copie de ce PNJ à votre roster et lier cette instance à cette nouvelle entrée du roster.",
-      "notLinkedSource": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ"
+      "addToRosterTooltip": "Ajoute une copie de ce PNJ à votre roster et associe cette instance au nouvel ajout du roster.",
+      "notLinkedSource": "Cette instance de PNJ n'est pas lié à une source valide dans votre roster de PNJ",
+      "encounterInstance": "(Instance d'engagement #{n})",
+      "mainForce": "Force principale",
+      "atPcCount": "Nombre de PJ"
     },
     "encounterEditor": {
-      "details": "Détails de la rencontre",
-      "noMapData": "Aucune donnée de carte",
+      "details": "Informations de l'engagement",
+      "noMapData": "Aucune données cartographiques",
       "additionalNotes": "Notes supplémentaires",
-      "setMapImage": "Insérer image de la carte"
+      "setMapImage": "Insérer image de la carte",
+      "deleteEncounterConfirm": "Cela supprimera cet engagement de votre bibliothèque. Êtes vous sûr?"
     },
     "sitrep": {
       "presets": "Préréglages",
@@ -422,25 +445,34 @@
     },
     "encounterIndex": {
       "addFolder": "Ajouter un dossier",
-      "addNew": "Ajouter une nouvelle rencontre"
+      "addNew": "Ajouter un nouvel engagement"
     },
     "combatantSelector": {
       "selectNpc": "Sélectionner un PNJ"
     },
     "encImport": {
-      "notEncounterFile": "Le fichier sélectionné ne contient pas de données de rencontre.",
-      "readyForImport": "La rencontre est prête pour l'importation",
-      "missingNpcs": "Cette rencontre référence des PNJs qui n'ont pas encore été importés. Elle sera sauvegardée dans la collection des importations V2 dans le gestionnaire de contenu et peut être importés une fois que les PNJs requis seront disponibles.",
-      "someMissingNpcs": "Plusieurs rencontres référencent des PNJs qui n'ont pas encore été importés. Elles seront sauvegardées dans la collection des importations V2 dans le gestionnaire de contenu et peuvent être importées une fois que les PNJs requis seront disponibles.",
-      "importCount": "Importer ({n} rencontre) | Importer ({n} rencontres) | Importer ({n} rencontres)"
+      "notEncounterFile": "Le fichier sélectionné ne contient pas de données d'engagement.",
+      "readyForImport": "L'engagement est prêt pour l'importation",
+      "missingNpcs": "Cet engagement inclut des PNJs qui n'ont pas encore été importés. Il sera enregistré dans la collection des importations V2 du gestionnaire de contenu et peut être importé une fois que les PNJs requis sont disponibles.",
+      "someMissingNpcs": "Plusieurs engagements incluent des PNJs qui n'ont pas encore été importés. Ils seront enregistré dans la collection des importations V2 du gestionnaire de contenu et peuvent être importé une fois que les PNJs requis sont disponibles.",
+      "importCount": "Importer ({n} engagement) | Importer ({n} engagements) | Importer ({n} engagements)",
+      "stagedEncounters": "Engagements sélectionnés"
     },
     "gmNotes": "Notes de MJ",
     "npcFeature": {
       "selectedClass": "Classe sélectionnée",
-      "otherNpcClasses": "Autres classes de PNJ"
+      "otherNpcClasses": "Autres classes de PNJ",
+      "selectedTemplate": "Archétype sélectionné | Archétypes sélectionnés",
+      "otherNpcTemplates": "Autres archétypes de PNJ",
+      "base": "[PH] Base"
     },
     "npcTemplate": {
-      "cannotAssign": "Ne peut pas être assigné (En conflit avec {conflict})"
+      "cannotAssign": "Ne peut pas être assigné (En conflit avec {conflict})",
+      "noTemplates": "Pas d'archétype",
+      "assignTemplates": "Assigner un archétype de PNJ",
+      "removeTemplate": "Retirer l'archétype",
+      "assignTemplate": "Assigner l'archétype",
+      "editTemplates": "Modifier un archétype de PNJ"
     },
     "tier": {
       "changeTo": "Modifier vers l'Échelon {n}",
@@ -456,34 +488,36 @@
     "layerSelector": {
       "noData": "Aucune donnée d'Eidolon trouvé!",
       "help1": "Les Eidolons sont inclus dans le livre de campagne No Room for a Wallflower et ne sont donc pas incluses avec @:{'common.appName'} par défaut. Vous pouvez trouver les Eidolons en tant que contenu supplémentaire sur la {link} page du livre de campagne.",
-      "help2": "Si vous avez déjà téléchargé les données des Eidolons, vous pouvez les importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou le menu des options sur le côté droit de la barre de navigation."
+      "help2": "Si vous avez déjà téléchargé les données des Eidolons, vous pouvez les importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou dans les options à droite de la barre de navigation."
     },
     "eidolonData": {
-      "noData": "Aucune données d'éditeur d'Eidolon trouvé!",
-      "help1": "Les Eidolons sont inclus avec la version payante de No Room for a Wallflower: Acte 1, et peut être trouvé dans la section du contenu téléchargeable sur le {link}",
-      "linkText": "Page itch.io de No Room for a Wallflower: Acte 1.",
-      "help2": "Si vous avez déjà téléchargé le LCP de MJ de No Room for a Wallflower, vous pouvz l'importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou le menu des options sur le côté droit de la barre de navigation."
+      "noData": "Aucune donnés d'éditeur d'Eidolon trouvé!",
+      "help1": "Les Eidolons sont inclus avec la version payante de No Room for a Wallflower: Acte 1, et peuvent être trouvé dans la section du contenu téléchargeable sur la {link}",
+      "linkText": "page itch.io de No Room for a Wallflower: Acte 1.",
+      "help2": "Si vous avez déjà téléchargé le LCP de MJ de No Room for a Wallflower, vous pouvez l'importer dans @:{'common.appName'} via le gestionnaire de contenu disponible dans le menu principal ou dans les options à droite de la barre de navigation."
     },
     "npcBuilder": {
       "npcClass": "Classe de PNJ",
       "noClass": "Pas de classe de PNJ",
-      "setClass": "Définir classe de PNJ",
-      "templates": "Modèles"
+      "setClass": "Choisir une classe de PNJ",
+      "templates": "Archétype(s)"
     },
     "npcFeatures": {
-      "saveConfig": "Sauvegarder la configuration"
+      "saveConfig": "Enregistrer la disposition"
     },
     "eidolonPrint": {
       "layer": "Strate"
     },
     "npcEditor": {
-      "v2Export": "Exportation V2"
+      "v2Export": "Exportation V2",
+      "statblock": "Profil",
+      "noTelemetry": "Aucune télémétrie pour ce PNJ. Les données télémétriques sont enregistrées quand un engagement dans lequel il apparaît est archivé."
     },
     "a11y": {
       "dragToReorder": "Glisser pour réorganiser"
     },
     "doodad": {
-      "whatIs": "Qu'est-ce qu'un bidule ?"
+      "whatIs": "Qu'est-ce qu'un engin?"
     },
     "featurePrint": {
       "weaponAttacks": "Cette arme peut faire {count} attaques à la fois."
@@ -491,10 +525,10 @@
     "shared": {
       "labels": "Étiquettes",
       "setGmLabel": "Définir étiquette de MJ",
-      "doodads": "Bidules",
+      "doodads": "Engins",
       "eidolons": "Eidolons",
       "gmLabels": "Étiquettes de MJ",
-      "encounterEditor": "Éditeur de rencontre",
+      "encounterEditor": "Éditeur d'engagement",
       "alias": "Alias",
       "pronouns": "Pronoms",
       "selectDataFile": "Sélectionner un fichier de données",
@@ -506,7 +540,7 @@
       "addLabel": "Ajouter une étiquette",
       "sortAlphabetically": "Trier alphabétiquement",
       "sortByUsage": "Trier par utilisation",
-      "noLabelsAvailable": "Aucune étiquette disponible",
+      "noLabelsAvailable": "[PH] Aucune étiquette disponible",
       "noLabels": "Aucune étiquette"
     },
     "sectionAddMenu": {
@@ -514,17 +548,18 @@
       "addMission": "Ajouter une mission",
       "addCombat": "Ajouter un combat",
       "addDowntime": "Ajouter un temps libre",
-      "addANewEmptyFreeform": "Ajouter une nouvelle section libre sous cette page. Une section est un conteneur pour d'autres éléments de contenu et peuvent être utilisé pour organiser votre campagne de la manière qui vous convient.",
-      "addANewEmptyMission": "Ajouter une nouvelle mission sous cette page. Une mission contient des buts et objectifs qui peuvent être complétés en un temps donné, et contient typiquement des combats.",
-      "addANewEmptyCombat": "Ajouter un nouveau combat sous cette page. Un combat contient des rencontres, ainsi que des directives de MJ, des détails narratifs concernant la bataille, et les résultats possibles.",
-      "addANewEmptyDowntime": "Ajouter un nouveau Temps Libre sur cette page. Le Temps Libre est l'espace narratif entre les missions, où les actions précises importent peu et le jeu de rôle bien davantage."
+      "addANewEmptyFreeform": "Ajouter une nouvelle section libre sur cette page. Une section est un conteneur pour d'autres éléments de contenu et peuvent être utilisé pour organiser votre campagne de la manière qui vous convienne.",
+      "addANewEmptyMission": "Ajouter une nouvelle mission sur cette page. Une mission comporte des buts et objectifs qui peuvent être complétés en un temps donné, et contient typiquement des combats.",
+      "addANewEmptyCombat": "Ajouter un nouveau combat sur cette page. Un combat comporte des engagements, ainsi que des directives de MJ, des détails narratifs concernant la bataille, et ses issues possibles.",
+      "addANewEmptyDowntime": "Ajouter un nouveau temps libre sur cette page. Les temps sibres sont les espaces narratifs entre les missions, où les actions précises importent peu et le jeu de rôle bien davantage."
     },
     "pageContentContainer": {
       "textSection": "Section de texte",
       "rollableTable": "Table aléatoire",
       "clock": "Compteur",
-      "combatEncounter": "Rencontre de combat",
-      "imageUrl": "URL de l'image"
+      "combatEncounter": "Engagement",
+      "imageUrl": "URL de l'image",
+      "caption": "Légende"
     },
     "campaigns": {
       "image": "Image",
@@ -534,16 +569,21 @@
       "missingNpcs": "PNJs manquants",
       "environmentDataModified": "données d'environnement modifiées",
       "deletePreset": "supprimer le préréglage",
-      "organizeEncounters": "organiser les rencontres",
-      "selectEncounterFile": "Sélectionner un fichier de rencontre",
+      "organizeEncounters": "organiser les engagements",
+      "selectEncounterFile": "Sélectionner un fichier d'engagement",
       "enemyForces": "FORCES ENNEMIES",
       "alliedForces": "FORCES ALLIÉES",
-      "sortBy": "Trier par"
+      "sortBy": "Trier par",
+      "searchEncounters": "Rechercher dans les engagements",
+      "confirmRemoveCombatant": "Confirmer la suppression de {name} de l'engagement"
     },
     "npcRoster": {
       "selectLayer": "Choisissez une couche",
       "selectNpcClass": "sélectionner une classe de PNJ",
-      "allowDuplicates": "Permettre les duplications"
+      "allowDuplicates": "Permettre les doublons",
+      "npcStatblock": "Profil du PNJ",
+      "selectTemplate": "sélectionner un archétype",
+      "doodadDescription": "Les objets non-joueur (comme les éléments du terrain) qui peuvent être suivis pendant les engagements."
     },
     "npcTierSelector": {
       "confirmTierChange": "Confirmer modification de Tier",
@@ -553,19 +593,25 @@
     },
     "routes": {
       "campaignEditor": "Éditeur de campagne",
-      "narrativeItemManager": "Gestionnaire d'éléments narratifs"
+      "narrativeItemManager": "Gestionnaire des éléments narratifs"
     },
     "gmItemHeaders": {
       "class": "Classe"
     },
     "organizer": {
-      "addSetOrDeleteA": "Ajouter, définir ou supprimer une étiquette de MJ"
+      "addSetOrDeleteA": "Ajouter, choisir ou supprimer une étiquette de MJ"
     },
     "landing": {
       "createModifyAndBrowseLancerCampaigns": "Créer, modifier et consulter les campagnes LANCER (v3.1)",
       "manageNonPlayerCombatUnits": "Gérer les unités de combat non joueur",
       "manageCharactersLocationsAndFactions": "Gérer les personnages, lieux et factions",
-      "createCombatEncounters": "Créer un affrontement"
+      "createCombatEncounters": "Créer des affrontements"
+    },
+    "labelDialog": {
+      "orOverwrite": "ou écrasera"
+    },
+    "npcAlert": {
+      "selectionsComplete": "Sélections de {source} complété"
     }
   },
   "language": {
@@ -630,7 +676,7 @@
       "compendium": "@:{'common.compendium'}",
       "pilotManagement": "Gestion de pilote",
       "activeMode": "@:{'common.activeMode'}",
-      "storageLimitReachedNotice": "Aucun nouvel élément ne sera sauvegardé avant que la limite ne soit augmenté ou des données supprimées.",
+      "storageLimitReachedNotice": "Aucun nouvel élément ne sera enregistré avant que la limite ne soit augmenté ou des données supprimées.",
       "storageWarningTooltip": "@:{'common.appName'} a dépassé un seuil de stockage. Plus de détails disponibles dans l'onglet Stockage dans le menu des Options.",
       "storageAlertTooltip": "@:{'common.appName'} a dépassé la limite maximum de stockage.",
       "storageDetails": "Plus d'informations sont disponibles dans l'onglet <b>Stockage</b> dans le menu des options.",
@@ -643,12 +689,12 @@
       "supportCompcon": "Support @:{'common.appName'}"
     },
     "packConfig": {
-      "addLcp": "Ajouter LCP",
+      "addLcp": "Ajouter un LCP",
       "createConfig": "Créer une configuration",
       "deleteConfig": "Supprimer cette configuration",
-      "editConfig": "Éditer cette configuration",
+      "editConfig": "Modifier cette configuration",
       "title": "Configurations de contenu",
-      "description": "La configuration de contenu vous permets de créer et gérer des lots de LCPs qui peuvent être appliqués aux pilotes et PNJs qui autorisent ou limitent la sélection à un contenu spécifique. Les pilotes et PNJs sans configuration auront accès à les LCPs installés et activés",
+      "description": "La configuration de contenu vous permets de créer et gérer des lots de LCPs qui peuvent être appliqués aux pilotes et PNJs qui autorisent ou limitent la sélection à un contenu spécifique. Les pilotes et PNJs sans configuration auront accès à tous les LCPs installés et activés",
       "applyNote": "Ces configurations peuvent être appliqués aux pilotes et PNJs dans leurs menus d'options.",
       "noConfigs": "Aucune configuration trouvée.",
       "lcpsInConfig": "LCPs dans cette configuration",
@@ -661,7 +707,7 @@
     "packInfo": {
       "v2ContentTitle": "Contenu V2",
       "dependencies": "Dépendances",
-      "authorsWebsite": "Site de l'auteur",
+      "authorsWebsite": "Site de l'auteur·rice",
       "dependencyInstalled": "Dépendance installée",
       "changelog": "@:{'common.changelog'}",
       "noDescription": "@:{'ui.widget.noDescription'}",
@@ -679,7 +725,8 @@
       "subscribeTooltip": "Cliquez pour autoriser @:{'common.appName'} à mettre à jour ce LCP dès qu'une nouvelle version est publiée",
       "payWhatYouWant": "Payez ce que vous voulez",
       "itchStorePage": "Page de vente itch.io",
-      "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}"
+      "authorsWebsite": "@:{'nav.packInfo.authorsWebsite'}",
+      "openWebsite": "Ouvrir le lien"
     },
     "v2Auto": {
       "v2Data": "Données V2",
@@ -691,11 +738,11 @@
       "pilotsPending": "{count} pilote en attente (LCPs manquants) | {count} pilotes en attente (LCPs manquants) | {count} pilotes en attente (LCPs manquants)",
       "npcsImported": "{count} PNJ importé | {count} PNJs importés | {count} PNJs importés",
       "npcsPending": "{count} PNJ en attente (LCPs manquants) | {count} PNJs en attente (LCPs manquants) | {count} PNJs en attente (LCPs manquants)",
-      "encountersPending": "{count} rencontre en attente (PNJs manquants) | {count} rencontres en attente (PNJs manquants) | {count} rencontres en attente (PNJs manquants)",
+      "encountersPending": "{count} engagement en attente (PNJs manquants) | {count} engagements en attente (PNJs manquants) | {count} engagements en attente (PNJs manquants)",
       "errorsDuringMigration": "{count} erreur pendant la migration | {count} erreurs pendant la migration | {count} erreurs pendant la migration"
     },
     "search": {
-      "searchResults": "résultats de la recherche",
+      "searchResults": "résultats de recherche",
       "recentSearches": "recherches récentes",
       "search": "@:{'common.search'}"
     },
@@ -703,12 +750,12 @@
       "colCategory": "Catégorie",
       "dialogTitle": "Réparation des données migrées",
       "buttonLabel": "Outils de réparation de la migration",
-      "buttonTooltip": "Scan et réparation des problèmes communs avec les données V2 migrées.",
+      "buttonTooltip": "Scan et réparation des problèmes courants avec les données V2 migrées.",
       "scanning": "Scan des données…",
       "noIssues": "Aucun problème de migration trouvé.",
       "colItem": "@:{'common.item'}",
       "colIssue": "Problème",
-      "colFixable": "Réparable",
+      "colFixable": "Résolvable",
       "manualActionRequired": "Action manuelle requise",
       "cancel": "@:{'common.cancel'}",
       "catFlavorText": "Texte d'ambiance",
@@ -716,7 +763,9 @@
       "catNpcStats": "Statistique de PNJ",
       "foundFixable": "A trouvé {count} problème résolvable. | A trouvé {count} problèmes résolvables. | A trouvé {count} problèmes résolvables.",
       "requiresManual": "et {count} problème requérant une action manuelle | et {count} problèmes requérant une action manuelle | et {count} problèmes requérant une action manuelle",
-      "applyFixesButton": "Application de {count} résolution | Application de {count} résolutions | Application de {count} résolutions"
+      "applyFixesButton": "Application de {count} résolution | Application de {count} résolutions | Application de {count} résolutions",
+      "catLcpFlavorState": "Texte personnalisé du LCP",
+      "applyingFixes": "Applications des solutions ({progress} / {total})..."
     },
     "settings": {
       "title": "@:{'common.settings'}",
@@ -796,12 +845,12 @@
       "epic": "Épique",
       "legendary": "Légendaire",
       "mythic": "Mythique",
-      "locked": "Bloqué",
+      "locked": "Inaccompli",
       "selectAll": "@:{'common.selectAll'}",
       "none": "@:{'common.none'}",
       "name": "@:{'common.name'}",
       "rarity": "Rareté",
-      "dateUnlocked": "Date",
+      "dateUnlocked": "Date d'accomplissement",
       "createBackup": "Créer une sauvegarde des succès",
       "loadBackup": "Charger une sauvegarde des succès",
       "overwriteAllWarning": "écrasera",
@@ -809,8 +858,8 @@
       "selectExportFile": "Sélectionner un fichier d'exportation des succès @:{'common.appName'}",
       "resetAchievements": "Réinitialiser les succès",
       "cannotAddTitle": "Ne peut pas ajouter de succès",
-      "cannotAddText": "Code invalide ou déjà débloqué",
-      "progress": "{count} sur {total} débloqué",
+      "cannotAddText": "Code invalide ou déjà accompli",
+      "progress": "{count} sur {total} accompli",
       "othersCount": "(+{count} autres)",
       "hiddenCount": "{count} succès masqué | {count} succès masqués | {count} succès masqués",
       "cannot": "ne peut pas",
@@ -919,7 +968,7 @@
       "itemName": "Nom de l'élément"
     },
     "userDataViewer": {
-      "description": "Ce sont les données d'utilisateur sauvegardées localement. Ces éléments ne devraient généralement pas être réinitialisées, mais peuvent être utiles pour débugguer ou résoudre des problèmes persistants de chargement.",
+      "description": "Ce sont les données d'utilisateur enregistrées localement. Ces éléments ne devraient généralement pas être réinitialisées, mais peuvent être utiles pour débugguer ou résoudre des problèmes persistants de chargement.",
       "achievementNote": "Réinitialiser les données d'utilisateurs ne réinitialisera pas les succès débloqués (Cela peut être fait dans le menu des succès).",
       "item": "@:{'common.item'}",
       "resetUserData": "Réinitialiser les données d'utilisateur"
@@ -941,9 +990,10 @@
       "officialContent": "Contenu officiel",
       "massifPress": "MASSIF PRESS",
       "communityContent": "Contenu communautaire de @:{'common.gameName'}",
-      "communityContribute": "Si vous êtes intéressé par la création de votre propre contenu @:{'common.gameName'} maison, ou la présentation de votre contenu dans ce répertoire, merci de",
+      "communityContribute": "Si vous êtes intéressé par la création de votre propre contenu @:{'common.gameName'} maison, ou la présentation de votre contenu dans ce catalogue, merci de",
       "clickHere": "cliquer ici.",
-      "developmentBlog": "blog de développement"
+      "developmentBlog": "blog de développement",
+      "officialContentHeading": "Contenu {publisher} officiel"
     },
     "cloudNotifications": {
       "dismissAll": "Masquer toutes les notifications",
@@ -951,7 +1001,7 @@
     },
     "achievementItem": {
       "dataRedacted": "Données expurgées",
-      "hiddenNote": "Ce succès est masqué et ne sera révélé qu'une fois débloqué",
+      "hiddenNote": "Ce succès est masqué et ne sera révélé qu'une fois accompli",
       "secretLabel": "Succès secret",
       "createdBy": "Créé par"
     },
@@ -1340,7 +1390,7 @@
     },
     "gm": {
       "tableName": "Nom de table",
-      "addPilotCopyNotice": "Ceci ajoutera une copie de ce pilote dans votre rencontre. Si l'auteur mets à jour les données originales, le pilote ne sera pas modifié."
+      "addPilotCopyNotice": "Ceci ajoutera une copie de ce pilote dans votre rencontre. Si l'auteur·rice mets à jour les données originales, le pilote ne sera pas modifié."
     },
     "encounterPilotsPanel": {
       "pilotNameOrCallsign": "Nom de pilote ou nom de code",
@@ -1396,15 +1446,15 @@
       "npcsAddedViaCode": "Votre compte a accès aux données de PNJ du Lancer Core Book. Ce contenu a été ajouté à votre compte via un lien QR Code."
     },
     "account": {
-      "imageDeletedText": "{itemType}{name} retiré.",
+      "imageDeletedText": "{itemType} {name} retiré.",
       "lcpUpdatedText": "La dernière version de {title} a été téléchargée et installée.",
       "lcpUpdateErrorText": "Une erreur s'est produite en tentant de télécharger {title}.",
       "allLcpsUpdatedTitle": "LCPs mis à jour",
       "allLcpsUpdatedText": "Tous les LCPs ont été mis à jour.",
       "allLcpsUpdateErrorTitle": "Erreur de mise à jour des LCPs",
       "allLcpsUpdateErrorText": "Une erreur s'est produite en tentant de mettre à jour vos LCPs.",
-      "syncPartialTitle": "{synced}/{total} éléments synchronisés",
-      "syncCompleteTitle": "{total}/{total} éléments synchronisés",
+      "syncPartialTitle": "{synced}/{total} élément(s) synchronisé(s)",
+      "syncCompleteTitle": "{total}/{total} élément(s) synchronisé(s)",
       "syncCompleteText": "Tous les éléments ont été synchronisé avec succès.",
       "deletionCompleteTitle": "{count} élément supprimé définitivement | {count} éléments supprimés définitivement | {count} éléments supprimés définitivement",
       "noFlaggedText": "Aucun élément n'a été marqué pour suppression.",
@@ -1414,7 +1464,7 @@
       "collectionUpdatedTitle": "Collection mise à jour",
       "collectionUpdatedText": "Les éléments de la collection ont été mis à jour avec succès.",
       "itemAddedTitle": "Élément ajouté",
-      "itemAddedText": "L'élément {name} ajouté à la collection",
+      "itemAddedText": "L'élément {name} a été ajouté à la collection",
       "jwtCopiedTitle": "JWT copié",
       "jwtCopyFailedTitle": "Copie du JWT échoué",
       "doNotShowThisWarningAgain": "Ne plus montrer cet avertissement à nouveau",
@@ -1423,13 +1473,15 @@
       "addNewSubscription": "Ajouter un nouvel abonnement",
       "linkedMassifContent": "Contenu Massif associé",
       "membershipBenefits": "Avantages d'adhésion",
-      "manualOnly": "Manuel uniquement",
-      "pilotGroups": "Groupes de pilote",
+      "manualOnly": "Uniquement manuellement",
+      "pilotGroups": "Groupe de pilotes",
       "uploadDate": "Date de téléversement",
       "campaigns": "Campagnes",
       "lcps": "LCPs",
       "filename": "Nom du fichier",
-      "paidLcpItchRequirement": "Le contenu LCP payant requiert un achat itch.io associé avant de pouvoir être mis à jour automatiquement. Pour le moment, seul les LCP publiés par Massif Press sont pris en charge."
+      "paidLcpItchRequirement": "Le contenu LCP payant requiert un achat itch.io associé avant de pouvoir être mis à jour automatiquement. Pour le moment, seul les LCPs publiés par Massif Press sont pris en charge.",
+      "syncPartialText": "Échec de la synchronisation de {failures} élément(s). Cela peut être dû à des données locales manquantes.",
+      "flaggedRemovedText": "Tous les éléments marqués ont été supprimé des données en ligne."
     },
     "auth": {
       "accountCreated": "Compte d'utilisateur créé avec succès. Redirection vers la page de connexion.",
@@ -1454,7 +1506,7 @@
       "inputCodeToFinish": "Entrer le code de vérification pour finir la création de votre compte",
       "confirmVerificationCode": "Confirmer le code de vérification",
       "signupEmailInfo": "L'adresse électronique que vous saisissez sera utilisé pour envoyer un code de confirmation pour finaliser la création de votre compte. Après cela, votre adresse ne sera utilisé que pour vous connecter à votre compte @:{'common.appName'}.",
-      "signupPrivacyInfo": "Nous nous engageons à garder votre adresse électronique confidentielle. Nous ne vendons, louons ou cédons aucune donnée à des tiers, et nous ne communiquerons jamais vos données personnelles à un individu tiers, des agences gouvernementales ou des entreprises, à aucun moment ni pour aucune raison.",
+      "signupPrivacyInfo": "Nous nous engageons à garder votre adresse électronique confidentielle. Nous ne vendons, louons ou cédons aucune donnée à des tiers, et nous ne communiquerons jamais vos données personnelles à un individu tiers, des agences gouvernementales ou des entreprises, à aucun moment ni aucune raison.",
       "resetPassword": "Réinitialiser le mot de passe",
       "sendPasswordResetEmail": "Envoyer un courriel de réinitialisation de mot de passe",
       "resetCodeSentTo": "Code de réinitialisation du mot de passe envoyé à {email}",
@@ -1471,18 +1523,19 @@
       "linkingAccount": "Association d'un compte…",
       "subscribe": "s'abonner",
       "refreshList": "Rafraîchir",
-      "doesNotSync": "(Ceci ne se synchronise pas)",
+      "doesNotSync": "(Ne synchronise pas)",
       "downloadInstallLatest": "Télécharger et installer la dernière version",
       "directDownloadRequiresAccount": "Le téléchargement direct requiert un compte @:{'common.appName'}",
       "requiresItchPurchase": "Requiert un achat itch.io associé",
       "accountManagement": "Gestion de compte",
       "cloudData": "Données en ligne",
-      "contentSubscriptions": "Contenus abonnés",
-      "viewImage": "Voir image",
+      "contentSubscriptions": "Contenus suivis",
+      "viewImage": "Voir l'image",
       "downloadCopy": "Télécharger une copie",
       "imageDeleteWarning": "Cette action cassera toutes les associations de cette image dans vos données. Cette action ne peut pas être annulée.",
       "unlinked": "Dissocié",
-      "unlink": "Dissocier"
+      "unlink": "Dissocier",
+      "contentPublishing": "Publication de contenus"
     },
     "itemLink": {
       "noItemWithIdLabel": "Aucun élément avec cette ID",
@@ -1492,39 +1545,44 @@
     "dataUsage": {
       "title": "Utilisation des données",
       "ofMaxMb": "sur {max} MB",
-      "resetMigrationTool": "Réinitialiser les outils de migration de compte"
+      "resetMigrationTool": "Réinitialiser la migration de compte"
     },
     "patreon": {
       "accountLabel": "Compte Patreon",
       "linkPatreon": "Associer un Patreon",
-      "linkInfo": "Si vous êtes abonnés au Patreon de @:{'common.appName'}, associer votre compte Patreon augmentera vos capacités de stockage en ligne et débloquera la création de table en temps réel en mode MJ."
+      "linkInfo": "Si vous êtes abonnés au Patreon de @:{'common.appName'}, associer votre compte Patreon augmentera vos capacités de stockage en ligne et débloquera la création de table en temps réel en mode MJ.",
+      "freeTier": "Gratuit",
+      "thanksFollowing": "Merci beaucoup de votre suivi du projet @:{'common.appName'}!",
+      "thanksSupport": "Merci pour votre généreux soutien de @:{'common.appName'}!"
     },
     "syncSettings": {
-      "syncItems": "Synchroniser les éléments",
+      "syncItems": "Synchroniser",
       "pilotsOnly": "Pilotes uniquement",
       "updateSyncSettings": "Mettre à jour les paramètres de synchronisation",
       "cloudFullSync": "Plus de place dans votre stockage en ligne! Impossible de synchroniser de nouvelles données.",
-      "lastSynced": "Dernière synchronisation: {label}",
+      "lastSynced": "Synchronisé dernièrement: {label}",
       "syncWithSettings": "synchroniser avec les paramètres actuels",
-      "syncOverrides": "Outrepasser la synchronisation",
-      "syncOverridesNote": "Les opérations suivantes outrepassent les paramètres de synchronisation et devraient être utilisés avec prudence.",
+      "syncOverrides": "Outrepassement de la synchronisation",
+      "syncOverridesNote": "Les opérations suivantes outrepassent les paramètres de synchronisation et devraient être utilisées avec prudence.",
       "itemTypes": "Types d'élément",
       "syncSettings": "Paramètres de synchronisation",
-      "removeDeletedItems": "Retirer les éléments supprimer",
+      "removeDeletedItems": "Retirer les éléments supprimés",
       "onOpenClose": "A l'ouverture et la fermeture",
       "every30Minutes": "Toutes les 30 minutes",
       "every60Minutes": "Toutes les 60 minutes",
       "pilotData": "Données de pilote",
       "npcData": "Données de PNJ",
-      "narrativeData": "Données de narration",
+      "narrativeData": "Données narratives",
       "syncSettingsHelp": "Ces options contrôlent comment et quand vos données sont synchronisées en ligne. Par défaut, les données sont synchronisés manuellement uniquement. A la différence d'autres paramètres, ceux-ci sont appliqués à tous les appareils que vous utilisez.",
       "syncFrequencyHelp": "Contrôle la fréquence à laquelle vos données sont synchronisées. A cause des coûts des serveurs, certaines options ne sont disponibles que pour les contributeurs Patreon.",
       "syncDataTypesHelp": "Contrôle quels types de données sont synchronisées.",
-      "permanentlyRemovesItemsFlaggedFor": "Retire définitivement les éléments marqués pour suppression.",
+      "permanentlyRemovesItemsFlaggedFor": "Retire définitivement les éléments supprimés.",
       "dataIsOnlySyncedWhenYou": "Les données ne sont synchronisées qu'en appuyant sur Synchroniser.",
       "syncOnOpenCloseDescription": "Synchronise quand vous ouvrez et fermez l'application. Les synchronisation à la fermeture peuvent ne pas être pris en charge par tous les navigateurs.",
       "syncsAutomaticallyEvery30MinutesRequires": "Synchronise automatiquement toutes les 30 minutes. Nécessite de contribuer sur Patreon.",
-      "syncsAutomaticallyEvery60MinutesRequires": "Synchronise automatiquement toutes les 60 minutes. Nécessite de contribuer sur Patreon."
+      "syncsAutomaticallyEvery60MinutesRequires": "Synchronise automatiquement toutes les 60 minutes. Nécessite de contribuer sur Patreon.",
+      "allItemTypes": "Tous les types d'élément",
+      "noItemTypes": "Aucun type d'élément"
     },
     "collection": {
       "byAuthor": "Par {author}",
@@ -1534,41 +1592,42 @@
       "addItem": "Ajouter un élément",
       "addCollectionItem": "Ajouter un élément de collection",
       "distributeWarning": "Distribuer du contenu pour lequel vous n'en avez pas l'autorisation est contres les conditions d'utilisation de @:{'common.appName'} et provoquera un bannissement des services en lignes, la suppression de votre compte et données en ligne, et le retrait et blocage de votre adhésion au Patreon @:{'common.appName'}",
-      "ensureRights": "Merci de vous assurez que vous avez les droits de distribuer tous les contenus que vous téléversez en ligne. En cas de doute, contactez l'auteur du contenu."
+      "ensureRights": "Merci de vous assurez que vous avez les droits de distribuer tous les contenus que vous téléversez en ligne. En cas de doute, contactez l'auteur·rice du contenu."
     },
     "cloudData": {
       "reloadData": "Rafraîchir les données",
       "dataTab": "Données",
-      "dataTabDesc": "Les données de PJ et de MJ stockés dans votre compte @:{'common.appName'}.",
+      "dataTabDesc": "Les données de PJ et de MJ de votre compte @:{'common.appName'}.",
       "imagesTab": "Images",
       "imagesTabDesc": "Toutes les images que vous avez téléversé sur votre compte @:{'common.appName'}."
     },
     "management": {
       "notifications": "Notifications",
-      "accountCreatedV3": "Compte créé (v3)",
-      "changePassword": "Modifier un mot de passe",
+      "accountCreatedV3": "Création du compte (v3)",
+      "changePassword": "Modifier votre mot de passe",
       "changeEmail": "Modifier votre adresse électronique",
       "working": "en cours…",
-      "verifyEmailSent": "Un courriel de vérification a été envoyé à {email}. Merci de vérifier votre boîte de réception et entrez le code de vérification pour finaliser les modifications.",
-      "signOut": "Déconnecter",
+      "verifyEmailSent": "Un courriel de vérification a été envoyé à {email}. Merci de vérifier votre boîte de réception et d'entrer le code de vérification pour finaliser les modifications.",
+      "signOut": "Déconnexion",
       "deleteCloudAccount": "Supprimer votre compte en ligne",
       "oldPassword": "Ancien mot de passe",
       "newEmail": "Nouvelle adresse électronique",
       "confirmNewEmail": "Confirmer la nouvelle adresse électronique",
-      "accountEmail": "Adresse électronique du compte",
-      "accountDetails": "Détails du compte",
+      "accountEmail": "Adresse électronique",
+      "accountDetails": "Informations du compte",
       "accountDeletion": "Suppression du compte",
-      "accountIdHelp": "L'ID unique de votre compte. Ceci est utilisé pour identifier votre compte et peuvent être demandé pour son dépannage.",
-      "usernameOptional": "Ceci est un champ <b>optionnel</b> que vous pouvez utiliser pour définir un nom personnalisé à votre compte. Cet nom d'utilisateur <b>sera</b> visible pour les autres utilisateurs en mode active et quand vous partagez des données."
+      "accountIdHelp": "L'identifiant unique de votre compte. Ceci est utilisé pour identifier votre compte et peut être demandé pour son dépannage.",
+      "usernameOptional": "Ceci est un champ <b>optionnel</b> que vous pouvez utiliser pour définir un nom personnalisé à votre compte. Ce nom d'utilisateur sera <b>visible</b> pour les autres utilisateurs en mode actif et lorsque vous partagez des données.",
+      "accountEmailTooltip": "Ceci est l'adresse électronique associée à votre compte. Vous pouvez l'utiliser pour vous connecter à @:{'common.appName'}, Nautilus et les autres applications de Massif Press. Cette adresse n'est visible que par vous et <b>ne sera pas</b> divulgué à d'autres utilisateurs en mode actif ou en partage de données."
     },
     "deleteAccount": {
-      "intro": "Ceci supprimera votre compte et toutes les données associées. Cela inclus",
+      "intro": "Ceci supprimera votre compte et toutes les données associées. Cela inclut",
       "incCredentials": "Les paramètres et identifiants de connexion",
-      "incCloudData": "Les données en ligne, incluant les pilotes, méchas, PNJs et autres données de MJ",
-      "incImages": "Les images téléversées dans vos archives en ligne personnelles",
+      "incCloudData": "Les données en ligne, y compris les pilotes, méchas, PNJs et autres données de MJ",
+      "incImages": "Les images téléversées dans votre archive en ligne personnelle",
       "incArchives": "Les comptes et archives LCP stockées en ligne",
       "additionally": "De plus,",
-      "addNoSync": "Vos données de sauvegarde ne se synchroniseront plus sur vos différents navigateurs et appareils",
+      "addNoSync": "Vos données enregistrées ne se synchroniseront plus sur vos différents navigateurs et appareils",
       "addShareExpire": "Tous les éléments partagés ne seront plus mis à jour, et tous les codes de partage expireront",
       "addSyncTerminated": "Toutes les synchronisations actives seront interrompues",
       "addRemovedTables": "Vous serez expulsé de toutes les tables actives",
@@ -1587,14 +1646,15 @@
       "accountLabel": "Compte itch.io",
       "linkItch": "Associer votre compte itch.io",
       "linkInfo1": "Associer votre compte itch.io vous permettra de télécharger le contenu de Massif Press depuis itch.io en un seul clic.",
-      "linkInfo2": "Vous pouvez aussi vous abonner aux LCPs de Massif Press pour mettre à jour automatiquement votre copie locale quand l'auteur publie une nouvelle version.",
+      "linkInfo2": "Vous pouvez aussi vous abonner aux LCPs de Massif Press pour mettre à jour automatiquement votre copie locale quand l'auteur·rice publie une nouvelle version.",
       "linked": "Itch.io associé",
-      "clickForDetails": "Cliquez pour plus de détails",
+      "clickForDetails": "Cliquez pour plus d'informations",
       "purchasesLinked": "@:{'common.appName'} a associé les achats itch.io suivants à votre compte",
       "eligibleUpdates": "Votre compte @:{'common.appName'} est éligible aux mises à jour automatiques suivantes",
       "manageContentHint": "Des LCPs non associés et autres contenus peuvent toujours être ajouté manuellement via la page {link}.",
-      "updateHint": "Si vous avez de nouveaux achats ou clés de téléchargement sur votre compte itch.io, cliquez sur le bouton de {update} ci-desosus pour les ajouter à @:{'common.appName'}. Malheureusement il est impossible d'associer des achats non-Massif pour l'instant à cause de limitations dans l'API de itch.io.",
-      "lastPolled": "@:{'common.appName'} a dernièrement interrogé votre compte itch.io le {date}"
+      "updateHint": "Si vous avez de nouveaux achats ou clés de téléchargement sur votre compte itch.io, cliquez sur le bouton {update} ci-dessous pour les ajouter à @:{'common.appName'}. Malheureusement il est impossible d'associer des achats non-Massif pour l'instant à cause de limitations dans l'API de itch.io.",
+      "lastPolled": "@:{'common.appName'} a dernièrement interrogé votre compte itch.io le {date}",
+      "noAutoTrack": "@:{'common.appName'} ne mets pas automatiquement à jouer les données itch.io."
     },
     "subscriptions": {
       "upToDate": "À jour",
@@ -1602,10 +1662,10 @@
       "updatedOn": "Mis à jour le {date}",
       "updateToLatest": "Mettre à jour vers la dernière version",
       "unsubscribe": "Se désabonner",
-      "unsubscribeInfo": "Se désabonner de cette collection le retirera de votre liste de collections. Vous ne recevrez plus de mises à jour de cette auteur. Les données locales de cette collection ne seront pas retirées.",
+      "unsubscribeInfo": "Se désabonner de cette collection le retirera de votre liste de collections. Vous ne recevrez plus de mises à jour de l'auteur·rice. Les données locales de cette collection ne seront pas retirées.",
       "newVersionAvailable": "Il y a une nouvelle version de cette collection disponible.",
       "deletedCollection": "Collection supprimée",
-      "deletedCollectionInfo": "La collection \"{name}\" a été supprimée par l'auteur. Vos données locales n'ont pas été retirées, mais vous ne recevrez plus de mises à jour de cette collection."
+      "deletedCollectionInfo": "La collection \"{name}\" a été supprimée par l'auteur·rice. Vos données locales n'ont pas été retirées, mais vous ne recevrez plus de mises à jour de cette collection."
     },
     "storage": {
       "iosWarning": "Les navigateurs iOS limitent le stockage de sites et peuvent {emphasis} après 7 jours d'inactivité. Pour empêcher la perte de données, installez @:{'common.appName'} sur votre écran d'accueil.",
@@ -1627,93 +1687,100 @@
       "title": "Migration de compte V3",
       "previousError": "Une précédente tentative de migration a rencontré une erreur. Vous pouvez réessayer ci-dessous.",
       "detectedText": "@:{'common.appName'} a détecté que vous avez un compte existant qui n'a pas encore migré vers la v3.",
-      "migrationDesc": "{detected} L'outil de migration va tenter de transférer toutes les données en ligne V2 vers le nouvelle version V3. Ce processus peut prendre un peu de temps; merci de ne pas actualiser ou fermer la page pendant la migration. Après avoir utilisé (ou rejeté) cet outil, vous pourrez le trouver à nouveau dans le menu \"Données en ligne\".",
-      "pilotsDetected": "{count} Pilote | {count} Pilotes | {count} Pilotes",
+      "migrationDesc": "{detected} La migration du compte tentera de transférer toutes les données en ligne V2 vers la nouvelle version V3. Ce processus peut prendre un peu de temps; merci de ne pas actualiser ou fermer la page pendant la migration. Après avoir utilisé (ou masqué) cet outil, vous pourrez le trouver à nouveau dans le menu \"Données en ligne\".",
+      "pilotsDetected": "{count} pilote | {count} pilotes | {count} pilotes",
       "npcsDetected": "{count} PNJ | {count} PNJs | {count} PNJs",
-      "encountersDetected": "{count} Rencontre | {count} Rencontres | {count} Rencontres",
+      "encountersDetected": "{count} engagement | {count} engagements | {count} engagements",
       "v2NotModified": "Vos données V2 ne seront {not} modifiés ou supprimés par ce processus.",
       "downloading": "Téléchargement et importation des données V2…",
       "noData": "Aucune donnée importable n'a été trouvé dans votre stockage en ligne V2.",
-      "encountersImported": "{count} rencontre importée | {count} rencontres importées | {count} rencontres importées",
+      "encountersImported": "{count} engagement importé | {count} engagements importés | {count} engagements importés",
       "completedSuccess": "Migration complétée avec succès !",
       "retryMigration": "Réessayer la migration",
       "migrateNow": "Migrer maintenant"
     },
     "archive": {
-      "patreonOnly": "A causes des coûts liés associés à la création et au stockage des sauvegardes de données, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès aux sauvegardes en ligne automatiques, considérez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
-      "subscribing": "la prise d'un abonnement",
-      "preventPrune": "Empêcher cet élément d'être automatiquement supprimé. Les archives préservées compteront toujours dans les limites de taille de stockage.",
+      "patreonOnly": "A causes des coûts liés associés à la création et au stockage des sauvegardes de données, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès aux sauvegardes en ligne automatiques, vous pouvez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
+      "subscribing": "contribuer",
+      "preventPrune": "Empêcher cet élément d'être automatiquement élagué. Les archives préservées compteront toujours dans les limites de taille de stockage.",
       "removeProtection": "Retirer les protections de suppression automatique sur cet élément",
       "revertTooltip": "Restaurer @:{'common.appName'} vers cette sauvegarde",
       "revertTitle": "Restaurer @:{'common.appName'}",
       "revertWarning1": "Cela remplacera vos données @:{'common.appName'} actuelles avec les données de cette archive. Cette action ne peut pas être annulée automatiquement, il est donc fortement recommandé de créer une nouvelle archive avant de continuer.",
-      "revertWarning2": "Cet outil n'affectera que vos données locales; Cela n'affectera aucune donnée stockées en ligne.",
+      "revertWarning2": "Ceci n'affectera que vos données locales; Aucune donnée stockée en ligne ne sera affectée.",
       "loadArchive": "Charger l'archive",
       "deleteArchive": "Supprimer l'archive",
       "deleteConfirm": "Êtes vous sûr de vouloir supprimer cette archive? Cette action ne peut pas être annulée.",
       "createBackup": "Créer une nouvelle sauvegarde",
       "cloudFullArchive": "Le stockage en ligne est plein! Impossible de créer de nouvelles archives.",
       "archiveSettings": "Paramètres d'archive",
-      "settingsDesc1": "@:{'common.appName'} peut créer et enregistrer une sauvegarde de vos données dans l'intervalle de temp sélectionné. Ces archives peuvent être utilisées pour retourner vos données à un état précédent.",
+      "settingsDesc1": "@:{'common.appName'} peut créer et enregistrer une sauvegarde de vos données dans l'intervalle de temps sélectionné. Ces archives peuvent être utilisées pour restaurer vos données à un état précédent.",
       "settingsDesc2": "@:{'common.appName'} supprimera automatiquement les vieilles archives pour gagner de l'espace. Ce processus sera exécuté chaque fois qu'une nouvelle archive est créée, ou peut être déclenché manuellement en cliquant sur le bouton élaguer ci dessous.",
       "storageLimit": "Limite de stockage",
       "pruneItems": "Élagage de {count} élément | Élagage de {count} éléments | Élagage de {count} éléments",
-      "nothingToPrune": "Rien à élaguer"
+      "nothingToPrune": "Rien à élaguer",
+      "fileSize": "Taille"
     },
     "publishing": {
-      "accessInfo": "A causes des coûts liés associés à la création et la distribution de ces collections, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès à cet outil et créer et distribuer des collections de votre contenu @:{'common.appName'}, considérez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
+      "accessInfo": "A causes des coûts liés associés à la création et la distribution de ces collections, cette fonctionnalité n'est disponible que pour les contributeurs Patreon. Si vous voulez avoir accès à cet outil et créer et distribuer des collections de votre contenu @:{'common.appName'}, vous pouvez {link} pour soutenir le développement de @:{'common.appName'} et gagner l'accès à des fonctionnalités supplémentaires.",
       "howeverView": "Cependant, vous pouvez toujours voir et vous abonner aux collections créés par d'autres utilisateurs.",
       "collectionsHeader": "Collections ({count}/ {limit})",
-      "addNew": "Ajouter nouveau",
+      "addNew": "Ajouter une nouvelle",
       "itemUpToDate": "Cet élément est à jour avec la version trouvée dans les données locales.",
-      "itemNotFound": "Cet élément n'a pas pu être trouvés dans vos données locales et n'a pas pu être mis à jour. Il restera dans le collection jusqu'à son retrait.",
-      "removeItemTooltip": "Retirer cet élément de cette collection. Cela ne retirera pas l'élément de votre stockage @:{'common.appName'} local ou en ligne.",
-      "viewFullChangelog": "Voir le journal des modifications.",
-      "collectionChangelogTitle": "Journal des modifications de {name}",
+      "itemNotFound": "Cet élément n'a pas pu être trouvé dans vos données locales et n'a pas pu être mis à jour. Il restera dans le collection jusqu'à son retrait.",
+      "removeItemTooltip": "Retirer cet élément de la collection. Cela ne retirera pas l'élément de votre stockage @:{'common.appName'} local ou en ligne.",
+      "viewFullChangelog": "Voir l'historique complet.",
+      "collectionChangelogTitle": "Historique de {name}",
       "versionN": "version {version}",
       "saveDraft": "Enregistrer un brouillon",
       "collectionShareCode": "Code de partage de la collection",
       "lastUpdateOn": "Dernière mise à jour le {date}",
       "mustPublish": "La collection doit être publiée pour générer un code de partage.",
       "deleteCollection": "Supprimer la collection",
-      "deleteCollectionWarning": "Supprimer cette collection retirera la collection de vos données locales et en ligne, et supprimera les archives de cette collection du stockage en ligne. Les utilisateurs ne pourront plus s'abonner à ce contenu et les abonnés actuels ne pourront plus mettre à jours la collection. Cela {willNot} supprimera aucun contenu de collection, localement ou en ligne, pour vous ou les abonnés.",
-      "willNotLabel": "ne",
+      "deleteCollectionWarning": "Supprimer cette collection la retirera de vos données locales et en ligne, et supprimera ses archives du stockage en ligne. Les utilisateurs ne pourront plus s'abonner à ce contenu et les abonnés actuels ne pourront plus mettre à jours la collection. Cela ne supprimera {willNot} de contenu de la collection, localement ou en ligne, pour vous ou les abonnés.",
+      "willNotLabel": "pas",
       "confirmDelete": "Êtes vous sûr de vouloir supprimer cette collection?",
-      "noPublishingAccess": "Vous n'avez pas accès à l'outil de publication des collections."
+      "noPublishingAccess": "Vous n'avez pas accès à la publication de collection.",
+      "itemModified": "Cet élément a été modifié localement et sera mis à jour à la dernière version lors de la publication.",
+      "publishMinor": "Publier une révision ({version})",
+      "headerShort": "PUBLICATION DE COLLECTION",
+      "header": "PUBLICATION DE COLLECTION DE CONTENUS",
+      "nameRequired": "Nom (requis)",
+      "authorRequired": "Auteur·rice (requis)"
     },
     "dataItem": {
-      "deleteSelected": "Supprimer le ({count}) sélectionné| Supprimer les ({count}) sélectionnés",
-      "remoteItemDesc": "Cet élément est lié aux données d'un autre utilisateur. Toute modification qu'il fera sera téléchargé à la synchronisation.",
-      "remoteInaccessibleDesc": "Les données en ligne de cet élément n'ont pas pu être trouvées. Cela peut arriver quand son propriétaire supprime l'élément, ou si il y a eu une erreur pendant la synchronisation. Vous pouvez tenter de restaurer le lien à distance ou convertir cet élément en une copie locale.",
+      "deleteSelected": "Supprimer la sélection ({count})",
+      "remoteItemDesc": "Cet élément est lié aux données d'un autre utilisateur. Toute modification qu'il y fera sera téléchargé à la synchronisation.",
+      "remoteInaccessibleDesc": "Les données en ligne de cet élément n'ont pas pu être trouvées. Cela peut arriver quand son propriétaire supprime l'élément, ou si il y a eu une erreur pendant la synchronisation. Vous pouvez tenter de restaurer la connexion ou le convertir comme un élément local.",
       "typeCampaignData": "Données de campagne",
-      "typeActiveEncounter": "Rencontre active",
-      "typeArchivedEncounter": "Rencontre archivée",
-      "remoteLinkBroken": "Lien à distance rompu — Les données du propriétaire n'ont pas pu être trouvées. Réessayez ou convertissez ces données en local.",
+      "typeActiveEncounter": "Engagement actif",
+      "typeArchivedEncounter": "Engagement archivé",
+      "remoteLinkBroken": "Lien rompu — Les données du propriétaire n'ont pu être trouvées. Réessayez ou convertissez les en une version locale.",
       "deletedLocally": "Supprimé localement",
       "markedDeletedCloud": "Marqué comme supprimé en ligne.",
       "cloudOnly": "En ligne uniquement — pas encore téléchargé.",
       "localOnly": "Local uniquement — Pas encore synchronisé.",
       "pendingSync": "Synchronisation en attente.",
-      "editableCampaignDesc": "Ceci est une campagne modifiable que vous avez créé dans l'éditeur de campagne MJ. Ces données peuvent être synchronisées en ligne pour sa sûreté et partagés avec d'autres appareils, mais ne peuvent être partagés via le système de code de partage.",
-      "retryConnection": "Réessayer la connexion",
-      "convertToLocalDesc": "Retirer ce lien à distance. Les données sont gardées localement.",
+      "editableCampaignDesc": "Ceci est une campagne modifiable que vous avez créé dans l'éditeur de campagne MJ. Ces données peuvent être synchronisées en ligne pour sa sûreté et partagés avec d'autres appareils, mais ne peuvent être partagés via un code de partage.",
+      "retryConnection": "Essayer de reconnecter",
+      "convertToLocalDesc": "Retirer le lien. Les données sont gardées localement.",
       "restoreLocalDesc": "Restaurer cet élément localement.",
       "restoreItemDesc": "Restaurer cet élément. Cet élément ne sera plus marqué comme supprimé et se synchronisera avec tous les autres appareils.",
-      "manualControls": "Contrôles manuels",
-      "deletePermanentlyDesc": "Cela retirera définitivement cet élément du stockage locale. Si cet élément a été synchronisé en ligne, il y sera aussi marqué pour suppression.",
+      "manualControls": "Contrôle manuel",
+      "deletePermanentlyDesc": "Cela retirera définitivement cet élément du stockage local. Si cet élément a été synchronisé en ligne, il y sera aussi marqué pour suppression.",
       "deleteImmediately": "Supprimer immédiatement",
       "deleteImmediatelyDesc": "Supprimer cet élément le retirera des données en ligne. Cela ne modifiera aucune copie locale de cet élément.",
-      "deleteLocalData": "Supprimer les données locales",
-      "deleteLocalDataDesc": "Cela marquera cet élément comme supprimé localement, et sera retiré de cette table et ne synchronisera plus. Les options de restauration des éléments supprimés peuvent être trouvés dans les paramètres utilisateurs.",
+      "deleteLocalData": "Supprimer des données locales",
+      "deleteLocalDataDesc": "Cela marquera cet élément comme supprimé localement, il sera retiré de cette table et ne synchronisera plus. Les options de restauration des éléments supprimés peuvent être trouvés dans les paramètres utilisateurs.",
       "deleteCloudData": "Supprimer les données en ligne",
       "deleteCloudItem": "Supprimer un élément en ligne",
-      "deleteCloudItemDesc": "Supprimer cet élément le marquera comme supprimé en ligne. Cela ne supprimera pas cet élément localement, mais l'empêchera de se synchroniser en lignes ou sur d'autres appareils.",
+      "deleteCloudItemDesc": "Supprimer cet élément le marquera comme supprimé en ligne. Cela ne supprimera pas cet élément localement, mais l'empêchera de se synchroniser en ligne ou sur d'autres appareils.",
       "deleteNItems": "Supprimer {count} élément | Supprimer {count} éléments | Supprimer {count} éléments",
       "chooseDeleteMethod": "Choisissez comment supprimer les éléments sélectionnés",
       "remoteItem": "Élément externe",
       "remoteItemInaccessible": "Élément externe inaccessible",
       "bulkDelete": "Sélectionner",
-      "cancelBulkSelection": "Ne pas sélectionner"
+      "cancelBulkSelection": "Annuler la sélection"
     },
     "titles": {
       "addItem": "Ajouter un élément",
@@ -1728,8 +1795,8 @@
     },
     "authorSubscriptions": {
       "updates": "Mises à jour",
-      "contentCollection": "Collection de contenu",
-      "onStartup": "Au démarrage"
+      "contentCollection": "Collection de contenus",
+      "onStartup": "Au chargement"
     },
     "cloudArchive": {
       "autoBackupFrequency": "Fréquence de sauvegarde automatique",
@@ -1741,8 +1808,8 @@
       "last10": "Les 10 derniers",
       "last5": "Les 5 derniers",
       "mostRecentOnly": "Les plus récent uniquement",
-      "onAppStart": "Au démarrage",
-      "preserve": "Préserver",
+      "onAppStart": "Au chargement",
+      "preserve": "Conserver",
       "daily": "Quotidiennement",
       "weekly": "Hebdomadairement",
       "monthly": "Mensuellement",
@@ -1760,12 +1827,15 @@
     },
     "itemDataTab": {
       "showLocallyDeleted": "Montrer les éléments supprimés localement",
-      "deleteCloudDataOnlyKeep": "Supprimer les données en ligne uniquement (Garde les données locales)",
+      "deleteCloudDataOnlyKeep": "Supprimer les données en ligne uniquement (Données locales conservées)",
       "convertToLocalData": "Convertir en données locales",
       "confirmDelete": "Confirmer la suppression",
       "lastSync": "Dernière synchronisation",
       "mergeAndSyncThisItem": "Fusionner et synchroniser cet élément immédiatement.",
-      "itemUnlinkDescription": "Retirer le lien à distance et garder les données localement."
+      "itemUnlinkDescription": "Rompre le lien et garder les données localement.",
+      "deleteCloudAndMarkLocalAsDeleted": "Supprimer des données en ligne et marquer localement comme supprimé",
+      "itemForcePushDescription": "Envoyer les données en ligne sans conditions, écrasant les données.",
+      "itemMergeDescription": "Fusionner les données en lignes avec cet élément, conservant les entrées locales les plus récentes."
     },
     "shared": {
       "newPassword": "Nouveau mot de passe",
@@ -1782,7 +1852,18 @@
       "roster": "Roster"
     },
     "desktop": {
-      "v2ImportsAwaitingResolution": "Importation v2 en attente de résolution"
+      "v2ImportsAwaitingResolution": "Importation v2 en attente de résolution",
+      "compendiumHelp": "Base de données des équipements",
+      "gmToolkitHelp": "Gérer les campagnes, les engagements et les PNJs",
+      "log": {
+        "compendium": "Parcourir la base de données des châssis, équipements et règles de @:{'common.gameName'}",
+        "gm": "Créer et gérer les PNJs et engagements, et lancer des missions avec des PNJs et pilotes",
+        "campaign": "Travail en cours",
+        "options": "Ouvrir le gestionnaire d'options",
+        "about": "A propos de @:{'common.appName'}",
+        "help": "Ouvrir la page d'aide de @:{'common.appName'}",
+        "update": "Voir les dernières mises à jours et nouveautés de @:{'common.appName'}"
+      }
     },
     "storageWarning": {
       "installCompconForReliableStorage": "Installer @:{'common.appName'} pour un stockage fiable",
@@ -1790,11 +1871,18 @@
     },
     "massifLcpTable": {
       "autoUpdate": "Mise à jour automatique"
+    },
+    "signIn": {
+      "hidePassword": "Cacher le mot de passe",
+      "showPassword": "Révéler le mot de passe"
+    },
+    "dataViewer": {
+      "archive": "Archive"
     }
   },
   "pm": {
     "loadout": {
-      "equippedText": "{itemName} équipé sur {pilotName}.",
+      "equippedText": "{itemName} équipé(e) sur {pilotName}.",
       "frameEquipmentVerified": "Enregistrement de l'équipement du châssis vérifié",
       "frameEquipmentInvalid": "ID de l'équipement invalide ou manquant",
       "appliedTO": "Appliqué à",
@@ -1802,8 +1890,29 @@
       "pilotMaterielInvalid": "ID du matériel invalide ou manquant",
       "empty": "Vide",
       "coreBonusAvailable": "Bonus d'architecture disponible",
-      "tapToAdd": "APPUYER À ajouter",
-      "clickToAdd": "Cliquer À ajouter"
+      "tapToAdd": "Appuyer pour ajouter",
+      "clickToAdd": "Cliquer pour ajouter",
+      "armorEquippedTitle": "Armure de pilote équipée",
+      "weaponEquippedTitle": "Arme de pilote équipée",
+      "not": "PAS",
+      "mountCoreBonus": "Mount bonus d'architecture",
+      "currentlyEquipped": "Actuellement équipé",
+      "frameEquipmentAuthorizationHeading": "Permission d'équipement de l'arsenal d'Union: équipement de châssis//système de combat",
+      "emptySystemSlot": "Emplacement de système vide",
+      "reorderSystems": "Réorganiser les systèmes",
+      "addAdditionalSystem": "Ajouter un système supplémentaire",
+      "selectPilotArmor": "Sélectionner une armure de pilote",
+      "pilotArmorAuthorizationHeading": "Permission d'équipement de l'arsenal GMS: pilote/armure personnelle::TI - TVII-a",
+      "selectPilotWeapon": "Sélectionner une arme de pilote",
+      "pilotWeaponAuthorizationHeading": "Permission d'équipement de l'arsenal GMS: pilote/armement personnel::S0 - S3(LTD)",
+      "showUnlicensed": "Montrer hors licence",
+      "unlicensedShown": "Équipement hors licence: MONTRÉ",
+      "unlicensedHidden": "Équipement hors licence: MASQUÉ",
+      "showIncompatibleMods": "Montrer les incompatibles",
+      "unionArmoryPrintid": "Printid de l'arsenal d'Union",
+      "gmsArmoryPrintid": "Printid de l'arsenal GMS",
+      "selectEquipment": "SÉLECTIONNER L'ÉQUIPEMENT",
+      "equipItem": "Équiper"
     },
     "import": {
       "importSuccessTitle": "Importé avec succès",
@@ -2016,7 +2125,7 @@
       "couldNotBeFound": "n'a pas pu être trouvé.",
       "pilotRequiresReSync": "Le pilote requiert une re-synchronisation",
       "withShareCode": "avec un code de partage",
-      "mustBeReSyncedToThe": "doit être re-synchronisé avec le compte de l'auteur avant d'être visualisé.",
+      "mustBeReSyncedToThe": "doit être re-synchronisé avec le compte de l'auteur·rice avant d'être visualisé.",
       "serverErrorTooManyRequests": "Erreur serveur - Trop de requêtes"
     },
     "common": {
@@ -2079,15 +2188,17 @@
     }
   },
   "compendium": {
-    "returnToCompendium": "Retourner au catalogue",
+    "returnToCompendium": "Retourner au Compendium",
     "selectItem": "Sélectionner {name}",
     "categories": {
       "frames": "Châssis",
       "environments": "Environnements",
-      "npcTemplates": "Modèle de PNJ",
-      "manufacturers": "Manufactureurs",
+      "npcTemplates": "Archétypes de PNJ",
+      "manufacturers": "Constructeurs",
       "npcClasses": "Classes de PNJ",
-      "downtimeActions": "Actions de Temps Libre"
+      "downtimeActions": "Actions de Temps Libre",
+      "pilotBackground": "Historique de pilote",
+      "statusesConditions": "États et Défaillances"
     },
     "titles": {
       "coreBonuses": "Bonus d'architecture"
@@ -2096,13 +2207,19 @@
       "or": "ou",
       "glossary": "Glossaire",
       "faqErrata": "FAQ & errata",
-      "pleaseNote": "Merci de considérer",
-      "faqErrataNotice": "Cette FAQ et Erratas sont un projet porté par la communauté et n'est pas une publication officielle de Massif Press pour @:{'common.gameName'}. Cette page est approvisionné depuis le {repoLink} sur GitHub, maintenu actuellement par lenaleciel. Ce document est aussi disponible sur {siteLink}.",
+      "pleaseNote": "Merci de prendre en compte",
+      "faqErrataNotice": "Cette FAQ et ces erratas sont un projet porté par la communauté et n'est pas une publication officielle de Massif Press pour @:{'common.gameName'}. Cette page est sourcée depuis le {repoLink} sur GitHub, et actuellement maintenu par lenaleciel. Ce document est aussi disponible sur {siteLink}.",
       "lancerFaqRepo": "lancer-faq repository",
       "bookPage": "{book}, p. {page}",
-      "damageTables": "Tableaux des dégâts",
+      "damageTables": "Tables des dégâts",
       "iconGuide": "Guide Visuel",
-      "narrativePlay": "jeu narratif"
+      "narrativePlay": "jeu narratif",
+      "mechActions": "Actions de mécha",
+      "pilotActions": "Actions de pilote",
+      "statuses": "États",
+      "statusConditions": "Défaillances",
+      "lancerBasics": "Fondamentaux de Lancer",
+      "usingCompcon": "Utiliser @:{'common.appName'}"
     },
     "search": {
       "resultCount": "{count} résultat | {count} résultats | {count} résultats"
@@ -2116,27 +2233,37 @@
       "developmentPreview": "Les campagnes sont actuellement en développement et ne seront pas disponibles avant la V3.1. Cet aperçu devrait ignoré pour les tests, mais explorez les fonctionnalités existantes à votre guise.",
       "noCampaignsFound": "Aucune campagne trouvée",
       "importHint": "Les campagnes peuvent être importé via l'importation de fichier ou le répertoire de campagnes Lancer",
-      "newVersionAvailable": "Il y a une nouvelle version de cette campagne disponible. Cliquez dessous pour télécharger et installer la dernière de cette campagne.",
+      "newVersionAvailable": "Il y a une nouvelle version de cette campagne disponible. Cliquez pour télécharger et installer la dernière de cette campagne.",
       "updateCampaign": "Mettre à jour la campagne",
       "removeFromCollection": "Retirer de la collection",
       "removeConfirm": "Cela retirera la campagne de votre collection. Êtes vous sûr?",
       "openCampaign": "Ouvrir la campagne",
       "campaignWebsite": "Site de la campagne ({url})",
       "sortByTitle": "Trier par titre",
-      "sortByAuthor": "Trier par auteur",
-      "sortBySuggestedPlayers": "Trier par joueurs suggérés",
+      "sortByAuthor": "Trier par auteur·rice",
+      "sortBySuggestedPlayers": "Trier par joueurs recommandé",
       "lancerCampaignDirectory": "Répertoire de campagne @:{'common.gameName'}",
-      "directoryComingSoon": "Après la sortie de la V3, ceci sera un répertoire navigable de campagnes de Massif Press et de la commuanuté. SI vous êtes connectés et avez associé votre compte itch.io, vous serez capable d'importer des campagnes directement depuis le répertoire. Autrement, vous serez redirigé vers la page itch.io pour acheter et télécharger la campagne.",
+      "directoryComingSoon": "Après la sortie de la V3, ceci sera un répertoire navigable des campagnes de Massif Press et de la communauté. SI vous êtes connecté et avez associé votre compte itch.io, vous pourrez importer des campagnes directement depuis le répertoire. Autrement, vous serez redirigé vers la page itch.io pour acheter et télécharger la campagne.",
       "existingNewer": "La campagne existante est plus récente que les données importées.",
       "index": "Index",
       "tableOfContents": "Table des matières",
-      "addCampaign": "Ajouter une campagne"
+      "addCampaign": "Ajouter une campagne",
+      "recommendedLicenseLevel": "Niveau de licence recommandé",
+      "sortByLicenseLevel": "Trier par niveau de licence",
+      "recommendedForLine": "Recommandé pour {players} joueurs au niveau de licence {levels}",
+      "returnToLibrary": "Retourner à la bibliothèque",
+      "campaignForLine": "Une campagne {lancer} pour {players} pilotes débutant au niveau de licence {levels}."
     },
     "shared": {
-      "reference": "Référence",
-      "eidolonLayers": "Strates de l'Eidolon",
+      "reference": "Référentiel",
+      "eidolonLayers": "Strates d'Eidolon",
       "pilotBackgrounds": "Historiques de pilote",
-      "lists": "Listes"
+      "lists": "Listes",
+      "referenceMechs": "Référentiel : Méchas",
+      "referenceCombat": "Référentiel : Combat",
+      "referenceNarrativePlay": "Référentiel : Jeu narratif",
+      "referenceErrata": "Référentiel : Errata",
+      "referenceGlossary": "Référentiel : Glossaire"
     },
     "campaignBookshelf": {
       "notYetImplemented": "Pas encore implémenté",
@@ -2146,6 +2273,21 @@
     "categoryView": {
       "noEidolonData": "Pas de données d'Eidolon",
       "icon": "Icône"
+    },
+    "nav": {
+      "systemReference": "Référentiel de règles"
+    },
+    "campaignLibrary": {
+      "developmentPreview": "Aperçu de développement",
+      "searchTheCampaignLibrary": "Rechercher dans la bibliothèque de campagne"
+    },
+    "routes": {
+      "referenceBasics": "Référentiel : Fondamentaux",
+      "referenceCompCon": "Référentiel : COMP/CON"
+    },
+    "searchBar": {
+      "searchTheCompendium": "Rechercher dans le Compendium",
+      "searchTheReference": "Rechercher dans le Référentiel"
     }
   },
   "ui": {
@@ -2211,7 +2353,7 @@
       "commitResult": "Appliquer résultat"
     },
     "remote": {
-      "collectionHelp": "Ce {type} est lié à une collection de contenu. Il est en lecture seul et recevra une mise à jour quand une nouvelle version de la collection sera publié par l'auteur de la collection.",
+      "collectionHelp": "Ce {type} est lié à une collection de contenu. Il est en lecture seul et recevra une mise à jour quand une nouvelle version de la collection sera publié par l'auteur·rice de la collection.",
       "remoteHelp": "Ce {type} est un élément externe lié au profil d'un autre utilisateur. Il est en lecture seule et recevra les mises jour du profil lié."
     },
     "missing": {
@@ -2230,10 +2372,10 @@
     },
     "shareImport": {
       "itemShareCode": "Code de partage de l'élément",
-      "findItem": "Trouver un élément",
+      "findItem": "Obtenir l'élément",
       "noItemFound": "Aucun élément trouvé avec le code {code}.",
       "dataFound": "données de {type} trouvés",
-      "userOwned": "Vous êtes l'auteur de cet élément. Vous ne pouvez pas ajouter vos propres éléments comme ressources à distance.",
+      "userOwned": "Vous êtes l'auteur·rice de cet élément. Vous ne pouvez pas ajouter vos propres éléments comme ressources à distance.",
       "alreadyAdded": "Cet élément a déjà été ajouté comme un élément à distance.",
       "qrTypeHelp": "Cet élément est un{qr}. Il peut toujours être importé, mais apparaîtra dans la liste {qr}, pas dans la liste {type}."
     },
@@ -2371,12 +2513,12 @@
     "dataItem": {
       "bulkDeletedTitle": "{n} élément supprimé | {n} éléments supprimés | {n} éléments supprimés",
       "bulkDeletedText": "Les éléments sélectionnés ont été supprimés.",
-      "bulkPartialTitle": "{n} supprimé, {f} échoué",
-      "bulkPartialText": "Ne pouvait pas supprimer: {items}",
+      "bulkPartialTitle": "{n} supprimé(s), {f} échoué(s)",
+      "bulkPartialText": "N'a pas pu supprimer: {items}",
       "connectionRestoredTitle": "Connexion restaurée",
       "connectionRestoredText": "{name} est associé à nouveau.",
-      "retryFailedTitle": "Nouvel essai échoué",
-      "retryFailedText": "L'élément distant pour {name} n'a pas été trouvé.",
+      "retryFailedTitle": "Le nouvel essai a échoué",
+      "retryFailedText": "L'élément externe pour {name} n'a pu être trouvé.",
       "convertedTitle": "Converti en données locales",
       "convertedText": "{name} est maintenant un élément uniquement local.",
       "itemDeletedTitle": "Élément supprimé",
@@ -2388,12 +2530,13 @@
       "restoreFailedTitle": "Restauration échoué",
       "deletedPermanentlyTitle": "Élément supprimé définitivement",
       "removedText": "{type}{name} a été retiré.",
-      "failedToDeleteText": "Échec de la suppression de {type}{name}. {err}"
+      "failedToDeleteText": "Échec de la suppression de {type}{name}. {err}",
+      "bulkFailedTitle": "Échec de la suppression multiple"
     },
     "share": {
       "syncInProgressTitle": "Synchronisation en cours",
       "syncInProgressText": "Merci de patienter pour la complétion de la synchronisation.",
-      "syncCompleteTitle": "Synchronisation complété",
+      "syncCompleteTitle": "Synchronisation terminée",
       "syncCompleteText": "{name} synchronisé avec les données en ligne.",
       "syncFailedTitle": "Synchronisation échoué"
     },
@@ -2401,9 +2544,9 @@
       "copied": "Copié"
     },
     "transfer": {
-      "uploadCompleteTitle": "Téléchargement fini",
-      "uploadFailedTitle": "Téléchargement échoué",
-      "downloadCompleteTitle": "Téléchargement fini",
+      "uploadCompleteTitle": "Téléversement terminé",
+      "uploadFailedTitle": "Téléversement échoué",
+      "downloadCompleteTitle": "Téléchargement terminé",
       "downloadFailedTitle": "Téléchargement échoué",
       "itemSynced": "{type}{name} synchronisé.",
       "itemSyncFailed": "Echec de la synchronisation de {type}{name}. {err}",
@@ -2419,16 +2562,18 @@
     "pilot": {
       "upToDateTitle": "Le pilote est à jour",
       "upToDateText": "Le pilote @:{'common.pilotDisplayName'} est déjà à jour avec les données en ligne. Aucune mise à jour nécessaire.",
-      "syncedText": "Le pilote @:{'common.pilotDisplayName'} est synchronisé.",
+      "syncedText": "Le pilote @:{'common.pilotDisplayName'} a été synchronisé.",
       "syncFailedText": "Échec de synchronisation du pilote @:{'common.pilotDisplayName'}. {err}"
     },
     "statblock": {
-      "copiedText": "Copié avec succès"
+      "copiedText": "Copié avec succès",
+      "errorText": "Impossible de copier le profil",
+      "copiedTitle": "Profil copié dans le presse-papier"
     },
     "gm": {
       "npcImportErrorText": "Impossible d'importer les données de MJ: {error}",
       "campaignPublishedTitle": "Campagne publiée",
-      "campaignPublishedText": "Version {version} de {name} a été publiée.",
+      "campaignPublishedText": "La version {version} de {name} a été publiée.",
       "importCompleteTitle": "Importation terminée",
       "importCompleteText": "Campagne ajoutée à la collection locale!",
       "importErrorTitle": "Erreur d'importation",
@@ -2436,9 +2581,11 @@
       "loginRequiredTitle": "Connexion demandée",
       "loginRequiredText": "Vous devez être connecté pour téléverser des données de campagne en ligne.",
       "uploadSuccessTitle": "Téléversé avec succès",
-      "uploadSuccessText": "Données en ligne mis à jour!",
+      "uploadSuccessText": "Données en ligne mises à jour!",
       "uploadErrorTitle": "Erreur de téléversement",
-      "uploadErrorText": "Impossible de mettre à jour les données en ligne: {error}"
+      "uploadErrorText": "Impossible de mettre à jour les données en ligne: {error}",
+      "v2BackupText": "{count} élément a été enregistré dans les importations v2 en attente dans le gestionnaire de contenu.| {count} éléments ont été enregistré dans les importations v2 en attente dans le gestionnaire de contenu.",
+      "v2BackupTitle": "Sauvegarde des importations V2"
     },
     "account": {
       "updateCompleteTitle": "Mise à jour terminée",
@@ -2449,9 +2596,9 @@
       "verificationSentText": "Merci de vérifier votre boîte de réception pour le code de vérification",
       "signOutTitle": "Déconnecté avec succès",
       "dataUpdatedText": "Données d'utilisateur mis à jour",
-      "updateFailedTitle": "Mis à jour échoué",
-      "emailChangeCompleteTitle": "Modification d'adresse électronique terminé",
-      "emailChangeCompleteText": "Votre adresse électronique a été modifié",
+      "updateFailedTitle": "Mise à jour échoué",
+      "emailChangeCompleteTitle": "Modification de l'adresse électronique terminé",
+      "emailChangeCompleteText": "Votre adresse électronique a été modifiée",
       "itchLinkedTitle": "Itch.io associé",
       "itchLinkedText": "Votre compte itch.io a bien été associé",
       "itchLinkFailedTitle": "Échec de l'association avec itch.io",
@@ -2461,7 +2608,7 @@
       "patreonLinkedTitle": "Patreon associé",
       "patreonLinkedText": "Votre compte Patreon a bien été associé",
       "noSubscriptionTitle": "Aucune contribution trouvée",
-      "noSubscriptionText": "Votre compte Patreon a été associé, mais aucun palier de contribution a été trouvé. Merci de contribuer au Patreon @:{'common.appName'} et de réessayer.",
+      "noSubscriptionText": "Votre compte Patreon a été associé, mais aucun palier de contribution n'a été trouvé. Merci de contribuer au Patreon de @:{'common.appName'} et de réessayer.",
       "patreonLinkFailedTitle": "Échec de l'association avec Patreon",
       "patreonLinkFailedText": "Il y a eu une erreur en essayant d'associer votre compte Patreon",
       "patreonUnlinkedTitle": "Patreon dissocié",
@@ -2469,7 +2616,15 @@
       "publishedTitle": "Publié",
       "collectionPublishFailedText": "Échec de la publication de la collection {name}",
       "cloudArchiveTitle": "Archive en ligne",
-      "cloudArchiveCooldownText": "Vous devez attendre {seconds} secondes avant de créer une nouvelle archive."
+      "cloudArchiveCooldownText": "Vous devez attendre {seconds} secondes avant de créer une nouvelle archive.",
+      "emailChangeInitFailedTitle": "Échec du changement d'adresse électronique",
+      "emailChangeFailedTitle": "Modification de l'adresse électronique échoué",
+      "emailChangeCancelledTitle": "Changement de l'adresse électronique annulé",
+      "emailChangeCancelledText": "La modification de l'adresse électronique a été annulé",
+      "collectionPublishedText": "Collection {name} publié sous la version {version}",
+      "syncedItems": "{n} élément synchronisé avec succès. | {n} éléments synchronisé avec succès.",
+      "syncedPartial": "Synchronisation de {succeeded} sur {n} élément. {failed} ont échoué. | Synchronisation de {succeeded} sur {n} éléments. {failed} ont échoué.",
+      "signOutText": "Le service d'authentification indique une déconnexion réussie"
     },
     "settings": {
       "unableToReadFileTitle": "Impossible de lire le fichier",
@@ -2482,7 +2637,7 @@
       "unableToImportTitle": "Impossible d'importer les données"
     },
     "lcp": {
-      "removedInvalidVersionText": "{name} a été retirée de l'importation -- invalid version string breaks semver",
+      "removedInvalidVersionText": "{name} a été retiré de l'importation -- la version est invalide et ne respecte pas le versionnage sémantique",
       "lcpUpdatedTitle": "LCP mis à jour",
       "lcpUpdatedText": "La dernière version de {pack} a été téléchargée et installé.",
       "lcpUpdateErrorTitle": "Erreur en mettant à jour les LCP",
@@ -2500,10 +2655,10 @@
     },
     "link": {
       "copiedTitle": "Lien copié",
-      "copiedText": "Le lien statique de {name} a été copié dans le presse-papier."
+      "copiedText": "Le lien de {name} a été copié dans le presse-papier."
     },
     "achievement": {
-      "unlockedTitle": "Succès débloqué!"
+      "unlockedTitle": "Succès accompli!"
     }
   },
   "share": {
@@ -2519,12 +2674,12 @@
     "sheetStyle": "Style de fiche",
     "includeMech": "Inclus le mécha",
     "noShareCode": "Cet élément n'a pas de code de partage. Pour le partager, synchronisez le avec votre compte @:{'common.appName'} en cliquant sur le bouton \"Synchronisez\" au dessus.",
-    "resultLastUpdated": "Dernière mise à jour",
+    "resultLastUpdated": "Dernièrement mis à jour",
     "addAsRemote": "ajouter comme ressource distante",
     "addAsLocalCopy": "ajouter comme copie locale"
   },
   "print": {
-    "generalOptions": "Options d'impression générales"
+    "generalOptions": "Options générales d'impression"
   },
   "enums": {
     "activationType": {

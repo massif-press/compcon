@@ -261,7 +261,11 @@
     "hints": "Pistas",
     "rules": "Reglas",
     "tactics": "Tácticas",
-    "activateFreeAction": "Activar (Acción Libre)"
+    "activateFreeAction": "Activar (Acción Libre)",
+    "deselectAll": "De‐seleccionar Todo",
+    "updated": "Actualizado",
+    "damageDealt": "Dispensado",
+    "damageTaken": "Recibido"
   },
   "language": {
     "selectLanguage": "Idioma",
@@ -298,7 +302,19 @@
     "aStandardEnvironmentWithNoSpecial": "Un entorno estándar sin condiciones especiales de combate",
     "standardEncounterDescription": "Un duelo simple, con dos bandos enfrentados entre si hasta que uno de ellos es quebrado o destruido.",
     "titlePage": "Página Titular",
-    "contributors": "Contribuidores"
+    "contributors": "Contribuidores",
+    "expressionVariable": {
+      "ll": "Nivel de Licencia del Piloto",
+      "tier": "Grado PNJ",
+      "structure": "Máximo Estructura",
+      "stress": "Máximo Estrés del Reactor",
+      "hp": "Máximo PG",
+      "currentStructure": "Estructura Actual",
+      "currentStress": "Estrés del Reactor Actual",
+      "currentHp": "PG Actuales",
+      "heat": "Calor Actual",
+      "save": "Salvación"
+    }
   },
   "nav": {
     "contentManager": {
@@ -472,7 +488,13 @@
       "logLevel": "@:{'common.logLevel'}",
       "logLevelLabel": "@:{'common.logLevel'}",
       "confirmImport": "",
-      "errorReportingStatus": "Error al reportar {status}"
+      "errorReportingStatus": "Error al reportar {status}",
+      "turnWizardClosePolicyLabel": "Al cerrar el Asistente de Turno",
+      "turnWizardClosePolicy": {
+        "ask": "Preguntar para conservar o deshacer acciones",
+        "keep": "Conservar acciones",
+        "undo": "Deshacer acciones"
+      }
     },
     "storage": {
       "userData": "Datos del usuario",
@@ -555,7 +577,8 @@
       "clickHere": "presione aquí.",
       "communityNotice": "La descarga dentro de aplicaciones y la suscripción automática a las actualizaciones de LCP de la comunidad aún no son soportadas . Una vez disponibles las herramientas de soporte del autor, los LCP comunitarios serán migrados a v3 y podrán aprovechar los mismos mecanismos de actualización y suscripción que los paquetes oficiales de contenido de Massif Press. Siga el {blog} para mantenerse al día en el progreso.",
       "developmentBlog": "bitácora de desarrollo",
-      "massifPress": "Massif Press"
+      "massifPress": "Massif Press",
+      "officialContentHeading": "Contenido Oficial {publisher}"
     },
     "packInfo": {
       "v2ContentTitle": "Contenido v2",
@@ -609,7 +632,9 @@
       "clearLog": "Limpiar Bitácora",
       "exportThisSession": "Exportar Bitácora de Esta Sesión",
       "exportAllSessions": "Exportar Bitácora de Todas las Sesiones",
-      "logLevel": "@:{'common.logLevel'}"
+      "logLevel": "@:{'common.logLevel'}",
+      "clearAllLogs": "Limpiar Todas las Bitácoras",
+      "clearAllLogsConfirm": "Esto borrará permanentemente todas las entradas en bitácora de cada sesión, incluyendo sesiones de visitas previas."
     },
     "packConfig": {
       "title": "Configuraciones de Contenido",
@@ -664,7 +689,17 @@
       "requiresManual": "{count} incidente requiere medidas manuales. | {count} incidentes requieren medidas manuales. | {count} incidentes requieren medidas manuales. | {count} incidentes requieren medidas manuales.",
       "applyFixesButton": "Aplicar {count} Reparación | Aplicar {count} Reparaciones | Aplicar {count} Reparaciones | Aplicar {count} Reparaciones",
       "colItem": "@:{'common.item'}",
-      "cancel": ""
+      "cancel": "",
+      "catLcpFlavorState": "LCP Texto Personalizado",
+      "applyingFixes": "Aplicando arreglos ({progress} / {total})...",
+      "finding": {
+        "flavorMatchesDescription": "Descripción del tono coincide con el texto de la descripción del artículo",
+        "unresolvedOrigin": "Característica tiene origen objeto-forma sin resolver; puede ser resuelto ahora",
+        "unresolvableOrigin": "Característica tiene origen que no se puede resolver. Borre y reinstale el LCP para recuperar",
+        "missingFeature": "Característica referenciada por \"{owner}\" faltante. Reinstale el LCP \"{pack}\" para recuperar",
+        "bakedNpcState": "Característica porta {fields} de estado por PNJ integrados en los datos del LCP",
+        "malformedNpcData": "PNJ tiene campos de datos v2 malformados que serán limpiados al guardar"
+      }
     },
     "search": {
       "searchResults": "resultados de la búsqueda",
@@ -713,6 +748,16 @@
     "extraContent": {
       "backedUp": "Respaldado",
       "missing": "Faltante"
+    },
+    "packIssues": {
+      "badgeTitle": "Problemas de los datos del paquete de contenido",
+      "skippedCount": "{count} artículo no pudo ser cargado y fue omitido. | {count} artículos no pudieron ser cargados y fueron omitidos.",
+      "warningCount": "{count} problema de datos puede causar comportamiento incorrecto. | {count} problemas de datos pueden causar comportamiento incorrecto.",
+      "loadError": "Falla al cargar: {detail}",
+      "invalidField": "Campo faltante o inválido: {field}",
+      "unknownValue": "Valor de {field} no reconocido: {value}",
+      "notArray": "Contenido del archivo no es una lista. Nada en este fue cargado.",
+      "authorHint": "Estos problemas están en los datos del paquete de contenido y pueden ser arreglados únicamente por su autor."
     }
   },
   "gm": {
@@ -801,7 +846,8 @@
     "folder": {
       "noFolder": "No hay Carpeta",
       "setFolder": "Seleccionar carpeta",
-      "collectionFolder": "Directorio de colección"
+      "collectionFolder": "Directorio de colección",
+      "deleteFolderWarning": "Esto borrará el directorio '{folder}'. Todos los artículos serán enviados al grupo '{noFolder}'"
     },
     "filter": {
       "showItemsWith": "Mostrar artículos con",
@@ -828,7 +874,12 @@
       "additionalDetail": "Detalle adicional",
       "clocks": "Relojes",
       "viewCollections": "Ver Colecciones",
-      "addTable": "Añadir Nueva Mesa"
+      "addTable": "Añadir Nueva Mesa",
+      "collectionTitle": {
+        "character": "Personajes",
+        "location": "Locaciones",
+        "faction": "Facciones"
+      }
     },
     "print": {
       "othersCount": "(+{n} otros)"
@@ -934,7 +985,8 @@
       "noLayers": "sin capas",
       "layers": "Capas",
       "layerDescription": "Descripción de la Capa",
-      "persistentTraitsHeading": "Rasgos persistentes"
+      "persistentTraitsHeading": "Rasgos persistentes",
+      "shardsPerHostile": "# de Personajes Hóstiles"
     },
     "layerSelector": {
       "noData": "¡No se han encontrado datos de Eidolon!",
@@ -967,7 +1019,8 @@
       "modifiedWarning": "Este sitrep ha sido modificado. Cargar una nueva pre-selección eliminará estos cambios. ¿Seguro que quiere continuar?",
       "deletePresetConfirm": "Eliminar pre-selección {name}? Esto no puede deshacerse.",
       "condition": "Condición",
-      "victoryConditions": "Condiciones"
+      "victoryConditions": "Condiciones",
+      "victoryCondition": "Condición"
     },
     "npcFeatures": {
       "saveConfig": "Guardar Configuración",
@@ -991,7 +1044,8 @@
     },
     "npcEditor": {
       "v2Export": "Exportar v2",
-      "statblock": "Bloque de Estadísticas"
+      "statblock": "Bloque de Estadísticas",
+      "noTelemetry": "No hay telemetría para este PNJ aún. La telemetría es registrada durante un encuentro esta aparece en su archivo."
     },
     "fields": {
       "title": "Título",
@@ -1109,7 +1163,8 @@
       "selectDataFile": "Seleccionar Archivo de Datos",
       "optional": "Opcional",
       "convertToLocalWarning": "Convertir este artículo a datos locales permitirá edición local pero quitará su enlace remoto a la cuenta de nube del autor, y prevendrá recepción de cualquier actualización futura. Para re-habilitar sincronización remota, tendrá que re-importar este artículo vía código de compartir.",
-      "confirmDuplicationOfThisNpc": "Confirmar duplicación de este PNJ"
+      "confirmDuplicationOfThisNpc": "Confirmar duplicación de este PNJ",
+      "searchCollection": "Buscar {collection}"
     },
     "gmLabelEditor": {
       "valueOptional": "Valor (opcional)",
@@ -1153,7 +1208,9 @@
       "selectEncounterFile": "Seleccionar Archivo de Encuentro",
       "enemyForces": "FUERZAS ENEMIGAS",
       "alliedForces": "FUERZAS ALIADAS",
-      "sortBy": "Ordenar por"
+      "sortBy": "Ordenar por",
+      "searchEncounters": "Buscar Encuentros",
+      "confirmRemoveCombatant": "Confirmar borrado de {name} del encuentro"
     },
     "npcRoster": {
       "selectLayer": "Seleccionar Capa",
@@ -1199,7 +1256,18 @@
       "templateClassExactPerTier": "El/La {name} elige {min} característica opcional adicional de su clase por Grado de PNJ | El/La {name} elige {min} características opcionales adicionales de su clase por Grado de PNJ",
       "templateExact": "El/La {name} elige {min} opción de la lista Características Opcionales de Plantilla {name} | El/La {name} elige {min} opciones de la lista Características Opcionales de Plantilla {name}",
       "templateMayExact": "El/La {name} puede elegir {min} opción de la lista Características Opcionales de Plantilla {name} | El/La {name} puede elegir {min} opciones de la lista Características Opcionales de Plantilla {name}",
-      "templatePerTier": "El/La {name} puede elegir una característica opcional adicional por Grado de PNJ | El/La {name} puede elegir {n} características opcionales adicionales por Grado de PNJ"
+      "templatePerTier": "El/La {name} puede elegir una característica opcional adicional por Grado de PNJ | El/La {name} puede elegir {n} características opcionales adicionales por Grado de PNJ",
+      "classRange": "El {name} elige entre {min} y {max} características opcionales adicionales de la lista de Características Opcionales de Clase {name}",
+      "classRangePerTier": "El {name} elige entre {min} y {max} características opcionales adicionales de la lista Características Opcionales de Clase {name} por Grado de PNJ",
+      "templateClassRange": "El {name} elige entre {min} y {max} características opcionales adicionales de su clase",
+      "templateClassRangePerTier": "El {name} elige entre {min} y {max} características opcionales adicionales de su clase por Grado de PNJ",
+      "templateAny": "Al elegir sistemas opcionales, el {name} puede elegir también de la lista Plantilla de Características Opcionales {name}.",
+      "templateRange": "El {name} elige entre {min} y {max} opciones de la lista Plantilla de Características Opcionales {name}",
+      "templateMayRange": "El {name} puede elegir entre {min} y {max} opciones de la lista Plantilla de Características Opcionales {name}"
+    },
+    "npcFeatureSelector": {
+      "allAvailable": "Todos Disponibles",
+      "allAssigned": "Todos Asignados"
     }
   },
   "active": {
@@ -1235,7 +1303,9 @@
       "mechBracedText": "{name} ahora está FORTALECIDO.",
       "overwatchTitle": "Meca Vigilante",
       "overwatchText": "{name} está ahora en VIGILANCIA.",
-      "dismountFailedTitle": "Fallo al Desmontar"
+      "dismountFailedTitle": "Fallo al Desmontar",
+      "shutDownTitle": "Meca Desactivado",
+      "shutDownText": "{name} ha desactivado. Calor y EXPUESTO son despejados; el meca está ATURDIDO y es inmune a tecno hasta que arranque."
     },
     "npcActions": {
       "npcPreparedTitle": "PNJ Preparado",
@@ -1274,7 +1344,8 @@
       "target": "Blanco",
       "noMapData": "Sin Datos de Mapa",
       "playedBy": "Jugado por",
-      "condition": "Condición"
+      "condition": "Condición",
+      "invalidJsonFile": "Archivo JSON inválido."
     },
     "roster": {
       "addFromRoster": "añadir desde la lista",
@@ -1311,7 +1382,10 @@
       "devNoteReport": "Esta característica sigue en desarrollo. Los reportes post-acción se ampliarán en futuras entregas.",
       "devNoteLogs": "Esta característica sigue en desarrollo. Los datos adicionales y las opciones de exportación estarán disponibles en futuras entregas.",
       "deleteArchiveDetail": "Esto marcará el archivo para la eliminación. Ya no aparecerá en esta lista, pero será eliminado permanentemente basado en sus opciones de retención en el Menú Opciones.",
-      "noArchivedFoundFiltered": "No se hallaron encuentros archivados que incluyan \"{search}\""
+      "noArchivedFoundFiltered": "No se hallaron encuentros archivados que incluyan \"{search}\"",
+      "loadFromJson": "Cargar Encuentro desde JSON",
+      "exportActorLog": "Exportar Bitácora",
+      "exportActorLogTooltip": "Exporta la bitácora de este combatiente como un archivo que tu puedes entregar a otro jugador. Únicamente los eventos de este actor y las referencias que estas mencionen son incluidas."
     },
     "encSummary": {
       "turnN": "(Turno {n})",
@@ -1346,7 +1420,15 @@
       "noArchivedFoundFiltered": "No se hallaron hojas archivadas incluyendo \"{search}\"",
       "savePilotHistory": "Guardar Historia de Piloto",
       "characterSheets": "Hojas de Personaje",
-      "active": "Activo"
+      "active": "Activo",
+      "saveToLogbook": "Guardar en la Bitácora del Piloto",
+      "saveToLogbookTooltip": "Ingresa el registro del encuentro de esta hoja a la bitácora del piloto. Re-guardar reemplaza el registro ya mantenido para este encuentro.",
+      "historySaved": "Registro del encuentro escrito en la bitácora de {name}.",
+      "historySaveFailed": "No se puede escribir este encuentro en la bitácora del piloto.",
+      "noEvents": "Esta hoja no contiene eventos de combate registrados.",
+      "viewSheet": "Ver Hoja",
+      "viewSheetTooltip": "Revisar las estadísticas, estados y equipamiento de este piloto tal como figuraron cuando la hoja fue archivada.",
+      "viewSheetUnavailable": "Esta hoja no tiene meca activo sobre el cual reportar."
     },
     "newSheet": {
       "llLevel": "NL{n}",
@@ -1367,7 +1449,8 @@
       "started": "iniciado",
       "lastTurn": "último turno",
       "na": "N/A",
-      "mounted": "Montada"
+      "mounted": "Montada",
+      "noCampaignInformation": "Sin Información de Campaña"
     },
     "landing": {
       "resumeRound": "reanuda {name} (Ronda {n})",
@@ -1378,7 +1461,7 @@
       "hostAnOnlineTable": "Alojar una Mesa En Línea",
       "spectatorMode": "Modo Espectador",
       "campaignDisplay": "Mostrar Campaña",
-      "observer": "OBSERVADOR",
+      "observer": "Observador",
       "inDevelopmentReleaseV32": "En Desarrollo (lanzamiento v3.2)",
       "createManageAndRunActivePlayer": "Crear, gestionar, y ejecutar hojas de Personaje Jugador activas",
       "resumeLast": "reanudar última",
@@ -1390,7 +1473,13 @@
       "endEncounter": "Finalizar Encuentro",
       "confirmEndEncounter": "Confirmar Finalización del Encuentro",
       "endEncounterLower": "finalizar encuentro",
-      "confirmEndEncounterLower": "Confirme finalización del encuentro"
+      "confirmEndEncounterLower": "Confirme finalización del encuentro",
+      "gmConfirm": "Terminar este encuentro cerrará la instancia activa y enviará una copia al archivo. Encuentros archivados no pueden ser reanudados (pero pueden ser reiniciados). ¿Estás seguro de que quieres continuar?",
+      "results": {
+        "pc_victory": "VICTORIA PJ",
+        "enemy_victory": "VICTORIA ENEMIGA",
+        "stalemate": "EMPATE"
+      }
     },
     "sortBar": {
       "sortByRecent": "Ordenar por Reciente",
@@ -1407,13 +1496,16 @@
         "sheet": "Borrar hoja permanentemente | Borrar permanentemente las hojas seleccionadas",
         "encounter": "Borrar encuentro permanentemente | Borrar permanentemente los encuentros seleccionados",
         "item": "Borrar permanentemente artículo | Borrar permanentemente los artículos seleccionados"
-      }
+      },
+      "organizeCollection": "Organizar {collection}"
     },
     "runnerHeader": {
       "lastSaved": "Guardado por Última Vez",
       "manualSave": "Guardado Manual",
       "layoutOptions": "Opciones de Diseño",
-      "autosave": "Autoguardado"
+      "autosave": "Autoguardado",
+      "autosaveOnRoundEnd": "Al Terminar Ronda",
+      "autosaveOff": "Apagado (Únicamente Guardado Manaual)"
     },
     "leaveDialog": {
       "prompt": "¿Quieres guardar este encuentro antes de salir?",
@@ -1438,7 +1530,8 @@
       "burnResolved": "Incendio resuelto",
       "burnRequired": "Resuelva o ignore su Incendio para terminar la ronda.",
       "youHaveRemainingActions": "¡Tiene acciones restantes!",
-      "movementRemaining": "{n} casilla de movimiento se perderá. | {n} casillas de movimiento se perderán."
+      "movementRemaining": "{n} casilla de movimiento se perderá. | {n} casillas de movimiento se perderán.",
+      "movementRemainingTitle": "Tienes movimiento restante"
     },
     "joinTable": {
       "sortOnline": "Ordenar por Estado en línea",
@@ -1466,7 +1559,8 @@
       "atRound": "en la Ronda",
       "warningReplace": "Advertencia: El estado importado de la Hoja de Personaje sustituirá el estado actual de la Hoja de Personaje.",
       "changeActiveMech": "Cambiar Meca Activo",
-      "applySave": "Aplicar & Guardar"
+      "applySave": "Aplicar & Guardar",
+      "invalidSheetFile": "Archivo de Instancia de Hoja de Personaje Inválido."
     },
     "pcNotes": {
       "playerNotes": "Notas de Jugador",
@@ -1493,7 +1587,9 @@
       "editReinforcements": "Editar Refuerzos",
       "noReinforcementSchedule": "No hay Agenda de Refuerzos",
       "max": "Máximo",
-      "undoEditOverrides": "Editar anulaciones de {name}"
+      "undoEditOverrides": "Editar anulaciones de {name}",
+      "invalidEncounterFile": "Archivo de Instancia de Encuentro Inválido.",
+      "importFailed": "No se puede importar este archivo de encuentro."
     },
     "encInfo": {
       "reinforcements": "Refuerzos",
@@ -1524,7 +1620,9 @@
       "hullCheck": "Prueba de Casco",
       "agilityCheck": "Prueba de Agilidad",
       "systemsCheck": "Prueba de Sistemas",
-      "engineeringCheck": "Prueba de Ingeniería"
+      "engineeringCheck": "Prueba de Ingeniería",
+      "actorRolled": "{name} tiró:",
+      "gmRolled": "DJ Tiró:"
     },
     "toolPalette": {
       "tagReference": "Referencia del Descriptor",
@@ -2503,7 +2601,7 @@
       "licenseUnlock": "Desbloquear nueva licencia",
       "mv2LicenseAcquisitionRequest": "Solicitud de Adquisición de Licencia MV-2",
       "identServiceDetermined": "El Servicio de IDENT de la UAD ha determinado que",
-      "mechSkills": "Habilidades de Mecha",
+      "mechSkills": "Habilidades Meca",
       "levelUpOverview": "Subir de Nivel (Vista General)",
       "coreBonusInstallation": "Instalación de bono Base",
       "coreBonusIneligible": "No elegible para bonos base",
@@ -3861,11 +3959,11 @@
       "eidolonLayers": "Capas Eidolon",
       "pilotBackgrounds": "Trasfondos de Piloto",
       "referencePilots": "Referencia: Pilotos",
-      "referenceMechs": "Referencia: Mecas",
-      "referenceCombat": "Referencia: Combate",
-      "referenceNarrativePlay": "Referencia: Juego Narrativo",
-      "referenceErrata": "Referencia: Erratas",
-      "referenceGlossary": "Referencia: Glosario",
+      "referenceMechs": "Mecas",
+      "referenceCombat": "Combate",
+      "referenceNarrativePlay": "Juego Narrativo",
+      "referenceErrata": "Erratas",
+      "referenceGlossary": "Glosario",
       "lists": "Listas"
     },
     "campaignBookshelf": {

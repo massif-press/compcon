@@ -65,7 +65,7 @@
     "all": "Alle",
     "loadout": "Konfiguration",
     "weapon": "Waffe",
-    "frame": "Rahmen",
+    "frame": "Schreitwerk",
     "tierN": "Rang {n}",
     "tierShort": "R{n}",
     "byAuthor": "von {author}",
@@ -259,7 +259,10 @@
     "hints": "Hinweise",
     "rules": "Regeln",
     "tactics": "Strategie",
-    "activateFreeAction": "Aktivieren (Freie Aktion)"
+    "activateFreeAction": "Aktivieren (Freie Aktion)",
+    "damageDealt": "Zugefügt",
+    "damageTaken": "Genommen",
+    "updated": "Aktualisiert"
   },
   "language": {
     "experimentalNote": "Nicht-englische Übersetzungen werden von der Community geschrieben und sind aktuell in Entwicklung. Einige Texte könnten nicht übersetzt oder fehlerhaft sein.",
@@ -296,7 +299,19 @@
     "aStandardEnvironmentWithNoSpecial": "Eine Standardumgebung ohne besondere Kampfbedingungen",
     "standardEncounterDescription": "Eine simple Angelegenheit. Zwei Seiten treten einander entgegen, bis eine der beiden bricht oder zerstört wird.",
     "titlePage": "Titelseite",
-    "contributors": "Mitwirkende"
+    "contributors": "Mitwirkende",
+    "expressionVariable": {
+      "ll": "Lizenzlevel der Pilot:in",
+      "tier": "NSC-Rang",
+      "structure": "Maximale Struktur",
+      "stress": "Maximale Reaktorstabilität",
+      "hp": "Maximale TP",
+      "currentStructure": "Aktuelle Struktur",
+      "currentStress": "Aktuelle Reaktorstabilität",
+      "currentHp": "Aktuelle TP",
+      "heat": "Aktuelle Hitze",
+      "save": "Rettungswert"
+    }
   },
   "nav": {
     "contentManager": {
@@ -575,7 +590,9 @@
       "cancel": "@:{'common.cancel'}",
       "catFlavorText": "Kulissentext",
       "catNpcStats": "NSC Statistiken",
-      "catLcpOrigin": "LCP Ursprung"
+      "catLcpOrigin": "LCP Ursprung",
+      "catLcpFlavorState": "LCP-Eigentext",
+      "applyingFixes": "Reparatur im Gange ({progress} / {total})..."
     },
     "v2ImportNotify": {
       "reimportSuccessText": "{count} Element erfolgreich importiert. | {count} Elemente erfolgreich importiert.",
@@ -627,7 +644,13 @@
       "logLevelLabel": "@:{'common.logLevel'}",
       "errorReporting": "Fehlerberichterstattung",
       "confirmImport": "@:{'common.confirmImport'}",
-      "errorReportingStatus": "Fehlerberichterstattung {status}"
+      "errorReportingStatus": "Fehlerberichterstattung {status}",
+      "turnWizardClosePolicyLabel": "Beim Schließen des Zugassistenten",
+      "turnWizardClosePolicy": {
+        "ask": "Nachfragen, ob Aktionen behalten oder verworfen werden sollen",
+        "keep": "Aktionen behalten",
+        "undo": "Aktionen verwerfen"
+      }
     },
     "packsDirectory": {
       "officialContent": "Offiziell",
@@ -638,7 +661,8 @@
       "clickHere": "klicken Sie hier.",
       "communityNotice": "In-App Downloads und automatische Abonnements zu Community-LCP-Aktualisierungen werden aktuell noch nicht unterstützt. Sobald die nötigen Werkzeuge für Autor:innen verfügbar sind, werden Community LCPs zu V3 migriert und können von denselben Update- und Abonnementfunktionen profitieren, die auch für offizielle Massif Press Inhaltspakete verfügbar sind. Folgen Sie {blog} um über die Entwicklungen auf dem Laufenden zu bleiben.",
       "developmentBlog": "Entwickler-Blog",
-      "massifPress": "MASSIF PRESS"
+      "massifPress": "MASSIF PRESS",
+      "officialContentHeading": "Offizielle {publisher}-Inhalte"
     },
     "packInfo": {
       "v2ContentTitle": "V2 Inhalte",
@@ -736,7 +760,7 @@
     "mechPanel": {
       "pilotSkills": "Pilot:innenfertigkeiten ({n})",
       "meltdown": "Dieser Mech hat eine Kernschmelze erlitten. Er ist permanent zerstört und kann nicht repariert werden.",
-      "frameTraits": "Rahmeneigenschaften ({n})",
+      "frameTraits": "Schreitwerkeigenschaften ({n})",
       "pilotTalents": "Pilot:innentalente ({n})",
       "coreBonuses": "Herstellerspezialisierungen ({n})",
       "aiControl": "KI-Kontrolle",
@@ -808,7 +832,7 @@
       "activeMechTooltip": "Der aktive Mech wird für dieses Gefecht instanziert. Sobald das Gefecht begonnen wird, kann der aktive Mech nicht mehr geändert werden, ohne dass die Statistiken des Mechs zurückgesetzt werden",
       "pilotNoMech": "Pilot wird ohne Mech instanziert werden",
       "mechStats": "Mech-Statistiken",
-      "frameTraits": "Rahmeneigenschaften",
+      "frameTraits": "Schreitwerkeigenschaften",
       "coreSystem": "Kernsystem",
       "activeLoadout": "Aktive Konfiguration",
       "selectPilot": "Eine:n Pilot:in auswählen",
@@ -1409,7 +1433,7 @@
     },
     "encounterPilotsPanel": {
       "pilotNameOrCallsign": "Name oder Callsign der Pilot:in",
-      "frameOrMechName": "Name des Rahmens oder Mechs",
+      "frameOrMechName": "Name des Schreitwerks oder Mechs",
       "addPilots": "Pilot:innen hinzufügen",
       "importAPilotFromJsonData": "Pilot:in aus JSON-Daten importieren",
       "addsAPilottypeCombatantPlaceholder": "Fügt einen Pilot:in-Platzhalter als Kombattant hinzu, ohne Pilot:innendaten."
@@ -1546,14 +1570,14 @@
       "unlockLicense": "Lizenz freischalten",
       "rm4cS1LicensingAuthorization": "RM-4c (S-1) Lizenzautorisierungs-Anhang",
       "mv2DLicensorLicenseeTransmit": "MV-2//d Lizenzgeber/Lizenznehmer Übertragungsprotokoll",
-      "licensingSupplementalIntro": "Der RM-4α Anhang I (Lizenzautorisierung) registriert die Rahmendruck- und Betriebslizenzen (RD/B) eine:r individuellen Pilot:in in der Union Lizenzbehörde.",
-      "theMV2LicensorLicenseeTransmit": "Das MV-2//d Lizenzgeber/Lizenznehmer Übertragungsprotokoll registriert die Übertragung und den Empfang einer durch die UN anerkannten RAHMEN-Lizenz. Diese besteht aus Ausrüstungs-Druckvorlagen unter 1.5 EB, RAHMEN-Druckvorlagen unter 3.75 EB, sowie Zugangsprotokollen zu RAHMEN-konformer Systemsoftware.",
+      "licensingSupplementalIntro": "Der RM-4α Anhang I (Lizenzautorisierung) registriert die Schreitwerksdruck- und Betriebslizenzen (SWD/B) eine:r individuellen Pilot:in durch die Union-Lizenzbehörde.",
+      "theMV2LicensorLicenseeTransmit": "Das MV-2//d Lizenzgeber/Lizenznehmer Übertragungsprotokoll registriert die Übertragung und den Empfang einer durch die UN anerkannten SCHREITWERK-Lizenz. Diese besteht aus Ausrüstungs-Druckvorlagen unter 1.5 EB, SCHREITWERK-Druckvorlagen unter 3.75 EB, sowie Zugangsprotokollen zu SCHREITWERK-konformer Systemsoftware.",
       "unlockALicense": "Schalten Sie eine Lizenz frei.",
       "printingLiabilityDisclaimer": "Union und ihre Abgeordneten sind nicht haftbar für Probleme, welche durch den Druck, die Installation, und/oder die Nutzung von nicht anerkannten oder verbotenen Lizenzmaterialien entstehen.",
       "pilotMechSkills": "Pilot:innen-Mechfertigkeiten",
       "improveMechSkills": "Mechfertigkeiten verbessern",
       "rm4dPilotSelfAssessment3": "RM-4d Pilot:innen-Selbsteinschätzung (3/3)",
-      "mv2CFrameConfigurationUpdate": "MV-2//c Rahmenkonfigurations-Aktualisierung",
+      "mv2CFrameConfigurationUpdate": "MV-2//c Schreitwerkkonfigurations-Aktualisierung",
       "mechSkillsAssessmentIntro": "Die RM-4b PILOT:INNEN-SELBSTEINSCHÄTZUNG (Mechfertigkeiten) wird an das Druckerpersonal versendet, um die Konfiguration Ihres GMS-SP1 EVEREST abzuschließen.",
       "attestation": "Durch das Einreichen dieses Formulars bestätigen Sie, dass Ihre Antworten nach bestem Wissen und Gewissen der Wahrheit entsprechen. Die wissentliche Bereitstellung von falschen oder unvollständigen Angaben wird nach DoJ/HR AR 303-J bestraft.",
       "improveSkillTriggers": "Fertigkeitstrigger verbessern",
@@ -1577,7 +1601,7 @@
       "selectACoreBonus": "Eine Herstellerspezialisierung auswählen",
       "nextCoreBonusIn": "Nächste Herstellerspezialisierung in",
       "licenseLevels": "Lizenzleveln",
-      "onAcceptanceFrameConfig": "Bei Übernahme des MV-2//c Rahmenkonfigurationsupdates wird das Union IDENT//eng-Subsystem automatisch die Rahmenkonfigurationsprotokolle aktualisieren, die in der Omninet-Speicheradresse Ihres IDENT-Profils (V.node::/{id}) registriert sind.",
+      "onAcceptanceFrameConfig": "Bei Übernahme des MV-2//c Schreitwerkkonfigurationsupdates wird das Union IDENT//eng-Subsystem automatisch die Schreitwerkkonfigurationsprotokolle aktualisieren, die in der Omninet-Speicheradresse Ihres IDENT-Profils (V.node::/{id}) registriert sind.",
       "selectSkillTriggers": "Wählen Sie {word} ({count}) Fertigkeitstrigger.",
       "addMechSkillPoints": "Fügen Sie {word} ({count}) Mechfertigkeitspunkte hinzu.",
       "selectPilotTalents": "Wählen Sie {word} ({count}) Pilot:innentalente.",
@@ -1646,7 +1670,7 @@
       "callsignAvailable": "Kennung verfügbar",
       "identityVerified": "Identität bestätigt",
       "phHrDataRegistered": "PH/HR-Daten registriert",
-      "frameConfigurationOptions": "Rahmenkonfigurationsoptionen {remit}",
+      "frameConfigurationOptions": "Schreitwerkkonfigurationsoptionen {remit}",
       "haseVaultRemit": "(\"H.A.S.T\" Omninet-Tresorauftrag)",
       "skillTriggerAudit": "Pilot:innen-Fertigkeitstriggeraudit",
       "skillAuditIncomplete": "Fehler: Fertigkeitsaudit unvollständig",
@@ -1676,7 +1700,7 @@
       "err": "ERR",
       "sortByName": "Nach Name sortieren",
       "sortByManufacturer": "Nach Hersteller sortieren",
-      "selectNewFrame": "Neuen Rahmen auswählen",
+      "selectNewFrame": "Neues Schreitwerk auswählen",
       "formFieldMechName": "XK-4-01 // Mechnamen registrieren",
       "registerNewMech": "Neuen Mech registrieren",
       "mechHangar": "Mechhangar",
@@ -1694,7 +1718,9 @@
       "identRecordNotice": "Unbefugter Gebrauch dieser IDENT-Akte oder der darin enthaltenen Daten durch den Akteninhaber oder andere Personen wird nach A-645-c des DoJ/HR strafrechtlich verfolgt. Diese Akte ist Eigentum des Union Administrationsbüros und alle darin enthaltenen Daten müssen auf Nachfrage über NDL-C-ZWIETRÄCHTIGER-ATEM-Verschlüsselungsprotokolle verschlüsselt versendet werden. Diese RM-4-Akte muss alle fünf (5) Cradle-Standardjahre aktualisiert werden, um die GMS-Lizenzrechte zu bewahren. Fernfeld-Funktionäre, deren Einsätze auf mehr als fünf Cradle-Standardjahre geschätzt werden, die aber noch nicht mit tragbaren Omninet-Haken ausgestattet wurden, sollten eine RM-11-B IDENT Anhangserweiterung (b) beantragen. Für andere Anliegen bezüglich dieser Akte, kontaktieren Sie bitte Ihren lokalen Union Administrationsoffizier. V-CDL//M-265-114-831 (A)",
       "requiresCloudAccount": "Benötigt Cloud-Konto",
       "favoriteMech": "Mech favorisieren",
-      "unfavoriteMech": "Mech entfavorisieren"
+      "unfavoriteMech": "Mech entfavorisieren",
+      "frameTraitsTitle": "{source} {frame} Schreitwerkeigenschaften",
+      "coreSystemTitle": "{source} {frame} Kernsystem"
     },
     "roster": {
       "includesContentPacks": "Beinhaltet Daten aus den folgenden Inhaltspaketen",
@@ -1770,9 +1796,9 @@
       "setUses": "Ladungen setzen",
       "revisions": "Revisionen",
       "weaponMods": "Waffenmods",
-      "frameEquipmentVerified": "Anmeldung der Rahmenausrüstung bestätigt",
+      "frameEquipmentVerified": "Anmeldung der Schreitwerkausrüstung bestätigt",
       "currentlyEquipped": "Aktuell ausgerüstet",
-      "frameEquipmentAuthorizationHeading": "Ausrüstungsautorisierung der Union-Waffenkammer: Rahmenausrüstung//Kampfsystem",
+      "frameEquipmentAuthorizationHeading": "Ausrüstungsautorisierung der Union-Waffenkammer: Schreitwerkausrüstung//Kampfsystem",
       "frameEquipmentInvalid": "Ausrüstungs-ID fehlt oder ungültig",
       "pilotMaterielVerified": "Anmeldung des Pilot:innen-Wehrmaterials bestätigt",
       "reorderSystems": "Systeme neu anordnen",
@@ -1964,7 +1990,7 @@
       "convertRemotePilot": "Rechnerferne:n Pilot:in konvertieren",
       "confirmPilotDeletion": "Löschung der Pilot:in bestätigen",
       "exportV2Json": "V2-JSON exportieren",
-      "showAllFrames": "Alle Rahmen anzeigen",
+      "showAllFrames": "Alle Schreitwerke anzeigen",
       "printMechSheet": "Mech-Bogen drucken",
       "duplicatePilotHint": "Dies wird eine Kopie der Daten diese:r Pilot:in erstellen und in der Pilot:innenliste registrieren.",
       "clonePilotHint": "Dies wird den:die ausgewählte:n Pilot:in klonen. Geklonte Charaktere können keiner aktuellen Mission beitreten, und geklonte Charaktere erhalten eine zufällig bestimmte Besonderheit. Zusätzliche Klonvorgänge und Subjektivitätsüberschreibungen fügen weitere Besonderheiten hinzu.",
@@ -2494,7 +2520,10 @@
       "roster": "Liste"
     },
     "desktop": {
-      "v2ImportsAwaitingResolution": "Auf Auflösung wartende V2-Importe"
+      "v2ImportsAwaitingResolution": "Auf Auflösung wartende V2-Importe",
+      "log": {
+        "compendium": "Durchsuchen Sie die Datenbank der @:{'common.gameName'} Schreitwerke, Ausrüstungen, und Regeln"
+      }
     },
     "storageWarning": {
       "installCompconForReliableStorage": "@:{'common.appName'} für zuverlässige Speicherung installieren",
@@ -2967,7 +2996,7 @@
     },
     "categories": {
       "equipmentTags": "Ausrüstungsmarken",
-      "frames": "Rahmen",
+      "frames": "Schreitwerke",
       "mechWeapons": "Mech-Waffen",
       "pilotBackground": "Pilot:innenhintergrund",
       "environments": "Umgebungen",
@@ -3007,7 +3036,7 @@
     },
     "content": {
       "eidolonLayer": "Eidolonschicht",
-      "frameTypeLabel": "{type}-Rahmen"
+      "frameTypeLabel": "{type}-Schreitwerk"
     },
     "campaign": {
       "errNoCampaign": "Err: keine Kampagne geladen",
@@ -3279,7 +3308,7 @@
       "deprecated": "Dieses Element ist veraltet und kann entfernt werden.",
       "modifies": "Modifiziert",
       "compendiumData": "Kompendiumsdaten",
-      "variantFrame": "Rahmenvariante",
+      "variantFrame": "Schreitwerkvariante",
       "combatProfile": "Kampfprofil",
       "availableMounts": "Verfügbare Waffenlafetten",
       "onboardCore": "Eingebautes Kernsystem",
@@ -3674,6 +3703,9 @@
       "pleaseUseResponsibly": "Bitte verantwortungsbewusst nutzen",
       "copyShareCodeToClipboard": "Teilbaren Code in Zwischenablage kopieren",
       "copyShareLinkToClipboard": "Teilbaren Link in Zwischenablage kopieren"
+    },
+    "coreSystemPanel": {
+      "title": "{frame} Kernsystem"
     }
   },
   "enums": {
@@ -3839,7 +3871,10 @@
     "addAsLocalCopy": "als lokale Kopie hinzufügen"
   },
   "print": {
-    "generalOptions": "Generelle Druckoptionen"
+    "generalOptions": "Generelle Druckoptionen",
+    "statblock": {
+      "buildHeader": "{source} {frame} {'@'} LL{n}"
+    }
   },
   "combat": {
     "timedEffect": {

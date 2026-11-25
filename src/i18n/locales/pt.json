@@ -760,6 +760,16 @@
     "extraContent": {
       "backedUp": "Backup concluído",
       "missing": "Faltando"
+    },
+    "packIssues": {
+      "badgeTitle": "Problemas de Pacotes de Conteúdos",
+      "skippedCount": "Não foi possível carregar {count} item e ele foi ignorado. | Não foi possível carregar {count} itens e eles foram ignorados.",
+      "warningCount": "{count} problema de dados pode causar comportamento incorreto. | {count} problemas de dados podem causar comportamento incorreto.",
+      "loadError": "Falha ao carregar: {detail}",
+      "invalidField": "Campo ausente ou inválido: {field}",
+      "unknownValue": "Valor de {field} não reconhecido: {value}",
+      "notArray": "O conteúdo do arquivo não é uma lista. Nada foi carregado.",
+      "authorHint": "Esses problemas estão nos dados do pacote de conteúdo e só podem ser corrigidos pelo seu autor."
     }
   },
   "share": {
@@ -877,11 +887,11 @@
       "eidolonLayers": "Camadas de Eidolon",
       "pilotBackgrounds": "Antecedentes de Piloto",
       "referencePilots": "Referência: Pilotos",
-      "referenceMechs": "Referência: Mechas",
-      "referenceCombat": "Referência: Combate",
-      "referenceNarrativePlay": "Referência: Jogo Narrativo",
-      "referenceErrata": "Referência: Errata",
-      "referenceGlossary": "Referência: Glossário",
+      "referenceMechs": "Mechas",
+      "referenceCombat": "Combate",
+      "referenceNarrativePlay": "Jogo Narrativo",
+      "referenceErrata": "Errata",
+      "referenceGlossary": "Glossário",
       "lists": "Listas"
     },
     "campaignBookshelf": {
@@ -915,7 +925,28 @@
       "blastAreaOfEffect": "Área de Efeito \"Explosão\"",
       "lineAreaOfEffect": "Área de Efeito \"Linha\"",
       "coneAreaOfEffect": "Área de Efeito \"Cone\"",
-      "lcpContentHint": "Denota conteúdo adicionado por um arquivo Lancer Content Pack (.lcp)"
+      "lcpContentHint": "Denota conteúdo adicionado por um arquivo Lancer Content Pack (.lcp)",
+      "damageTypes": "Tipo de Danos",
+      "rangeAttackTypes": "Alcance/ Tipos de Ataque",
+      "trackedStats": "Atributos rastreados",
+      "meleeAttack": "Ataque Corpo a Corpo",
+      "rangedAttack": "Ataque á Distancia",
+      "saveRoll": "Salvamento",
+      "systemPoint": "Pontos de Sistemas",
+      "freeAction": "Ação Livre",
+      "weaponMod": "Mod de Arma",
+      "trait": "Traço",
+      "coreBonus": "Bonus de Núcleo",
+      "talent": "Talento",
+      "skillTrigger": "Gatilho",
+      "reserveTactical": "Reserva (Tática)",
+      "reserveMech": "Reserva (Mecha)",
+      "reserveResource": "Reserva (Recurso)",
+      "vehicle": "Veículo",
+      "ship": "Nave",
+      "biological": "Biológico",
+      "squad": "Esquadrão",
+      "variableOrOther": "Variável/Outro"
     },
     "searchBar": {
       "searchTheCompendium": "Pesquisar no Compêndio",
@@ -1747,7 +1778,8 @@
       "noLayers": "sem camadas",
       "orderLower": "Ordem Mais Baixa",
       "orderHigher": "Ordem Mais Alta",
-      "layerDescription": "Descrição da Camada"
+      "layerDescription": "Descrição da Camada",
+      "shardsPerHostile": "# de personagens hostis"
     },
     "layerSelector": {
       "noData": "Nenhum dado de Eidolon encontrado!",
@@ -2046,7 +2078,10 @@
       "lcpUpdatedTitle": "LCP Atualizado",
       "lcpUpdatedText": "A versão mais recente de {pack} foi baixada e instalada.",
       "lcpUpdateErrorTitle": "Erro ao atualizar LCP",
-      "lcpUpdateErrorText": "Ocorreu um erro ao tentar baixar {pack}."
+      "lcpUpdateErrorText": "Ocorreu um erro ao tentar baixar {pack}.",
+      "readErrorText": "Impossível ler {file}:{error}",
+      "installErrorText": "Impossível Instalar {pack}. Veja o log de erro.",
+      "installSkippedText": "{pack}: {count} item não pôde ser carregado e foi ignorado. | {pack}: {count} itens não puderam ser carregados e foram ignorados."
     },
     "compendium": {
       "campaignUpdatedText": "Campanha atualizada com sucesso",
@@ -2242,13 +2277,14 @@
       "hostAnOnlineTable": "Hospedar uma Mesa Online",
       "spectatorMode": "Modo Espectador",
       "campaignDisplay": "Exibição de Campanha",
-      "observer": "OBSERVADOR",
+      "observer": "Observador",
       "inDevelopmentReleaseV32": "Em Desenvolvimento (lançamento v3.2)",
       "createManageAndRunActivePlayer": "Criar, gerenciar e executar fichas de Personagens de Jogador ativas",
       "resumeLast": "retomar último",
       "featureInDevelopmentV32": "Recurso em desenvolvimento (v3.2)",
       "localEncountersDescription": "Criar, gerenciar e executar Encontros locais para seus jogos de Lancer",
-      "featureInDevelopmentV31": "Recurso em desenvolvimento (v3.1)"
+      "featureInDevelopmentV31": "Recurso em desenvolvimento (v3.1)",
+      "lancer_gameterm": "Lancer"
     },
     "endEnc": {
       "endEncounter": "Encerrar Encontro",
@@ -2484,7 +2520,8 @@
       "pilotGrit": "Brio do Piloto",
       "combatImage": "Imagem de Combate",
       "setCombatImage": "Definir Imagem de Combate",
-      "clearCombatImage": "Limpar Imagem de Combate"
+      "clearCombatImage": "Limpar Imagem de Combate",
+      "rollCheck": "Rolar teste de {stat}"
     },
     "damageMenu": {
       "takeDamage": "Sofrer Dano",
@@ -2757,7 +2794,13 @@
       "activeLayer": "Camada Ativa",
       "noShards": "Camada não possui Fragmentos",
       "persistentTraits": "Traços Persistentes ({n})",
-      "generateShards": "Gerar {n} Fragmento | Gerar {n} Fragmentos | Gerar {n} Fragmentos | Gerar {n} Fragmentos"
+      "generateShards": "Gerar {n} Fragmento | Gerar {n} Fragmentos | Gerar {n} Fragmentos | Gerar {n} Fragmentos",
+      "shardFeatures": "Características de Fragmento ({n})",
+      "metamorphose": "Metamorfose",
+      "metamorphosisDetail": "Esta camada é destruída. O Eidolon e seus estilhaços removem todos os status, condições e efeitos, e a próxima camada se manifesta no início do próximo turno do Eidolon.",
+      "manifestingDetail": "O Eidolon e seus estilhaços têm Imunidade a todo dano e efeitos até o início do próximo turno do Eidolon, quando a nova camada se manifesta.",
+      "manifestLayer": "Manifestar {name}",
+      "manifestTooltip": "Pressione isto no início do próximo turno do Eidolon. A nova camada aparece, seus estilhaços são criados (ou destruídos, no caso do núcleo), e o Eidolon e seus estilhaços perdem a Imunidade. Este passo é manual porque o aplicativo não rastreia quando o turno de um PNJ começa."
     },
     "mechPanel": {
       "meltdown": "Este mecha sofreu um derretimento do reator. Ele está permanentemente destruído e não pode ser reparado.",
@@ -2835,7 +2878,7 @@
       "statSet": "Display de Status",
       "structure": "Painel de Estrutura",
       "columnsLabel": "Dividir painéis em colunas",
-      "showPortraitsTooltip": "Ocultar imagens dos retratos dos combatentes para caber mais informações na tela.",
+      "showPortraitsTooltip": "Ocultar imagens dos retratos dos combatentes para caber mais informações na tela. A barra lateral não é afetada.",
       "showFlavor": "Mostar texto flavor",
       "showFlavorTooltip": "Mostre texto descritivo e de história em cartas de equipamentos e recursos. Desative para ver apenas as regras.",
       "layoutFor": "Layout para",
@@ -2843,8 +2886,31 @@
       "actionGroupings": {
         "none": "Sem Agrupamento",
         "standard": "Padrão",
-        "byType": "Por Tipo de Ação"
-      }
+        "byType": "Por Tipo de Ação",
+        "menus": "Menus de Ações"
+      },
+      "sidebarLabels": "Rótulos da barra lateral de iniciativa",
+      "showTurnStates": "Mostrar alternadores de estado de turno",
+      "showCover": "Mostar Cobertura",
+      "showActiveEffects": "Mostrar efeitos ativos",
+      "showActionDetails": "Mostrar detalhes de ações",
+      "trackMovement": "Rastrear movimento",
+      "scrollModes": {
+        "top": "Retornar ao topo",
+        "keep": "Manter posição do scroll"
+      },
+      "sectionActions": "Ações",
+      "sectionBehavior": "Comportamento",
+      "saveAsDefault": "Salvar como Meu Padrão",
+      "savedAsDefault": "Layout salvo como seu padrão.",
+      "saveAsDefaultTooltip": "Usar este layout como o layout inicial para novos encontros e fichas de piloto neste modo de jogo.",
+      "sectionDisplay": "Display",
+      "scrollOnSelect": "Ao selecionar um combatente",
+      "showTurnStatesTooltip": "Mostrar os alternadores de Montado, Suportar, Retaliar e Preparar nos painéis de combatente.",
+      "showCoverTooltip": "Mostrar o seletor de Cobertura nos painéis de combatente.",
+      "showActiveEffectsTooltip": "Mostrar os efeitos ativos concedidos por equipamentos, talentos e traços nos painéis de combatente.",
+      "showActionDetailsTooltip": "Mostrar os efeitos ativos concedidos por equipamentos, talentos e traços nos painéis de combatente.",
+      "trackMovementTooltip": "Rastrear o movimento gasto a cada turno. Quando desativado, o movimento não é gerenciado e não é sinalizado ao final de um turno."
     },
     "charts": {
       "round": "Rodada",
@@ -4623,7 +4689,7 @@
     },
     "weaponUse": {
       "barrage": "Barragem",
-      "skirmish": "Escaramuça",
+      "skirmish": "Alvejar",
       "additionalAux": "Ataque Auxiliar Adicional"
     }
   },
@@ -4918,7 +4984,8 @@
     },
     "addMount": {
       "title": "Adicionar Encaixe",
-      "detail": "Adiciona um novo encaixe {value} a este mecha, se houver menos de {max} encaixes"
+      "detail": "Adiciona um novo encaixe {value} a este mecha, se houver menos de {max} encaixes",
+      "detailUnlimited": "Adicionar um novo Encaixe {value} a esse mecha"
     },
     "noMods": {
       "title": "Não Modificável",
@@ -4952,7 +5019,8 @@
       "target": "valor de Empurrão"
     },
     "attack": {
-      "target": "@:{'ui.flow.request.attackRoll'}"
+      "target": "@:{'ui.flow.request.attackRoll'}",
+      "title": "@:{'common.attackBonus'}"
     },
     "noCascade": {
       "title": "Prevenir Cascata"
@@ -5056,6 +5124,10 @@
     "accuracy": {
       "title": "@:{'common.accuracy'}",
       "detail": "{direction} ataques, testes e salvamentos em {value} de precisão"
+    },
+    "superheavyMounting": {
+      "title": "Encaixe Superpesado",
+      "detail": "Adiciona um Encaixe Superpesado a este mecha, se houver menos de 3 encaixes"
     }
   }
 }
